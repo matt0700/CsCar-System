@@ -1,129 +1,28 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <style>
-            body{
-                font-family: Arial;
-            }
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
 
-            .header{
-                display:flex;
-                flex-direction: row;
-                justify-content: space-between;
-                height:200px;
-                margin-left:280px;
-                padding-top: 20px;
-            }
-
-            .left-section{
-                display:flex;
-                flex-direction: column;
-            }
-
-            .Cscar-sidebar{
-                color:White;   
-                display: flex;
-                justify-content: center;
-            }
-
-            
-            .sidebar{
-                position:fixed;
-                bottom:0px;
-                left:0px;
-                top: 0px;
-                background-color: black ;
-                width:250px;
-              
-            }
-
-            .Cscar-sidebar{
-                font-size:20px;
-                margin-top:20px;
-                
-            }
-
-            .options{
-                display: flex;
-                flex-direction: column;
-                align-items:center;
-                height:500px;
-                color:white;
-                background-color: black;
-                margin-top:25px;w
-            }
-
-            .btn-sidebar{
-                margin-top:30px;
-            }
-
-            .btn-design-sidebar{
-                background-color: black;
-                color:white;
-                border:none;
-                font-size:16px;
-            }
-
-            .help-support-btn{
-                display:flex;
-                justify-content: center;
-                max-height:50px;
-                margin-top:20px;
-                
-
-            }
+<div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left w3-black sidebar" style="width:200px;" id="mySidebar">
+  <button class="w3-bar-item w3-button w3-large w3-hide-large " onclick="w3_close()">Close &times;</button>
+  <a href="#" class="w3-bar-item w3-button">Link 1</a>
+  <a href="#" class="w3-bar-item w3-button">Link 2</a>
+  <a href="#" class="w3-bar-item w3-button">Link 3</a>
+</div>
 
 
 
-        </style>
-    </head>
+<script>
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+}
 
-    <body style="height: 1000px;">
-
-        <div class="header">
-
-            <div class="left-section">
-                <div class="welcome-text">Welcome back, Matthew</div>
-                <div class="general-function">Track, manage and forecast your clients, schedules, and maintenance</div>
-            </div>
-            <div class="right-section">
-                <div><button>Bell</button></div>
-                <div>
-                <div>Escarlet Conde</div>
-                <div>Admin</div>
-                </div>
-                <div>menu</div>
-            </div>
-
-
-
-        </div>
-       
-        <div class="sidebar">
-
-            <div class="Cscar-sidebar"><p>CSCar</p></div>
-
-            <div class="options">
-                <div class="btn-sidebar"><button class="btn-design-sidebar">Dashboard</button></div>
-
-                <div class="btn-sidebar"><button class="btn-design-sidebar">Fleet Management</button></div>
-
-                <div class="btn-sidebar"><button class="btn-design-sidebar">Schedules</button></div>
-                <div class="btn-sidebar"><button class="btn-design-sidebar">Drivers</button></div>
-                <div class="btn-sidebar"><button class="btn-design-sidebar">Users</button></div>
-                <div class="btn-sidebar"><button class="btn-design-sidebar">Settings</button></div>
-            </div>
-
-            <div class="help-support-btn"><button class="btn-design-sidebar">Help and Suppport</button></div>
-
-           
-
-        </div>
-
-
-
-    </body>
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+</script>
+     
+</body>
 </html>
-
-
-
