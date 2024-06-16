@@ -14,9 +14,9 @@
 </head>
 <body>
 <div class="w3-main">
-<div class="w3-black">
-  <button class="w3-button w3-black w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
-  <div class="w3-container">
+<div class="w3-grey">
+  <button class="w3-button w3-greyw3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
+  <div class="w3-container" style="color: white;">
     <h1>Welcome, _____ </h1>
   </div>
 </div>
@@ -34,7 +34,7 @@
 </div>
 </body>
 <footer>
-<?php include '../snippets/footer.php'; ?>
+
 </footer>
 </html>
 
