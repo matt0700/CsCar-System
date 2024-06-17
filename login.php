@@ -17,11 +17,13 @@
 <!-- tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-
-
 <div class="flex h-screen bg-black">
       <form class="m-auto">
         <div class="bg-white p-10	rounded w-auto">
+
+
+        <h1 class="p-1 m-1 text-center	text-xl	">CsCar Login</h1>
+
           <!-- Email input -->
           <div data-mdb-input-init class="form-outline mb-4 w-90">
             <input type="email" id="form2Example1" class="form-control" />
@@ -57,9 +59,9 @@
       </form>
 </div>
 
-<script>
-  // Initialization for ES Users
-import { Input, Ripple, initMDB } from "mdb-ui-kit";
 
-initMDB({ Input, Ripple });
-</script>
+<!-- script for mdb -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
+></script>
