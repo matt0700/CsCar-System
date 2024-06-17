@@ -1,5 +1,7 @@
 <body>
 <link rel="stylesheet" href="../assets/footer.css">
+<!-- tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Footer -->
 <footer class="text-center text-lg-start bg-body-tertiary text-muted">
