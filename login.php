@@ -19,7 +19,9 @@
 
 <div class="flex h-screen bg-black">
       <form class="m-auto">
-        <div class="bg-white p-10	rounded w-auto">
+        <div class="bg-white p-10	rounded-lg
+
+ w-auto">
 
 
         <h1 class="p-1 m-1 text-center	text-xl	">CsCar Login</h1>
