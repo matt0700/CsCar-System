@@ -24,13 +24,13 @@
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <!-- Pick-up point input -->
                       <div class="w-full mb-4">
-                          <label class="block text-sm font-medium text-gray-700" for="pickup-point">Pick-up point<span class="text-red-500">*</span></label>
+                          <label class="block text-sm font-medium text-gray-700" for="pickup-point">Pick-up point <span class="text-red-500">*</span></label>
                           <input type="text" id="pickup-point" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
                       </div>
                       
                         <!-- Destination -->
                         <div class="w-full mb-4">
-                            <label class="block text-sm font-medium text-gray-700" for="password1">Destination<span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700" for="password1">Destination <span class="text-red-500">*</span></label>
                             <input type="text" id="password1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"required  />
                         </div>
 
@@ -67,13 +67,13 @@
 
                                     <!-- Name of Passengers -->
                                     <div class="w-full mb-4">
-                                        <label class="block text-sm font-medium text-gray-700" for="password3">Name of Passengers<span class="text-red-500">*</span> </label>
+                                        <label class="block text-sm font-medium text-gray-700" for="password3">Name of Passengers <span class="text-red-500">*</span> </label>
                                         <input type="text" id="password3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"required  />
                                     </div>                         
                   </div>
                                         <!-- Reason of Use -->
                                         <div class="w-full mb-4">
-                                            <label class="block text-sm font-medium text-gray-700" for="password3">Reason of Use<span class="text-red-500">*</span></label>
+                                            <label class="block text-sm font-medium text-gray-700" for="password3">Reason of Use <span class="text-red-500">*</span></label>
                                             <input type="text" id="form2Example1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required  />
                                         </div>                     
                                           <!-- Submit button -->
@@ -84,7 +84,7 @@
         </div> 
       </form>
 
-      <!-- script for mdb -->
+      
 <script>
 // Populate the dropdown with numbers from 1 to 100
     const numPassengersSelect = document.getElementById('num-passengers');
@@ -111,6 +111,8 @@
     document.getElementById('date-of-trip').value = formattedDate;
 
     document.getElementById('date-of-trip').min = formattedDate;
+
+  <!-- script for mdb -->
   type="text/javascript"
   src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
 </script>
