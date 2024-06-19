@@ -1,12 +1,9 @@
 <?php
 
-if(isset($_POST['ruv_submit']))
-{
-  $hostname = "localhost";
-  $username = "root";
-  $password = "";
-  $databaseName = "cscar_database";
+include '../connection.php'
 
+if (isset($_POST['ruv_submit']))
+{
   $pickup_point = $_POST['pickup_point'];
   $destination = $_POST['destination'];
   $trip_date = $_POST['trip_date'];
@@ -17,11 +14,7 @@ if(isset($_POST['ruv_submit']))
   $name_passengers = $_POST['name_passengers'];
   $reason = $_POST['reason'];
 
-
-  $connect = mysqli_connect($hostname, $username, $password, $databaseName);
-  $query = "INSERT INTO INSERT INTO `ruv_table`(`pickup_point`, `destination`, `trip_date`, `pref_time`, `no_passengers`, `eta_destination`, `req_offical`, `name_passengers`, `reason`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]','[value-9]','[value-10]')";
-
-
+  $query = "INSERT INTO `ruv_table`(`pickup_point`, `destination`, `trip_date`, `pref_time`, `no_passengers`, `eta_destination`, `req_offical`, `name_passengers`, `reason`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]','[value-9]','[value-10]')";
   $result = mysqli_query($connect,$query);
 
   if($result)
