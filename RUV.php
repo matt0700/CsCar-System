@@ -1,6 +1,7 @@
 <?php
 
-include '../connection.php'
+session_start();
+require_once("connection.php"); 
 
 if (isset($_POST['ruv_submit']))
 {
@@ -14,7 +15,8 @@ if (isset($_POST['ruv_submit']))
   $name_passengers = $_POST['name_passengers'];
   $reason = $_POST['reason'];
 
-  $query = "INSERT INTO `ruv_table`(`pickup_point`, `destination`, `trip_date`, `pref_time`, `no_passengers`, `eta_destination`, `req_offical`, `name_passengers`, `reason`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]','[value-9]','[value-10]')";
+  $query = "INSERT INTO ruv_table (`pickup_point`, `destination`, `trip_date`, `pref_time`, `no_passengers`, `eta_destination`, `req_offical`, `name_passengers`, `reason`) 
+  VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]','[value-9]')";
   $result = mysqli_query($connect,$query);
 
   if($result)
@@ -108,12 +110,11 @@ if (isset($_POST['ruv_submit']))
                                         <div class="w-full mb-4">
                                             <label class="block text-sm font-medium text-gray-700" for="password3">Reason of Use <span class="text-red-500">*</span></label>
                                             <input type="text" id="form2Example1" name="reason" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required  />
-                                        </div>                     
-                                          <!-- Submit button -->
-                                          <button  type="button" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">Submit</button>
-            </div>
-       
-         
+                                          </div>    
+
+                                            <!-- Submit button -->
+                                            <button  type="submit" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">Submit</button>
+                                          </div>      
         </div> 
       </form>
 
@@ -145,7 +146,7 @@ if (isset($_POST['ruv_submit']))
 
     document.getElementById('date-of-trip').min = formattedDate;
 
-  <!-- script for mdb -->
+    // script for mdb
   type="text/javascript"
   src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
 </script>
