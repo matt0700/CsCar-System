@@ -1,3 +1,43 @@
+<?php
+
+if(isset($_POST['ruv_submit']))
+{
+  $hostname = "localhost";
+  $username = "root";
+  $password = "";
+  $databaseName = "cscar_database";
+
+  $pickup_point = $_POST['pickup_point'];
+  $destination = $_POST['destination'];
+  $trip_date = $_POST['trip_date'];
+  $pref_time = $_POST['pref_time'];
+  $no_passengers = $_POST['no_passengers'];
+  $eta_destination = $_POST['eta_destination'];
+  $req_official = $_POST['req_official'];
+  $name_passengers = $_POST['name_passengers'];
+  $reason = $_POST['reason'];
+
+
+  $connect = mysqli_connect($hostname, $username, $password, $databaseName);
+  $query = "INSERT INTO INSERT INTO `ruv_table`(`pickup_point`, `destination`, `trip_date`, `pref_time`, `no_passengers`, `eta_destination`, `req_offical`, `name_passengers`, `reason`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]','[value-9]','[value-10]')";
+
+
+  $result = mysqli_query($connect,$query);
+
+  if($result)
+  {
+    echo "RUV has been submitted";
+  }else{
+    echo "RUV has not been submitted";
+  }
+
+  mysqli_free_result($result);
+  mysqli_close($connect);
+}
+
+?>
+
+
 <!-- Font Awesome -->
 <link
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -18,37 +58,37 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <div class="flex bg-black">
-      <form class="m-auto">
+      <form class="m-auto" action="RUV.php" method="POST">
             <div class="mx-auto bg-white p-6 rounded-lg shadow-lg w-400">
                 <h2 class="text-2xl font-bold mb-6">RUV</h2>
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <!-- Pick-up point input -->
                       <div class="w-full mb-4">
                           <label class="block text-sm font-medium text-gray-700" for="pickup-point">Pick-up point <span class="text-red-500">*</span></label>
-                          <input type="text" id="pickup-point" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                          <input type="text" id="pickup-point" name="pickup_point" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
                       </div>
                       
                         <!-- Destination -->
                         <div class="w-full mb-4">
                             <label class="block text-sm font-medium text-gray-700" for="password1">Destination <span class="text-red-500">*</span></label>
-                            <input type="text" id="password1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"required  />
+                            <input type="text" id="password1" name="destination" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"required  />
                         </div>
 
                           <!-- Date of Trip -->
                           <div class="w-full mb-4">
                               <label class="block text-sm font-medium text-gray-700" for="date-of-trip">Date of Trip <span class="text-red-500">*</span></label>
-                              <input type="date" id="date-of-trip" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                              <input type="date" id="date-of-trip" name="trip_date" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
                           </div>
                             
                             <!-- Preferred Pick-up Time -->
                             <div class="w-full mb-4">
                                 <label class="block text-sm font-medium text-gray-700" for="password3">Preferred Pick-up Time <span class="text-red-500">*</span></label>
-                                <input type="time" id="password3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                                <input type="time" id="password3" name="pref_time" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
                             </div>
 
                               <div class="w-full mb-4">
                                 <label class="block text-sm font-medium text-gray-700" for="num-passengers">No. of Passengers <span class="text-red-500">*</span></label>
-                                <select id="num-passengers" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required >
+                                <select id="num-passengers" name="no_passengers" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required >
                                     <!-- Options will be populated by JavaScript -->
                                 </select>
                               </div>
@@ -56,28 +96,28 @@
                                 <!-- Expected Time of Arrival at Destination -->
                                 <div class="w-full mb-4">
                                     <label class="block text-sm font-medium text-gray-700" for="password3">Expected Time of Arrival at Destination <span class="text-red-500">*</span></label>
-                                    <input type="time" id="password3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                                    <input type="time" id="password3" name="eta_destination" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
                                 </div>
 
                                   <!-- Requesting Official -->
                                   <div class="w-full mb-4">
                                       <label class="block text-sm font-medium text-gray-700" for="password3">Requesting Official <span class="text-red-500">*</span> </label>
-                                      <input type="text" id="password3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                                      <input type="text" id="password3" name="req_official" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
                                   </div>
 
                                     <!-- Name of Passengers -->
                                     <div class="w-full mb-4">
                                         <label class="block text-sm font-medium text-gray-700" for="password3">Name of Passengers <span class="text-red-500">*</span> </label>
-                                        <input type="text" id="password3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"required  />
+                                        <input type="text" id="password3" name="name_passengers" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"required  />
                                     </div>                         
                   </div>
                                         <!-- Reason of Use -->
                                         <div class="w-full mb-4">
                                             <label class="block text-sm font-medium text-gray-700" for="password3">Reason of Use <span class="text-red-500">*</span></label>
-                                            <input type="text" id="form2Example1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required  />
+                                            <input type="text" id="form2Example1" name="reason" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required  />
                                         </div>                     
                                           <!-- Submit button -->
-                                          <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">Submit</button>
+                                          <button  type="button" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">Submit</button>
             </div>
        
          
