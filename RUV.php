@@ -15,8 +15,8 @@ if (isset($_POST['ruv_submit']))
   $name_passengers = $_POST['name_passengers'];
   $reason = $_POST['reason'];
 
-  $query = "INSERT INTO ruv_table (`pickup_point`, `destination`, `trip_date`, `pref_time`, `no_passengers`, `eta_destination`, `req_offical`, `name_passengers`, `reason`) 
-  VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]','[value-9]')";
+  $query = "INSERT INTO ruv_table (pickup_point, destination, trip_date, pref_time, no_passengers, eta_destination, req_official, name_passengers, reason) 
+  VALUES ('$pickup_point', '$destination', '$trip_date', '$pref_time', '$no_passengers', '$eta_destination', '$req_official', '$name_passengers', '$reason')";
   $result = mysqli_query($connect,$query);
 
   if($result)
@@ -26,7 +26,6 @@ if (isset($_POST['ruv_submit']))
     echo "RUV has not been submitted";
   }
 
-  mysqli_free_result($result);
   mysqli_close($connect);
 }
 
