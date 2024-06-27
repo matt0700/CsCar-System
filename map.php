@@ -25,14 +25,19 @@
         width: 100%;
       }
     </style>
+
   </head>
+
+
   <body>
     <div id="map"></div>
     <script>
       mapboxgl.accessToken = 'pk.eyJ1IjoiZHVyYWUxMTIxIiwiYSI6ImNseHN1cDRjeDFxNmgycm9kaHdveGk0Ym8ifQ.QiSm1couKGgp_OQtmL_ELQ';
 
       navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
-        enableHighAccuracy: true
+        enableHighAccuracy: true,
+        trackUserLocation: true,
+        showUserHeading: true
       });
 
       function successLocation(position) {
@@ -52,22 +57,22 @@
           zoom: 10
         });
 
-        map.addControl(
-          new MapboxDirections({
-            accessToken: mapboxgl.accessToken,
-          }),
-          'top-left'
-        );
+          map.addControl(
+            new MapboxDirections({
+              accessToken: mapboxgl.accessToken,
+            }),
+            'top-left'
+          );
 
-        map.addControl(
-          new mapboxgl.GeolocateControl({
-            positionOptions: {
-              enableHighAccuracy: true
-            },
-            trackUserLocation: true,
-            showUserHeading: true
-          })
-        );
+            map.addControl(
+              new mapboxgl.GeolocateControl({
+                positionOptions: {
+                  enableHighAccuracy: true
+                },
+                trackUserLocation: true,
+                showUserHeading: true
+              })
+            );
       }
     </script>
   </body>
