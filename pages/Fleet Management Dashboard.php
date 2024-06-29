@@ -16,12 +16,26 @@
 </head>
 <body>
 <div class="w3-main">
-<div class="w3-grey">
+<div class="w3-white h-20 static">
   <button class="w3-button w3-greyw3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
   
-  <div class="w3-container flex  " style="color: white;">
-    Fleet Management
-  </div>
+  <div class="w3-container flex" style="color: white;">
+
+<div class="flex-col text-black">
+
+
+<!--Search INput next na gawin-->
+
+</div>
+
+<div class="flex  w3-display-topright w3-margin-right mx-2 my-2 text-black">
+            <div><button class="p"><img class="w-3 h-3 mr-2 " src="https://img.icons8.com/ios-filled/50/1A1A1A/appointment-reminders--v1.png"></button></div>
+            <div>
+            <div>Escarlet Conde</div> <!--ADMIN NAME-->
+            </div>
+            <div><button class=" w3-dropdown-click w3-bar-item w3-button w3-medium " onclick="w3_close()"><img class="w-3 h-3 " src="https://img.icons8.com/ios-filled/50/1A1A1A/menu--v1.png"></button></div> <!--LOG OUT-->
+        </div>
+</div>
 </div>
 
 
@@ -34,6 +48,7 @@
       <div><!--MAPBOX--></div>
     </div>
 
+   
     
   </div>
 </div>

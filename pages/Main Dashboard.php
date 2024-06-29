@@ -14,50 +14,50 @@
 
 
 </head>
-<body>
+<body class="bg-white ">
 <div class="w3-main">
-<div class="w3-grey">
+<div class=" text-black h-20 static border-none  ">
   <button class="w3-button w3-greyw3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
   
-  <div class="w3-container flex  " style="color: white;">
+  <div class="w3-container flex static  " style="color: white;">
 
-    <div class="flex-col">
+    <div class="flex-col text-black">
 
     <div>
       <h1>Welcome, _____ </h1>
     </div>
-    Track, manage and forecast your clients, schedules, and maintenance
+    
     <div>
-
+    Track, manage and forecast your clients, schedules, and maintenance
     </div>
     </div>
   
-    <div class="flex  w3-display-topright w3-margin-right">
-                <div><button>Bell</button></div>
-                <div>
-                <div>Escarlet Conde</div> <!--ADMIN NAME-->
-                <div>Admin</div> <!--POSITION-->
-                </div>
-                <div>menu</div> <!--LOG OUT-->
-            </div>
+    <div class="flex  w3-display-topright w3-margin-right text-black">
+           <div><button class="p"><img class="w-3 h-3 mr-2 " src="https://img.icons8.com/ios-filled/50/1A1A1A/appointment-reminders--v1.png"></button></div>
+              <div>
+              <div>Escarlet Conde</div> <!--ADMIN NAME-->
+              <div>Admin</div> <!--POSITION-->
+              </div>
+              <div><button class=" w3-dropdown-click w3-bar-item w3-button w3-medium " onclick="w3_close()"><img class="w-3 h-3 " src="https://img.icons8.com/ios-filled/50/1A1A1A/menu--v1.png"></button></div> <!--LOG OUT-->
+              </div>
   </div>
 </div>
 
 
 
-<div class="test">
+<div class="test ">
 
   <div class=" grid grid-cols-2 gap-5 mx-3 my-3" >
-    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[180px] border-4 border-black ">
+    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[180px] border-4 border-black static ">
       <div>MapBox</div>
       <div><!--MAPBOX--></div>
     </div>
 
-    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[140px] border-4 border-black">Statictics</div>
+    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[140px] border-4 border-black static">Statictics</div>
 
-    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[180px] border-4 border-black">Schedules</div>
+    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[180px] border-4 border-black static">Schedules</div>
 
-    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[140px] border-4 border-black">Vehichles in Used</div>
+    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[140px] border-4 border-black static">Vehichles in Used</div>
   </div>
 </div>
   
