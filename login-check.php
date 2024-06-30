@@ -21,7 +21,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         // User found, set session variables
         $_SESSION['username'] = $username;
         $_SESSION['username'] = $username;
-        header("Location: account.php"); // Redirect to success page or dashboard
+        header("Location: pages/index.php"); // Redirect to success page or dashboard
         exit();
     } else {
         // User not found or credentials do not match

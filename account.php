@@ -1,12 +1,10 @@
 <?php
 session_start();
-
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
-
 // Include database connection
 include "connection.php";
 
@@ -43,16 +41,7 @@ if (mysqli_num_rows($result) > 0) {
 
 mysqli_close($connect); // Close connection after use
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Account Page</title>
-    <!-- Include Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Add your custom styles or additional stylesheets here -->
-</head>
-<body class="bg-gray-100">
+
 
 <div class="container mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-lg p-6">
@@ -64,5 +53,5 @@ mysqli_close($connect); // Close connection after use
 
 <!-- Add your JavaScript or additional HTML content here -->
 
-</body>
+
 </html>

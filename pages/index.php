@@ -1,4 +1,46 @@
-<!DOCTYPE html>
+<?php
+session_start();
+// Check if user is logged in
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php");
+    exit();
+}
+// Include database connection
+include "../connection.php";
+
+// Sanitize username input
+$username = mysqli_real_escape_string($connect, $_SESSION['username']);
+
+// Query to retrieve user information
+$sql = "SELECT ui.Ln, ui.Fn, ui.Mn
+        FROM users u
+        JOIN information ui ON u.user_id = ui.user_id
+        WHERE u.username = '$username'";
+
+$result = mysqli_query($connect, $sql);
+
+if (!$result) {
+    // Handle query error
+    die("Query failed: " . mysqli_error($connect));
+}
+
+// Check if user information exists
+if (mysqli_num_rows($result) > 0) {
+    // Fetch user information
+    $row = mysqli_fetch_assoc($result);
+    $last_name = $row['Ln'];
+    $first_name = $row['Fn'];
+    $middle_name = $row['Mn']; 
+
+    $full_name = $first_name . ' ' . $middle_name . ' ' . $last_name;
+    
+} else {
+    // Handle case where user information is not found
+    die("User information not found.");
+}
+
+mysqli_close($connect); // Close connection after use
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,7 +66,7 @@
     <div class="flex-col text-black">
 
     <div>
-      <h1>Welcome, _____ </h1>
+      <h1>Welcome, <?php echo htmlspecialchars($full_name); ?>!</h1>
     </div>
     
     <div>
@@ -32,34 +74,10 @@
     </div>
     </div>
   
-    <div class="flex  w3-display-topright w3-margin-right text-black">
-           <div><button class="p"><img class="w-3 h-3 mr-2 " src="https://img.icons8.com/ios-filled/50/1A1A1A/appointment-reminders--v1.png"></button></div>
-              <div>
-              <div>Escarlet Conde</div> <!--ADMIN NAME-->
-              <div>Admin</div> <!--POSITION-->
-              </div>
-              <div><button class=" w3-dropdown-click w3-bar-item w3-button w3-medium " onclick="w3_close()"><img class="w-3 h-3 " src="https://img.icons8.com/ios-filled/50/1A1A1A/menu--v1.png"></button></div> <!--LOG OUT-->
-              </div>
-  </div>
 </div>
 
 
 
-<div class="test ">
-
-  <div class=" grid grid-cols-2 gap-5 mx-3 my-3" >
-    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[180px] border-4 border-black static ">
-      <div>MapBox</div>
-      <div><!--MAPBOX--></div>
-    </div>
-
-    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[140px] border-4 border-black static">Statictics</div>
-
-    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[180px] border-4 border-black static">Schedules</div>
-
-    <div class="bg-gray-300 rounded-sm min-h-[180px] min-w-[140px] border-4 border-black static">Vehichles in Used</div>
-  </div>
-</div>
   
  
 </div>
