@@ -1,69 +1,110 @@
-<!-- Font Awesome -->
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-  rel="stylesheet"
-/>
-<!-- Google Fonts -->
-<link
-  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-  rel="stylesheet"
-/>
-<!-- MDB -->
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.1/mdb.min.css"
-  rel="stylesheet"
-/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+  <!-- MDB -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.1/mdb.min.css">
+  <!-- Tailwind CSS (for eye icon animation) -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f0f0;
+      font-family: 'Roboto', sans-serif;
+    }
 
-<!-- tailwind -->
-<script src="https://cdn.tailwindcss.com"></script>
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-<div class="flex h-screen bg-black">
-      <form class="m-auto">
-        <div class="bg-white p-10	rounded-lg
+    .login-form {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 300px;
+    }
 
- w-auto">
+    .form-group {
+      margin-bottom: 20px;
+    }
 
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
 
-        <h1 class="p-1 m-1 text-center	text-xl	">CsCar Login</h1>
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
 
-          <!-- Email input -->
-          <div data-mdb-input-init class="form-outline mb-4 w-90">
-            <input type="email" id="form2Example1" class="form-control" />
-            <label class="form-label" for="form2Example1">Email address</label>
-          </div>
+    .eye-icon {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
 
-          <!-- Password input -->
-          <div data-mdb-input-init class="form-outline mb-4">
-            <input type="password" id="form2Example2" class="form-control" />
-            <label class="form-label" for="form2Example2">Password</label>
-          </div>
+<div class="login-container">
+  <form action="login-check.php" method="post" class="login-form">
+    <h1 class="text-center mb-4">CSCAR LOGIN</h1>
+    <?php
+      // Check if logout was successful
+      if (isset($_GET['logout']) && $_GET['logout'] === 'success') {
+          echo '<div class="alert alert-success text-center">Logout successful!</div>';
+      }
 
-          <!-- 2 column grid layout for inline styling -->
-          <div class="row mb-4">
-            <div class="col d-flex justify-content-center">
-              <!-- Checkbox -->
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-                <label class="form-check-label" for="form2Example31"> Remember me </label>
-              </div>
-            </div>
+      // Check if there is any other error message
+      if (isset($_GET['error'])) {
+          echo '<div class="alert alert-danger text-center">' . htmlspecialchars($_GET['error']) . '</div>';
+      }
+    ?>
 
-            <div class="col">
-              <!-- Simple link -->
-              <a href="#!">Forgot password?</a>
-            </div>
-          </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required>
+    </div>
 
-          <!-- Submit button -->
-          <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="relative">
+        <input type="password" id="password" name="password" required>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 eye-icon" id="eyeIcon">
+          <i class="fas fa-eye"></i>
+        </div>
+      </div>
+    </div>
 
-        </div> 
-      </form>
+    <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+  </form>
 </div>
 
+<!-- Script for eye icon toggle -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
 
-<!-- script for mdb -->
-<script
-  type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
-></script>
+    eyeIcon.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      eyeIcon.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+  });
+</script>
+
+</body>
+</html>
