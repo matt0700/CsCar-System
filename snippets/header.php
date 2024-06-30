@@ -18,7 +18,7 @@
 
   <div class="mt-2">
     <button class= " w-screen w3-button " >
-    <a href="#" class=" no-underline flex items-center w3-bar">
+    <a href="index.php" class=" no-underline flex items-center w3-bar">
       <div>
         <img class="w-5 h-5" src="https://img.icons8.com/material-outlined/24/FFFFFF/home--v2.png">
       </div>
@@ -30,7 +30,7 @@
   </div>
   
   <div class="mt-2">
-    <a href="#" class="w3-button w3-bar flex items-center">
+    <a href="map.php" class="w3-button w3-bar flex items-center">
       <div>
         <img class="w-5 h-5" src="https://img.icons8.com/ios/50/FFFFFF/car--v1.png">
       </div>
