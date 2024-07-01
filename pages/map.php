@@ -32,7 +32,7 @@
       }
 </style>
 <body>
-<div class="w3-main">
+<div class="w3-main ml-10">
 <div class="w3-grey">
   <button class="w3-button w3-greyw3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
   
@@ -43,11 +43,11 @@
 
 
 
-<div class="test">
+<div class="test ml-[180px]">
 
-  <div class=" grid grid-cols-1 gap-5 mx-3 my-3" >
+  <div class=" grid grid-cols-1 mx-2 my-2" >
     <h1>MAP</h1>
-    <div class="rounded-sm min-h-[500px] min-w-full border-4 border-black ">
+    <div class="rounded-sm min-h-[500px] min-w-[100px] border-4  border-black ">
     <div id="map"></div>
     </div>
 

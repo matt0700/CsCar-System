@@ -45,7 +45,7 @@ mysqli_close($connect); // Close connection after use
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Dashboard</title>
+    <title>Vehicle Overview</title>
     <?php include '../snippets/header.php'; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -61,45 +61,60 @@ mysqli_close($connect); // Close connection after use
 <div class=" text-black h-20 static border-none  ">
   <button class="w3-button w3-greyw3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
   
-  <div class="w3-container flex static z-50 ml-56 " style="color: white;">
+  <div class="w3-container flex" style="color: white;">
 
-    <div class="flex-col text-black">
+<div class="flex-col text-black ml-[200px]">
+Vehicle Overview
 
-    <div>
-      <h1>Welcome, <?php echo htmlspecialchars($full_name); ?>!</h1>
-    </div>
-    
-    <div>
-    Track, manage and forecast your clients, schedules, and maintenance
-    </div>
-    </div>
+<!--Search INput next na gawin-->
+
+</div>
+
+<div class="flex  w3-display-topright w3-margin-right mx-2 my-2 text-black z-50 ml-10">
+            <div><button class="p"><img class="w-3 h-3 mr-2 " src="https://img.icons8.com/ios-filled/50/1A1A1A/appointment-reminders--v1.png"></button></div>
+            <div>
+            <div>Escarlet Conde</div> <!--ADMIN NAME-->
+            </div>
+            <div><button class=" w3-dropdown-click w3-bar-item w3-button w3-medium " onclick="w3_close()"><img class="w-3 h-3 " src="https://img.icons8.com/ios-filled/50/1A1A1A/menu--v1.png"></button></div> <!--LOG OUT-->
+        </div>
 </div>
 </div>
 </div>
 
 
-<div class="test z-50 flex justify-center ml-[200px]">
+<div class="test z-50   ml-[200px]">
 
-  <div class=" grid grid-cols-2 gap-5 mx-3 my-3" >
-    <div class="bg-gray-300 rounded-sm min-h-[200px] min-w-[500px] border-4 border-black ">
-      <div>MapBox</div>
-      <div><!--MAPBOX--></div>
-    </div>
-    <div class="bg-gray-300 rounded-sm  border-4 border-black ">
-      <div>Statistics</div>
-      <div><!--MAPBOX--></div>
-    </div>
-    <div class="bg-gray-300 rounded-sm min-h-[200px] min-w-[500px] border-4 border-black ">
-      <div>Schedules</div>
-      <div><!--MAPBOX--></div>
-    </div>
-    <div class="bg-gray-300 rounded-sm  border-4 border-black ">
-      <div>Vehicles In Used</div>
-      <div><!--MAPBOX--></div>
-    </div>
-  
+  <div class=" grid grid-cols-3 gap-3 mx-3 my-3" >
 
+    <div class="bg-white rounded-sm min-h-[500px] border-4 border-black ">
+      <div class="ml-2">All Cars</div>
+        <div>
+          <div class="flex justify-between">
+            <div>Name</div>
+            <div>Car ID</div>
+          </div>
+        </div>
+    </div>
+ 
+    <div class="bg-white- rounded-sm col-span-2 max-h-[200px]  border-4 border-black ">
+      <div class="ml-2">Car Information</div>
+      <div class=" grid grid-cols-1 gap-3 mx-10 my-64 " >
+
+      
+        <div class="bg-white- rounded-sm min-h-[200px]  border-4 border-black ">
+          <div class="ml-2">Recent Trip</div>
+          <div><!--MAPBOX--></div>
+        </div>
+      <div><!--MAPBOX--></div>
+    </div>
+
+      
+
+  </div>
+  </div>
 </div>
+
+
 </body>
 <footer>
 

@@ -84,7 +84,18 @@
     </a>
   </div>
   
-  <p class="mt-4"><a href="../logout.php" class="text-blue-500 hover:underline">Logout</a></p>
+  <div class="mt-2 ml-5 flex items-center ">
+      <div>
+        <img class="w-3.5 h-3.5" src="https://img.icons8.com/ios/50/FFFFFF/exit--v1.png"></a>
+      </div>
+      <div class="ml-1" >
+      <a href="../logout.php" class="text-white hover:underline no-underline ">Log Out</a>
+      </div>
+    
+  </div>
+ 
+
+
   <div class>
     <a href="#" class="w3-button flex items-center w3-bar w3-display-bottommiddle ">
       <div>
