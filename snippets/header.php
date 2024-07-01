@@ -11,13 +11,13 @@
 
 
 <body>
-<div class="w3-sidebar w3-bar-fixed w3-collapse w3-card w3-animate-left bg-slate-900 text-white z-10 sidebar" style="width:200px;" id="mySidebar">
+<div class="w3-sidebar w3-bar-fixed w3-collapse w3-card w3-animate-left bg-slate-900 text-white z-10 sidebar overflow-x-hidden	" style="width:200px;" id="mySidebar">
   <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
 
   <a href="#" class="w3-bar-item w3-button mt-2">CSCar</a>
 
   <div class="mt-2">
-    <button class= " w-screen w3-button " >
+    <button class= "w-screen w3-button " >
     <a href="index.php" class=" no-underline flex items-center w3-bar">
       <div>
         <img class="w-5 h-5" src="https://img.icons8.com/material-outlined/24/FFFFFF/home--v2.png">
