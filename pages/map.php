@@ -66,7 +66,7 @@
 
     function successLocation(position) {
         console.log('Geolocation success:', position);
-        currentLocation = [position.coords.longitude, position.coords.latitude];
+        // currentLocation = [position.coords.longitude, position.coords.latitude];
         setupMap(currentLocation);
     }
 

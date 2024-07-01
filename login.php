@@ -89,7 +89,14 @@
     </div>
 
     <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+
+    
+  <a href="RUV.php" class="text-black hover:underline no-underline">Click here to schedule an RUV</a>
+
+
+
   </form>
+
 </div>
 
 <!-- Script for eye icon toggle -->
