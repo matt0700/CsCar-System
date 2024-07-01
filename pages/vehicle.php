@@ -86,12 +86,185 @@ Vehicle Overview
 
   <div class=" grid grid-cols-3 gap-3 mx-3 my-3" >
 
-    <div class="bg-white rounded-sm min-h-[500px] border-4 border-black ">
+    <div class="bg-white rounded-sm min-h-[700px] border-4 border-black ">
       <div class="ml-2">All Cars</div>
         <div>
-          <div class="flex justify-between">
-            <div>Name</div>
-            <div>Car ID</div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
+          </div>
+        </div>
+        
+        <div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between mt-2">
+            <div class="flex">
+              <div>image</div>
+
+              <div class="flex-col">
+              <div>Name</div>
+              <div>Car no.</div>
+              </div>
+
+            </div>
+            <div>Available</div>
           </div>
         </div>
     </div>

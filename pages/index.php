@@ -94,7 +94,7 @@ mysqli_close($connect); // Close connection after use
       <div><!--MAPBOX--></div>
     </div>
     <div class="bg-gray-300 rounded-sm  border-4 border-black ">
-      <div>Vehicles In Used</div>
+      <div>Vehicles In Use</div>
       <div><!--MAPBOX--></div>
     </div>
   
