@@ -20,7 +20,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     if (mysqli_num_rows($result) === 1) {
         // User found, set session variables
         $_SESSION['username'] = $username;
-        $_SESSION['username'] = $username;
+        $_SESSION['user_ID'] = $user_ID;
         header("Location: pages/index.php"); // Redirect to success page or dashboard
         exit();
     } else {

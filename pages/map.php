@@ -9,8 +9,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../assets/global.css">
     <link rel="stylesheet" href="../assets/home.css">
-    <!-- tailwind -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Mapbox and Directions Plugin -->
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
     <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
@@ -21,7 +22,6 @@
         #use-location-btn, #start-simulation-btn {
             position: relative;
             top: 10px;
-            left: 10px;
             z-index: 1;
             background-color: #0f172a;
             border: none;
@@ -47,9 +47,17 @@
             <h1>MAP</h1>
             <div class="rounded-sm min-h-[500px] min-w-[100px] border-4 border-black">
                 <div id="map"></div>
-                <button id="use-location-btn">Use My Current Location</button>
+                
             </div>
-            <div></div>
+            <button id="use-location-btn" >Use My Current Location</button>
+            <div class="mt-4">
+                <form id="locate-driver-form" class="flex space-x-2">
+                    <input type="text" id="latitude" placeholder="Latitude" class="border border-gray-300 p-2 rounded">
+                    <input type="text" id="longitude" placeholder="Longitude" class="border border-gray-300 p-2 rounded">
+                    <button type="submit" class="bg-blue-500 text-white p-2 rounded">Locate Driver</button>
+                </form>
+            </div>
+                
         </div>
     </div>
 </div>
@@ -58,7 +66,6 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoiZHVyYWUxMTIxIiwiYSI6ImNseHN1cDRjeDFxNmgycm9kaHdveGk0Ym8ifQ.QiSm1couKGgp_OQtmL_ELQ';
 
     let currentLocation = [121.0223, 14.6091]; // Default location (e.g., Manila, Philippines)
-    let routeCoordinates;
 
     navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
         enableHighAccuracy: true
@@ -66,7 +73,7 @@
 
     function successLocation(position) {
         console.log('Geolocation success:', position);
-        // currentLocation = [position.coords.longitude, position.coords.latitude];
+        currentLocation = [position.coords.longitude, position.coords.latitude];
         setupMap(currentLocation);
     }
 
@@ -109,6 +116,23 @@
                 enableHighAccuracy: true
             });
         });
+
+        document.getElementById('locate-driver-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const lat = parseFloat(document.getElementById('latitude').value);
+        const lng = parseFloat(document.getElementById('longitude').value);
+        
+        // Validate latitude and longitude
+        if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+            const newLocation = [lng, lat];
+            console.log('Locating driver at:', newLocation);
+            directions.setOrigin(newLocation);
+            map.flyTo({ center: newLocation, zoom: 14 });
+        } else {
+            alert('Please enter valid coordinates (Latitude between -90 and 90, Longitude between -180 and 180)');
+        }
+    });
+
 
         directions.setOrigin(center);
     }
