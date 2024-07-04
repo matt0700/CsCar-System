@@ -71,35 +71,16 @@
   </div>
 
   <div class="mt-2">
-    <a href="#" class="w3-button flex items-center w3-bar">
+    <a href="../logout.php" class="w3-button flex items-center w3-bar">
       <div>
-        <img class="w-5 h-5" src="https://img.icons8.com/material-sharp/24/FFFFFF/person-male.png" alt="User Icon">
+        <img class="w-5 h-5" src="https://img.icons8.com/ios/50/FFFFFF/exit--v1.png" alt="Exit Icon">
       </div>
       <div class="ml-1">
-        Users
-      </div>
-    </a>
-  </div>
-
-  <div class="mt-2">
-    <a href="#" class="w3-button flex items-center w3-bar">
-      <div>
-        <img class="w-5 h-5" src="https://img.icons8.com/ios-filled/50/FFFFFF/settings.png" alt="Settings Icon">
-      </div>
-      <div class="ml-1">
-        Settings
+        Logout
       </div>
     </a>
   </div>
   
-  <div class="mt-2 ml-5 flex items-center">
-    <div>
-      <img class="w-3.5 h-3.5" src="https://img.icons8.com/ios/50/FFFFFF/exit--v1.png" alt="Exit Icon">
-    </div>
-    <div class="ml-1">
-      <a href="../logout.php" class="text-white hover:underline no-underline">Log Out</a>
-    </div>
-  </div>
 
   <div>
     <a href="#" class="w3-button flex items-center w3-bar w3-display-bottommiddle">
