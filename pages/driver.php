@@ -11,7 +11,7 @@ include "../connection.php";
 $sql = "SELECT * FROM drivers";
 $result = $connect->query($sql);
 
-?>
+?> 
 
 
 <!DOCTYPE html>
@@ -55,15 +55,19 @@ if ($result->num_rows > 0) {
     echo "<thead><tr class='bg-gray-200'>";
     echo "<th class='border border-gray-400 px-4 py-2'>ID</th>";
     echo "<th class='border border-gray-400 px-4 py-2'>NAME</th>";
-    echo "<th class='border border-gray-400 px-4 py-2'>STATUS</th>";
-    echo "<th class='border border-gray-400 px-4 py-2'>COORDINATES</th>";
-    echo "<th class='border border-gray-400 px-4 py-2'>LAST UPDATED</th>";
+    echo "<th class='border border-gray-400 px-4 py-2'>Cellphone Number</th>";
+    echo "<th class='border border-gray-400 px-4 py-2'>Trip</th>";
+    echo "<th class='border border-gray-400 px-4 py-2'>Driver Status</th>";
+    echo "<th class='border border-gray-400 px-4 py-2'>Latitude</th>";
+    echo "<th class='border border-gray-400 px-4 py-2'>Last Update</th>";
     echo "</tr></thead><tbody>";
     while($row = $result->fetch_assoc()) {
         echo "<tr>";
         echo "<td class='border border-gray-400 px-4 py-2'>" . $row["driver_id"]. "</td>";
-        echo "<td class='border border-gray-400 px-4 py-2'>" . $row["name"]. "</td>";
-        echo "<td class='border border-gray-400 px-4 py-2'>" . $row["status"]. "</td>";
+        echo "<td class='border border-gray-400 px-4 py-2'>" . $row["driver_name"]. "</td>";
+        echo "<td class='border border-gray-400 px-4 py-2'>" . $row["driver_cellno"]. "</td>";
+        echo "<td class='border border-gray-400 px-4 py-2'>" . $row["trip"]. "</td>";
+        echo "<td class='border border-gray-400 px-4 py-2'>" . $row["driver_status"]. "</td>";
         echo "<td class='border border-gray-400 px-4 py-2'>" . $row["latitude"]. " , " . $row["longitude"]. "</td>";
         echo "<td class='border border-gray-400 px-4 py-2'>" . $row["last_update"]."</td>";
         echo "</tr>";
