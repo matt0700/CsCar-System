@@ -14,18 +14,18 @@ if ($conn->connect_error){
 }
 
 // Fetched unassigned Trips
-$trips_sql = 'SELECT * FROM trips WHERE ruvNO NOT IN (SELECT ruvNO FROM trips)';
+$trips_sql = 'SELECT * FROM ruv_table WHERE ruvNO NOT IN (SELECT ruvNO FROM trips)';
 $trips_result = $conn->query($trips_sql);
 
 if($trips_result->num_rows > 0){
     while ($trip = $trips_result->fetch_assoc()){
         // Find Available driver
-        $driver_sql = "SELECT * FROM driver_info WHERE status = 'Available' LIMIT 1";
+        $driver_sql = "SELECT * FROM drivers WHERE driver_status = 'Available' LIMIT 1";
         $driver_result = $conn->query($driver_sql);
         $driver = $driver_result->fetch_assoc();
 
         // Find available vehicle that can accommodate number of passengers
-        $vehicle_sql = "SELECT * FROM vehicle_data WHERE status= 'Available' AND seater >= " . $trip['no_passengers'] . " LIMIT 1";
+        $vehicle_sql = "SELECT * FROM vehicle_data WHERE car_status= 'Available' AND seater >= " . $trip['no_passengers'] . " LIMIT 1";
         $vehicle_result = $conn->query($vehicle_sql);
         $vehicle = $vehicle_result->fetch_assoc();
 
