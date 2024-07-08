@@ -65,7 +65,7 @@
 <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiZHVyYWUxMTIxIiwiYSI6ImNseHN1cDRjeDFxNmgycm9kaHdveGk0Ym8ifQ.QiSm1couKGgp_OQtmL_ELQ';
 
-    let currentLocation = [121.0223, 14.6091]; // Default location (e.g., Manila, Philippines)
+    //let currentLocation = [121.0223, 14.6091]; // Default location (e.g., Manila, Philippines)
 
     navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
         enableHighAccuracy: true
