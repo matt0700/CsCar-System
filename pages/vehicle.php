@@ -66,38 +66,46 @@ $connect->close(); // Close connection after use
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/global.css">
     <style>
+
         .hidden {
             display: none;
         }
+
+        
+        
+
     </style>
 </head>
-<body class="bg-white">
-    <div class="w3-main z-10">
-        <div class="text-black h-20 static border-none">
+<body class="bg-white" >
+    <div class="w3-main z-10 ">
+        <div class="bg-slate-900 text-white h-20 static border-none">
             <button class="w3-button w3-grey w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
             
-            <div class="w3-container flex" style="color: white;">
-                <div class="flex-col text-black ml-[200px]">
-                    Vehicle Overview
+            <div class="w3-container flex transition-all " style="color: white;">
+                <div class="flex-col  ml-[200px] text-5xl mt-3 font-bold">
+                    Vehicle Information
                 </div>
-                <div class="flex w3-display-topright w3-margin-right mx-2 my-2 text-black z-50 ml-10">
-                    <div><button class="p"><img class="w-3 h-3 mr-2" src="https://img.icons8.com/ios-filled/50/1A1A1A/appointment-reminders--v1.png"></button></div>
+                <div class="flex-col w3-display-topright w3-margin-right mx-2 my-2 z-50 ml-10">
+                    
                     <div>
                         <?php echo $full_name; ?>
                     </div>
-                    <div><button class="w3-dropdown-click w3-bar-item w3-button w3-medium" onclick="w3_close()"><img class="w-3 h-3" src="https://img.icons8.com/ios-filled/50/1A1A1A/menu--v1.png"></button></div>
+                    <div>
+                        Admin
+                    </div>
+                    
                 </div>
             </div>
         </div>
 
         <div class="test z-50 ml-[200px]">
             <div class="grid grid-cols-3 gap-3 mx-3 my-3">
-                <div class="rounded-sm min-h-[600px] max-w-[400px] border-2 shadow-2xl shadow-slate-300 ">
-                    <div class="ml-2">All Cars</div>
+                <div class="rounded-sm min-h-[620px] max-w-[400px] border-2 shadow-2xl shadow-slate-300 ">
+                    <div class="ml-4 mt-2 text-3xl font-bold">All Vehicles</div>
                     <?php foreach ($vehicle_data as $index => $vehicle): ?>
                     <div class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <button class="ml-2 flex content-center items-center mt-3 hover:bg-gray-400 duration-300" onclick="showCarData(<?php echo $index; ?>)">
+                        <div class="flex items-center ">
+                            <button class=" ml-4 flex content-center items-center mt-3 hover:bg-gray-400 duration-300" onclick="showCarData(<?php echo $index; ?>)">
                                 <img class="w-8 h-8" src="https://img.icons8.com/ios-filled/50/1A1A1A/car.png" alt="car"/>
                                 <span class="ml-2"><?php echo $vehicle['make_series_type']; ?></span>
                             </button>
@@ -110,24 +118,48 @@ $connect->close(); // Close connection after use
                 </div>
 
                 <div class="rounded-sm col-span-2 max-h-[600px] border-1 shadow-xl shadow-slate-300 transition-all">
-                    <div class="ml-2 text-size-10">Car Information</div>
-                    <div class=" p-4 grid grid-cols-4 gap-4 border-black border-1">
-                        <div id="modelLabel">Model:</div>
-                        <div id="modelValue"></div>
-                        <div id="plateNoLabel">Plate No.:</div>
-                        <div id="plateNoValue"></div>
-                        <div id="yearLabel">Year:</div>
-                        <div id="yearValue"></div>
-                        <div id="typeLabel">Type:</div>
-                        <div id="typeValue"></div>
-                        <div id="statusLabel">Status:</div>
-                        <div id="statusValue"></div>
-                        <div id="seaterLabel">Seater:</div>
-                        <div id="seaterValue"></div>
-                        <div id="mileageLabel">Mileage:</div>
-                        <div id="mileageValue"></div>
-                        <div id="fuelLabel">Fuel Consumption:</div>
-                        <div id="fuelValue"></div>
+                    <div class=" mt-3 ml-8 text-4xl font-extrabold">Vehicle Information</div>
+                    <div class="  p-4 grid grid-cols-2 gap-y-36 gap-x-10 ml-3">
+
+                        <div class="flex-col bg-black  ">
+                        <div id="modelLabel" class="fixed text-3xl font-bold">Model</div>
+                        <div id="modelValue" class="fixed mt-10 text-3xl"></div>
+                        </div>
+
+                        <div class="flex-col" >
+                        <div id="plateNoLabel" class="fixed text-3xl font-bold">Plate No.</div>
+                        <div id="plateNoValue" class="fixed mt-10 text-3xl"></div>
+                        </div>
+
+                        <div class="flex-col">
+                        <div id="yearLabel" class="fixed text-3xl font-bold">Year</div>
+                        <div id="yearValue" class="fixed mt-10 text-3xl"></div>
+                        </div>
+
+                        <div class="flex-col"> 
+                        <div id="typeLabel" class="fixed text-3xl font-bold">Type</div>
+                        <div id="typeValue" class="fixed mt-10 text-3xl"></div>
+                        </div>
+
+                        <div class="flex-col">
+                        <div id="statusLabel" class="fixed text-3xl font-bold">Status</div>
+                        <div id="statusValue" class="fixed mt-10 text-3xl"></div>
+                        </div>
+
+                        <div class="flex-col">
+                        <div id="seaterLabel" class="fixed text-3xl font-bold">Seater</div>
+                        <div id="seaterValue" class="fixed mt-10 text-3xl"></div>
+                        </div>
+
+                        <div class="flex--col">
+                        <div id="mileageLabel" class="fixed text-3xl font-bold">Mileage</div>
+                        <div id="mileageValue" class="fixed mt-10 text-3xl"></div>
+                        </div>
+
+                        <div class="flex-col">
+                        <div id="fuelLabel" class="fixed text-3xl font-bold">Fuel Consumption</div>
+                        <div id="fuelValue" class="fixed mt-10 text-3xl"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -150,6 +182,9 @@ $connect->close(); // Close connection after use
                 document.getElementById("mileageValue").textContent = vehicle.mileage;
                 document.getElementById("fuelValue").textContent = vehicle.fuel_consump;
             }
+
+               
+    
         </script>
     </body>
 </html>
