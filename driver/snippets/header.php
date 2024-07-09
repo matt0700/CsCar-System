@@ -1,27 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>W3.CSS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="../assets/header.css">
+  <link rel="stylesheet" href="./output.css">
+  <!-- tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Driver Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+
+
+<div class="w3-sidebar w3-bar-fixed w3-collapse w3-card w3-animate-left bg-slate-900 text-white z-10 sidebar overflow-x-hidden border-none" style="width:200px;" id="mySidebar">
+  <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
+
+  <div class="mt-4">
+    <button class="w3-button flex items-center w3-bar">
+      <a href="index.php" class="no-underline flex items-center w3-bar">
+        <div>
+      <img class="h-auto max-w-full" src='logo.png'>
+        </div>
+        <div class="ml-1 text-white text-xl">
+          CsCar
+        </div>
+      </a>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-    </div>
   </div>
-</nav>
+
+  <div class="mt-4">
+    <button class="w3-button flex items-center w3-bar">
+      <a href="index.php" class="no-underline flex items-center w3-bar">
+        <div>
+          <img class="w-5 h-5" src="https://img.icons8.com/material-outlined/24/FFFFFF/home--v2.png" alt="Home Icon">
+        </div>
+        <div class="ml-1 text-white">
+          Dashboard
+        </div>
+      </a>
+    </button>
+  </div>
+
+  <div class="mt-2">
+    <a href="schedule.php" class="w3-button flex items-center w3-bar">
+      <div>
+        <img class="w-5 h-5" src="https://img.icons8.com/ios/50/FFFFFF/planner.png" alt="Planner Icon">
+      </div>
+      <div class="ml-1.5">
+        Schedules
+      </div>
+    </a>
+  </div>  
+
+  <div class="mt-2">
+    <a href="drivermap.php" class="w3-button flex items-center w3-bar">
+      <div>
+        <img class="w-5 h-5" src="https://img.icons8.com/ios/50/FFFFFF/planner.png" alt="Planner Icon">
+      </div>
+      <div class="ml-1.5">
+        Map
+      </div>
+    </a>
+  </div>
+
+  <div class="mt-2">
+    <a href="../logout.php" class="w3-button flex items-center w3-bar">
+      <div>
+        <img class="w-5 h-5" src="https://img.icons8.com/ios/50/FFFFFF/exit--v1.png" alt="Exit Icon">
+      </div>
+      <div class="ml-1">
+        Logout
+      </div>
+    </a>
+  </div>
+  
+</div>
+
+<script>
+  // Toggle dropdown menu
+  document.getElementById('menu-button').addEventListener('click', function() {
+    const dropdown = document.querySelector('.origin-top-right');
+    dropdown.classList.toggle('hidden');
+  });
+
+  // Close dropdown when clicking outside
+  window.addEventListener('click', function(e) {
+    const button = document.getElementById('menu-button');
+    const dropdown = document.querySelector('.origin-top-right');
+    if (!button.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.classList.add('hidden');
+    }
+  });
+</script>
 
 </body>
+</html>

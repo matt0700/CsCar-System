@@ -110,9 +110,18 @@ $connect->close(); // Close connection after use
                                 <span class="ml-2"><?php echo $vehicle['make_series_type']; ?></span>
                             </button>
                         </div>
-                        <div class="mt-3 mr-4 px-1 py-1 bg-opacity-60 <?php echo ($vehicle['car_status'] == 'Available') ? 'bg-green-200 border-1 border-green-500' : 'bg-red-200 border-1 border-red-500'; ?>">
-                            <div><?php echo $vehicle['car_status']; ?></div>
-                        </div>
+                            <div class="flex items-center mt-3 mr-4">
+                                <!-- <div class="px-1 py-1 bg-opacity-60 <?php echo ($vehicle['car_status'] == 'Available') ? 'bg-green-200 border-1 border-green-500' : 'bg-red-200 border-1 border-red-500'; ?>">
+                                    <div><?php echo $vehicle['car_status']; ?></div>
+                                </div> -->
+                                <form action="update_vehicle_status.php" method="post" class="ml-2">
+                                    <input type="hidden" name="plate_no" value="<?php echo $vehicle['plate_no']; ?>">
+                                    <select name="status" onchange="this.form.submit()" class="ml-2">
+                                        <option value="Available" <?php echo ($vehicle['car_status'] == 'Available') ? 'selected' : ''; ?>>Available</option>
+                                        <option value="Unavailable" <?php echo ($vehicle['car_status'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>
+                                    </select>
+                                </form>
+                            </div>
                     </div>
                     <?php endforeach; ?>
                 </div>
