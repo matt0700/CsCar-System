@@ -101,7 +101,15 @@ mysqli_close($connect); // Close connection after use
   
 
 </div>
+
+<form action="../mailer.php" method="POST">
+        <button type="submit">Send Email</button>
+        
+    </form>
+
+
 </body>
+
 <footer>
 
 </footer>
