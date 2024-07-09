@@ -92,74 +92,64 @@ $connect->close(); // Close connection after use
 
         <div class="test z-50 ml-[200px]">
             <div class="grid grid-cols-3 gap-3 mx-3 my-3">
-                <div class="bg-white rounded-sm min-h-[500px] min-w-[200px] border-4 border-black">
+                <div class="rounded-sm min-h-[600px] max-w-[400px] border-2 shadow-2xl shadow-slate-300 ">
                     <div class="ml-2">All Cars</div>
                     <?php foreach ($vehicle_data as $index => $vehicle): ?>
-                        <div>
-                            <button class="bg-blue-400" onclick="showCarData(<?php echo $index; ?>)">
-                                <div><?php echo $vehicle['make_series_type']; ?></div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <button class="ml-2 flex content-center items-center mt-3 hover:bg-gray-400 duration-300" onclick="showCarData(<?php echo $index; ?>)">
+                                <img class="w-8 h-8" src="https://img.icons8.com/ios-filled/50/1A1A1A/car.png" alt="car"/>
+                                <span class="ml-2"><?php echo $vehicle['make_series_type']; ?></span>
                             </button>
                         </div>
-                    <?php endforeach; ?>
-                </div>
-
-                <div class="bg-white rounded-sm col-span-2 max-h-[200px] border-4 border-black">
-                    <div class="ml-2">Car Information</div>
-                    <?php foreach ($vehicle_data as $index => $vehicle): ?>
-                        <div id="car<?php echo $index + 1; ?>data" class="hidden">
-                            <table class="table-auto border-collapse border border-gray-400">
-                                <thead>
-                                    <tr class="bg-gray-200">
-                                        <th class="border border-gray-400 px-4 py-2">Plate No.</th>
-                                        <th class="border border-gray-400 px-4 py-2">Model</th>
-                                        <th class="border border-gray-400 px-4 py-2">Type</th>
-                                        <th class="border border-gray-400 px-4 py-2">Make Series Type</th>
-                                        <th class="border border-gray-400 px-4 py-2">Seater</th>
-                                        <th class="border border-gray-400 px-4 py-2">Mileage</th>
-                                        <th class="border border-gray-400 px-4 py-2">Fuel Consumption</th>
-                                        <th class="border border-gray-400 px-4 py-2">Car Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="border border-gray-400 px-4 py-2"><?php echo $vehicle['plate_no']; ?></td>
-                                        <td class="border border-gray-400 px-4 py-2"><?php echo $vehicle['model']; ?></td>
-                                        <td class="border border-gray-400 px-4 py-2"><?php echo $vehicle['type']; ?></td>
-                                        <td class="border border-gray-400 px-4 py-2"><?php echo $vehicle['make_series_type']; ?></td>
-                                        <td class="border border-gray-400 px-4 py-2"><?php echo $vehicle['seater']; ?></td>
-                                        <td class="border border-gray-400 px-4 py-2"><?php echo $vehicle['mileage']; ?></td>
-                                        <td class="border border-gray-400 px-4 py-2"><?php echo $vehicle['fuel_consump']; ?></td>
-                                        <td class="border border-gray-400 px-4 py-2"><?php echo $vehicle['car_status']; ?></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="mt-3 mr-4 px-1 py-1 bg-opacity-60 <?php echo ($vehicle['car_status'] == 'Available') ? 'bg-green-200 border-1 border-green-500' : 'bg-red-200 border-1 border-red-500'; ?>">
+                            <div><?php echo $vehicle['car_status']; ?></div>
                         </div>
+                    </div>
                     <?php endforeach; ?>
                 </div>
 
-                <div class="bg-white- rounded-sm col-span-1 gap-3 mx-3 my-64">
-                    <div class="ml-2">Recent Trip</div>
-                    <div><!-- MAPBOX --></div>
+                <div class="rounded-sm col-span-2 max-h-[600px] border-1 shadow-xl shadow-slate-300 transition-all">
+                    <div class="ml-2 text-size-10">Car Information</div>
+                    <div class=" p-4 grid grid-cols-4 gap-4 border-black border-1">
+                        <div id="modelLabel">Model:</div>
+                        <div id="modelValue"></div>
+                        <div id="plateNoLabel">Plate No.:</div>
+                        <div id="plateNoValue"></div>
+                        <div id="yearLabel">Year:</div>
+                        <div id="yearValue"></div>
+                        <div id="typeLabel">Type:</div>
+                        <div id="typeValue"></div>
+                        <div id="statusLabel">Status:</div>
+                        <div id="statusValue"></div>
+                        <div id="seaterLabel">Seater:</div>
+                        <div id="seaterValue"></div>
+                        <div id="mileageLabel">Mileage:</div>
+                        <div id="mileageValue"></div>
+                        <div id="fuelLabel">Fuel Consumption:</div>
+                        <div id="fuelValue"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script>
-            function showCarData(index) {
-                // Hide all car data divs
-                var carDataDivs = document.querySelectorAll("[id^='car']");
-                carDataDivs.forEach(function(div) {
-                    div.classList.add("hidden");
-                });
+            var vehicleData = <?php echo json_encode($vehicle_data); ?>;
 
-                // Show selected car data div
-                var carDataToShow = document.getElementById("car" + (index + 1) + "data");
-                carDataToShow.classList.remove("hidden");
+            function showCarData(index) {
+                var vehicle = vehicleData[index];
+
+                // Update labels and values
+                document.getElementById("modelValue").textContent = vehicle.make_series_type;
+                document.getElementById("plateNoValue").textContent = vehicle.plate_no;
+                document.getElementById("yearValue").textContent = vehicle.model;
+                document.getElementById("typeValue").textContent = vehicle.type;
+                document.getElementById("statusValue").textContent = vehicle.car_status;
+                document.getElementById("seaterValue").textContent = vehicle.seater;
+                document.getElementById("mileageValue").textContent = vehicle.mileage;
+                document.getElementById("fuelValue").textContent = vehicle.fuel_consump;
             }
         </script>
     </body>
 </html>
-
-
-
