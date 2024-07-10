@@ -57,21 +57,6 @@ mysqli_close($connect); // Close connection after use
 
 
 </head>
-
-
-<style>
-
-@media only screen and (max-width: 991px) {
-  .w3-container{
-  margin: 0px;
-}
-}
-
-
-</style>
-
-
-
 <body class="bg-white">
 <div class="w3-main z-10 ">
 <div class=" text-black h-20 static border-none  ">

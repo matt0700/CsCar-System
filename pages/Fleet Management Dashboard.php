@@ -14,15 +14,6 @@
 
 
 </head>
-
-<style>
-@media only screen and (max-width: 768px) {
-  .w3-container{
-  margin: 0px;
-}
-}
-</style>
-
 <body>
 <div class="w3-main">
 <div class="w3-white h-20 static">
