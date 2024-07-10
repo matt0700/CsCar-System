@@ -9,7 +9,20 @@
   <!-- tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<style>
+.w3-grey{
+  color: white  !important;
+  background: none !important;
+}
+
+
+  </style>
+
+
 <body>
+
+
+
 
 
 <div class="w3-sidebar w3-bar-fixed w3-collapse w3-card w3-animate-left bg-slate-900 text-white z-10 sidebar overflow-x-hidden border-none" style="width:200px;" id="mySidebar">
@@ -91,6 +104,14 @@
       dropdown.classList.add('hidden');
     }
   });
+
+  function w3_open() {
+            document.getElementById("mySidebar").style.display = "block";
+        }
+
+        function w3_close() {
+            document.getElementById("mySidebar").style.display = "none";
+        }
 </script>
 
 </body>
