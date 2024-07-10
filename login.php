@@ -23,6 +23,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      
     }
 
     .login-form {
@@ -58,7 +59,10 @@
 </head>
 <body>
 
-<div class="login-container">
+  <div class="flex items-center content-center">
+  <img class="mx-24 w-50 h-50" src="logo-min.png">
+
+<div class=" flex-col login-container">
   <form action="login-check.php" method="post" class="login-form">
     <h1 class="text-center mb-4">CSCAR LOGIN</h1>
     <?php
@@ -92,7 +96,7 @@
 
       <!-- HYPERLINKS -->
     <div>
-      <a href="RUV.php" class="text-black hover:underline no-underline">Click here to schedule an RUV</a>
+      <a href="RUV.php" class="text-black hover:underline no-underline">Schedule an RUV</a>
     </div> 
         <div>
           <a href="driverlogin.php" class="text-black hover:underline no-underline">Click here if you're a driver</a>
@@ -102,6 +106,9 @@
   </form>
 
 </div>
+
+
+    </div>
 
 <!-- Script for eye icon toggle -->
 <script>

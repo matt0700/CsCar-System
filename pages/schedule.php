@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 // Include database connection
 include "../connection.php";
 
-$sql = "SELECT * FROM trips";
+$sql = "SELECT * FROM drivers";
 $result = $connect->query($sql);
 
 ?> 
