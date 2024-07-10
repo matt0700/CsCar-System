@@ -77,6 +77,17 @@
       </div>
     </div>
     <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+
+
+          <!-- HYPERLINKS -->
+          <div>
+      <a href="RUV.php" class="text-black hover:underline no-underline">Click here to schedule an RUV</a>
+    </div> 
+        <div>
+          <a href="driverlogin.php" class="text-black hover:underline no-underline">Click here if you're a driver</a>
+        </div>
+
+        
   </form>
 </div>
 

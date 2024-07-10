@@ -21,6 +21,33 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
     <!-- tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
 
+<!-- Geolocation and AJAX script -->
+<script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            // Send coordinates to PHP script
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "../update_coordinates.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert("Coordinates saved successfully.");
+                }
+            };
+            xhr.send("lat=" + lat + "&lng=" + lng);
+        }
+    </script>
+
 
 </head>
 <body class="bg-white">
@@ -64,14 +91,12 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
       <div>Vehicles In Use</div>
       <div><!--MAPBOX--></div>
     </div>
-  
-
+    <button onclick="getLocation()">Locate and Save Coordinates</button>
+    <form action="../mailer.php" method="POST">
+        <button type="submit">Send Email</button>
+    </form>
 </div>
 
-<form action="../mailer.php" method="POST">
-        <button type="submit">Send Email</button>
-        
-    </form>
 
 
 </body>

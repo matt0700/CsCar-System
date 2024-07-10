@@ -7,8 +7,6 @@
     <?php include '../snippets/header.php'; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../assets/global.css">
-    <link rel="stylesheet" href="../assets/home.css">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Mapbox and Directions Plugin -->
@@ -65,91 +63,94 @@
 </div>
 
 <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZHVyYWUxMTIxIiwiYSI6ImNseHN1cDRjeDFxNmgycm9kaHdveGk0Ym8ifQ.QiSm1couKGgp_OQtmL_ELQ';
+    document.addEventListener('DOMContentLoaded', function() {
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZHVyYWUxMTIxIiwiYSI6ImNseHN1cDRjeDFxNmgycm9kaHdveGk0Ym8ifQ.QiSm1couKGgp_OQtmL_ELQ';
 
-    let currentLocation = [121.0223, 14.6091]; // Default location (e.g., Manila, Philippines)
-    let totalDistance = 0; // Initialize total distance variable
+        let currentLocation = [121.0223, 14.6091]; // Default location (e.g., Manila, Philippines)
+        let totalDistance = 0; // Initialize total distance variable
 
-    navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
-        enableHighAccuracy: true
-    });
-
-    function successLocation(position) {
-        console.log('Geolocation success:', position);
-        currentLocation = [position.coords.longitude, position.coords.latitude];
-        setupMap(currentLocation);
-    }
-
-    function errorLocation() {
-        console.log('Geolocation error');
-        setupMap(currentLocation);
-    }
-
-    function setupMap(center) {
-        const map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v12',
-            center: center,
-            zoom: 14
+        navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
+            enableHighAccuracy: true
         });
 
-        const directions = new MapboxDirections({
-            accessToken: mapboxgl.accessToken,
-            unit: 'metric',
-            profile: 'mapbox/driving'
-        });
+        function successLocation(position) {
+            console.log('Geolocation success:', position);
+            currentLocation = [position.coords.longitude, position.coords.latitude];
+            setupMap(currentLocation);
+        }
 
-        map.addControl(directions, 'top-left');
+        function errorLocation() {
+            console.log('Geolocation error');
+            setupMap(currentLocation);
+        }
 
-        map.addControl(new mapboxgl.GeolocateControl({
-            positionOptions: {
-                enableHighAccuracy: true
-            },
-            trackUserLocation: true,
-            showUserHeading: true
-        }));
-
-        document.getElementById('use-location-btn').addEventListener('click', function() {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                console.log('Using current location:', position);
-                currentLocation = [position.coords.longitude, position.coords.latitude];
-                directions.setOrigin(currentLocation);
-                map.flyTo({ center: currentLocation, zoom: 14 });
-            }, errorLocation, {
-                enableHighAccuracy: true
+        function setupMap(center) {
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v12',
+                center: center,
+                zoom: 14
             });
-        });
 
-        document.getElementById('locate-driver-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const lat = parseFloat(document.getElementById('latitude').value);
-            const lng = parseFloat(document.getElementById('longitude').value);
+            const directions = new MapboxDirections({
+                accessToken: mapboxgl.accessToken,
+                unit: 'metric',
+                profile: 'mapbox/driving'
+            });
 
-            // Validate latitude and longitude
-            if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
-                const newLocation = [lng, lat];
-                console.log('Locating driver at:', newLocation);
-                directions.setOrigin(newLocation);
-                map.flyTo({ center: newLocation, zoom: 14 });
-            } else {
-                alert('Please enter valid coordinates (Latitude between -90 and 90, Longitude between -180 and 180)');
-            }
-        });
+            map.addControl(directions, 'top-left');
 
-// Listen to route events for distance calculation
-directions.on('route', function(event) {
-    if (event.route && event.route.length > 0) {
-        const distance = event.route[0].distance / 1000; // distance in kilometers
-        updateDistanceDisplay(distance.toFixed(2)); // update display
-    }
-});
-        directions.setOrigin(center);
-    }
+            map.addControl(new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true,
+                showUserHeading: true
+            }));
 
-    // Function to update distance display
-    function updateDistanceDisplay(distance) {
-        document.getElementById('distance-display').innerText = `Total Distance: ${distance} km`;
-    }
+            document.getElementById('use-location-btn').addEventListener('click', function() {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    console.log('Using current location:', position);
+                    currentLocation = [position.coords.longitude, position.coords.latitude];
+                    directions.setOrigin(currentLocation);
+                    map.flyTo({ center: currentLocation, zoom: 14 });
+                }, errorLocation, {
+                    enableHighAccuracy: true
+                });
+            });
+
+            document.getElementById('locate-driver-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const lat = parseFloat(document.getElementById('latitude').value);
+                const lng = parseFloat(document.getElementById('longitude').value);
+
+                // Validate latitude and longitude
+                if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+                    const newLocation = [lng, lat];
+                    console.log('Locating driver at:', newLocation);
+                    directions.setOrigin(newLocation);
+                    map.flyTo({ center: newLocation, zoom: 14 });
+                } else {
+                    alert('Please enter valid coordinates (Latitude between -90 and 90, Longitude between -180 and 180)');
+                }
+            });
+
+            // Listen to route events for distance calculation
+            directions.on('route', function(event) {
+                if (event.route && event.route.length > 0) {
+                    const distance = event.route[0].distance / 1000; // distance in kilometers
+                    updateDistanceDisplay(distance.toFixed(2)); // update display
+                }
+            });
+
+            directions.setOrigin(center);
+        }
+
+        // Function to update distance display
+        function updateDistanceDisplay(distance) {
+            document.getElementById('distance-display').innerText = `Total Distance: ${distance} km`;
+        }
+    });
 </script>
 
 <footer>

@@ -19,7 +19,7 @@ try {
 
     // Recipients
     $mail->setFrom('cscarqc@gmail.com', 'Mailer');
-    $mail->addAddress('wetthamcypres2323@gmail.com', 'Matthew Cypres'); 
+    $mail->addAddress('Duraey@gmail.com', 'Duraemond Baluyot'); 
     $mail->addReplyTo('cscarqc@gmail.com', 'Information');
 
     // Content

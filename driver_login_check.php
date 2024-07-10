@@ -27,7 +27,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $_SESSION['driver_name'] = $driver['driver_name'];
 
         // Redirect to driver dashboard or success message
-        header("Location: /driver/pages/index.php");
+        header("Location: driver/pages/index.php");
         exit();
     } else {
         // Invalid username or password for driver
