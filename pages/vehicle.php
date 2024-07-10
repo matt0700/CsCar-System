@@ -128,46 +128,45 @@ $connect->close(); // Close connection after use
 
                 <div class="rounded-sm col-span-2 max-h-[600px] border-1 shadow-xl shadow-slate-300 transition-all">
                     <div class=" mt-3 ml-8 text-4xl font-extrabold">Vehicle Information</div>
-                    <div class="  p-4 grid grid-cols-2 gap-y-36 gap-x-10 ml-3">
+                    <div class="  p-4 grid grid-cols-2 gap-y-36 gap-x-24 ml-3">
 
-                        <div class="flex-col bg-black  ">
-                        <div id="modelLabel" class="fixed text-3xl font-bold">Model</div>
-                        <div id="modelValue" class="fixed mt-10 text-3xl"></div>
+                        <div class="flex-col">
+                        <div id="modelLabel" class=" absolute text-3xl font-bold">Model</div>
+                        <div id="modelValue" class=" absolute mt-10 text-3xl"></div>
                         </div>
-
                         <div class="flex-col" >
-                        <div id="plateNoLabel" class="fixed text-3xl font-bold">Plate No.</div>
-                        <div id="plateNoValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="plateNoLabel" class=" absolute text-3xl font-bold">Plate No.</div>
+                        <div id="plateNoValue" class=" absolute mt-10 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="yearLabel" class="fixed text-3xl font-bold">Year</div>
-                        <div id="yearValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="yearLabel" class=" absolute text-3xl font-bold">Year</div>
+                        <div id="yearValue" class=" absolute mt-10 text-3xl"></div>
                         </div>
 
                         <div class="flex-col"> 
-                        <div id="typeLabel" class="fixed text-3xl font-bold">Type</div>
-                        <div id="typeValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="typeLabel" class=" absolute text-3xl font-bold">Type</div>
+                        <div id="typeValue" class=" absolute mt-10 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="statusLabel" class="fixed text-3xl font-bold">Status</div>
-                        <div id="statusValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="statusLabel" class=" absolute text-3xl font-bold">Status</div>
+                        <div id="statusValue" class=" absolute mt-10 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="seaterLabel" class="fixed text-3xl font-bold">Seater</div>
-                        <div id="seaterValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="seaterLabel" class=" absolute text-3xl font-bold">Seater</div>
+                        <div id="seaterValue" class=" absolute mt-10 text-3xl"></div>
                         </div>
 
                         <div class="flex--col">
-                        <div id="mileageLabel" class="fixed text-3xl font-bold">Mileage</div>
-                        <div id="mileageValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="mileageLabel" class=" absolute text-3xl font-bold">Mileage</div>
+                        <div id="mileageValue" class=" absolute mt-10 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="fuelLabel" class="fixed text-3xl font-bold">Fuel Consumption</div>
-                        <div id="fuelValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="fuelLabel" class=" absolute text-3xl font-bold">Fuel Consumption</div>
+                        <div id="fuelValue" class=" absolute mt-10 text-3xl"></div>
                         </div>
                     </div>
                 </div>

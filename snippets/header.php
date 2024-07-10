@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +10,8 @@
   <!-- tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
+<body>
 
 <div class="w3-sidebar w3-bar-fixed w3-collapse w3-card w3-animate-left bg-slate-900 text-white z-10 sidebar overflow-x-hidden border-none" style="width:200px;" id="mySidebar">
   <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
@@ -19,7 +20,7 @@
     <button class="w3-button flex items-center w3-bar">
       <a href="index.php" class="no-underline flex items-center w3-bar">
         <div>
-      <img class="h-auto max-w-full" src='logo.png'>
+      <img src="logo-min.png" >
         </div>
         <div class="ml-1 text-white text-xl">
           CsCar
