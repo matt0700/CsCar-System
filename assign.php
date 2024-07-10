@@ -24,16 +24,24 @@ if ($trips_result->num_rows > 0) {
         $driver_result = $conn->query($driver_sql);
         $driver = $driver_result->fetch_assoc();
 
-        // Find available vehicle that can accommodate number of passengers
-        $vehicle_sql = "SELECT * FROM vehicle_data WHERE car_status= 'Available' AND seater >= ? LIMIT 1";
+        // Attempt to find an available vehicle that can accommodate number of passengers
+        $vehicle_found = false;
+        $vehicle_sql = "SELECT * FROM vehicle_data WHERE car_status = 'Available' AND seater >= ? LIMIT 1";
         $stmt = $conn->prepare($vehicle_sql);
         $stmt->bind_param("i", $trip['no_passengers']);
         $stmt->execute();
         $vehicle_result = $stmt->get_result();
-        $vehicle = $vehicle_result->fetch_assoc();
+
+        while ($vehicle = $vehicle_result->fetch_assoc()) {
+            // Check if vehicle can accommodate passengers
+            if ($vehicle['seater'] >= $trip['no_passengers']) {
+                $vehicle_found = true;
+                break;
+            }
+        }
         $stmt->close();
 
-        if ($driver && $vehicle) {
+        if ($driver && $vehicle_found) {
             // Insert new trip
             $assign_sql = "INSERT INTO trips (ruvNO, driver_id, plate_no, trip_date) VALUES (?, ?, ?, CURDATE())";
             $stmt = $conn->prepare($assign_sql);
@@ -56,7 +64,7 @@ if ($trips_result->num_rows > 0) {
             $stmt->close();
         
         } else {
-            echo "No available driver or vehicle for trip " . $trip['ruvNO'] . " with " . $trip['no_passengers'] . " passengers.\n";
+            echo "No available driver or suitable vehicle for trip " . $trip['ruvNO'] . " with " . $trip['no_passengers'] . " passengers.\n";
         }
     }
 } else {

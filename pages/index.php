@@ -73,35 +73,57 @@ mysqli_close($connect); // Close connection after use
 
 
 <body class="bg-white">
-      <div class="w3-main ">
-          <div class=" h-25 static border-none bg-slate-900">
-              <button class="w3-button w3-grey w3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
-                <div class="w3-container flex static ml-56" style="color: white;">
-                    <div class="flex-col text-white" >
-                        <div>
-                            <h1>Welcome, <br><?php echo htmlspecialchars($full_name); ?>!</h1>
-                        </div>
+<div class="w3-main z-10 ">
+<div class=" text-black h-20 static border-none  ">
+  <button class="w3-button w3-greyw3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
+  
+  <div class="w3-container flex static z-50 ml-56 " style="color: white;">
 
-                    </div>
-                 </div>
-          </div>
-                <div class="w3-container flex static ml-56" style="color: white;">
-                   <div>
-                     <div class="text-black">
-                       <p>Track, manage and forecast your clients, schedules, and maintenance. </p>
-                    </div>
-                        <!-- <button onclick="getLocation()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Locate and Save Coordinates</button>
-                            <form action="/CSCAR-System/mailer.php" method="POST" class="inline">
-                                <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Send Email</button>
-                            </form>
-                            </div> -->
+    <div class="flex-col text-black">
 
-                        </div>
-                    </div>
-                </div>
-          </div>
-      </div>
-  </body>
+    <div>
+      <h1>Welcome, <?php echo htmlspecialchars($full_name); ?>!</h1>
+    </div>
+    
+    <div>
+    Track, manage and forecast your clients, schedules, and maintenance
+    </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+<div class="test z-50 flex justify-center ml-[200px]">
+
+  <div class=" grid grid-cols-2 gap-5 mx-3 my-3" >
+    <div class="bg-gray-300 rounded-sm min-h-[200px] min-w-[500px] border-4 border-black ">
+      <div>MapBox</div>
+      <div><!--MAPBOX--></div>
+    </div>
+    <div class="bg-gray-300 rounded-sm  border-4 border-black ">
+      <div>Statistics</div>
+      <div><!--MAPBOX--></div>
+    </div>
+    <div class="bg-gray-300 rounded-sm min-h-[200px] min-w-[500px] border-4 border-black ">
+      <div>Schedules</div>
+      <div><!--MAPBOX--></div>
+    </div>
+    <div class="bg-gray-300 rounded-sm  border-4 border-black ">
+      <div>Vehicles In Use</div>
+      <div><!--MAPBOX--></div>
+    </div>
+  
+
+</div>
+
+<form action="../mailer.php" method="POST">
+        <button type="submit">Send Email</button>
+        
+    </form>
+
+
+</body>
 
 <footer>
 

@@ -5,8 +5,8 @@
   <title>W3.CSS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="../assets/header.css">
-  <link rel="stylesheet" href="./output.css">
+  <!--<link rel="stylesheet" href="../assets/header.css">
+  <link rel="stylesheet" href="./output.css">-->
   <!-- tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -21,14 +21,14 @@
 
 <body>
 
-<div class="w3-sidebar w3-bar-fixed w3-collapse w3-card w3-animate-left bg-slate-900 text-white z-10 sidebar overflow-x-hidden border-none" style="width:200px;" id="mySidebar">
+<div class="w3-sidebar w3-bar-fixed w3-collapse w3-card w3-animate-left bg-slate-900 text-white sidebar overflow-x-hidden border-none" style="width:200px;" id="mySidebar">
   <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
 
   <div class="mt-4">
     <button class="w3-button flex items-center w3-bar">
-      <a href="index.php" class="no-underline flex items-center w3-bar">
+      <a href="index.php"  class="no-underline flex items-center w3-bar">
         <div>
-      <img src="logo-min.png" >
+        <img class="w-20 h-20" src="/logo-min.png">
         </div>
         <div class="ml-1 text-white text-xl">
           CsCar
