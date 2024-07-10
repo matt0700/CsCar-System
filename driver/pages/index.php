@@ -50,57 +50,69 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
 
 
 </head>
-<body class="bg-white">
-    <div class="w3-main z-10 ">
-        <div class=" text-black h-20 static border-none  ">
-        <button class="w3-button w3-greyw3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
-        
-            <div class="w3-container flex static z-50 ml-56 " style="color: white;">
 
-                <div class="flex-col text-black">
-                    <div>
-                        <h1>Welcome, <?php echo htmlspecialchars($_SESSION['driver_name']); ?></h1>
+<style>
+@media only screen and (max-width: 768px) {
+  .w3-container{
+  margin: 0px;
+}
+}
+</style>
+
+<body class="bg-white">
+      <div class="w3-main ">
+          <div class=" h-25 static border-none bg-slate-900">
+              <button class="w3-button w3-grey w3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
+                <div class="w3-container flex static ml-56" style="color: white;">
+                    <div class="flex-col text-white" >
+                        <div>
+                            <h1>Welcome, <br><?php echo htmlspecialchars($_SESSION['driver_name']); ?></h1>
                             <p>Your driver ID: <?php echo htmlspecialchars($_SESSION['driver_id']); ?></p>
                         </div>
-                        
-                            <div>
-                            Track, manage and forecast your clients, schedules, and maintenance
-                            </div>
                     </div>
-            </div>
-        </div>
-    </div>
+                 </div>
+          </div>
+          <div class="w3-container flex static ml-56" style="color: white;">
+                                <div>
+                                <div class="text-black">
+                                  <p>Track, manage and forecast your clients, schedules, and maintenance. </p>
+                                  </div>
 
 
-<div class="test z-50 flex justify-center ml-[200px]">
 
-  <div class=" grid grid-cols-2 gap-5 mx-3 my-3" >
-    <div class="bg-gray-300 rounded-sm min-h-[200px] min-w-[500px] border-4 border-black ">
-      <div>MapBox</div>
-      <div><!--MAPBOX--></div>
-    </div>
-    <div class="bg-gray-300 rounded-sm  border-4 border-black ">
-      <div>Statistics</div>
-      <div><!--MAPBOX--></div>
-    </div>
-    <div class="bg-gray-300 rounded-sm min-h-[200px] min-w-[500px] border-4 border-black ">
-      <div>Schedules</div>
-      <div><!--MAPBOX--></div>
-    </div>
-    <div class="bg-gray-300 rounded-sm  border-4 border-black ">
-      <div>Vehicles In Use</div>
-      <div><!--MAPBOX--></div>
-    </div>
-    <button onclick="getLocation()">Locate and Save Coordinates</button>
-    <form action="../mailer.php" method="POST">
-        <button type="submit">Send Email</button>
-    </form>
+                            <div class="flex items-center mt-3 mr-4">
+                                <form action="../update_status.php" method="post" class="ml-2">
+                                <label for="status" class="mr-2 text-black">Status:</label>
+                                    <select name="status" onchange="this.form.submit()" class="text-black border border-gray-300 rounded-md px-2 py-1 m-2 focus:outline-none focus:border-blue-500">
+                                        <option value="Available" <?php echo ($_SESSION['driver_status'] == 'Available') ? 'selected' : ''; ?>>Available</option>
+                                        <option value="Unavailable" <?php echo ($_SESSION['driver_status'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>
+                                    </select>
+                                    <input type="hidden" name="driver_id" value="<?php echo htmlspecialchars($_SESSION['driver_id']); ?>">
+                                </form>
 </div>
-
-
-
+<div>
+<button onclick="getLocation()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Locate and Save Coordinates</button>
+                                    <form action="/CSCAR-System/mailer.php" method="POST" class="inline">
+                                        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Send Email</button>
+                                    </form>
+                                </div> 
 </body>
+<script>
+    // Toggle dropdown menu
+    document.getElementById('menu-button').addEventListener('click', function() {
+        const dropdown = document.querySelector('.origin-top-right');
+        dropdown.classList.toggle('hidden');
+    });
 
+    // Close dropdown when clicking outside
+    window.addEventListener('click', function(e) {
+        const button = document.getElementById('menu-button');
+        const dropdown = document.querySelector('.origin-top-right');
+        if (!button.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+</script>
 <footer>
 
 </footer>

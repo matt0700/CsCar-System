@@ -32,22 +32,44 @@
         #start-simulation-btn {
             top: 50px;
         }
+        
+@media only screen and (max-width: 992px) {
+  .w3-container{
+  margin: 0px !important;
+}
+
+    .test{
+        margin: 0px;
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    .w3-main{
+        width: max-content;
+    }
+     }
+    </style>
     </style>
 </head>
 <body>
-<div class="w3-main ml-10">
-    <div class="w3-grey">
-        <button class="w3-button w3-grey w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
-        <div class="w3-container flex" style="color: white;">
-            Fleet Management
-        </div>
-    </div>
-    <div class="test ml-[180px]">
+<body class="bg-white">
+      <div class="w3-main">
+          <div class=" h-25 static border-none bg-slate-900">
+              <button class="w3-button w3-grey w3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
+                <div class="w3-container flex static ml-56" style="color: white;">
+                    <div class="flex-col text-white" >
+                        <div>
+                            <h1>MAP</h1>
+                        </div>
+
+                    </div>
+                 </div>
+          </div>
+
+    <div class="test ml-[200px]">
         <div class="grid grid-cols-1 mx-2 my-2">
-            <h1>MAP</h1>
             <div class="rounded-sm min-h-[500px] min-w-[100px] border-4 border-black">
                 <div id="map"></div>
-                
             </div>
             <button id="use-location-btn" >Use My Current Location</button>
             <div class="mt-4">
@@ -65,7 +87,7 @@
 <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiZHVyYWUxMTIxIiwiYSI6ImNseHN1cDRjeDFxNmgycm9kaHdveGk0Ym8ifQ.QiSm1couKGgp_OQtmL_ELQ';
 
-    //let currentLocation = [121.0223, 14.6091]; // Default location (e.g., Manila, Philippines)
+    let currentLocation = [121.0223, 14.6091]; // Default location (e.g., Manila, Philippines)
 
     navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
         enableHighAccuracy: true

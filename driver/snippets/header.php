@@ -9,6 +9,16 @@
   <!-- tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
+<style>
+.w3-grey{
+  color: white  !important;
+  background: none !important;
+}
+
+
+  </style>
+
 <body>
 
 
@@ -91,6 +101,18 @@
       dropdown.classList.add('hidden');
     }
   });
+
+  function w3_open() {
+            document.getElementById("mySidebar").style.display = "block";
+        }
+
+        function w3_close() {
+            document.getElementById("mySidebar").style.display = "none";
+        }
+    </script>
+</head>
+
+
 </script>
 
 </body>

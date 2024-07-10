@@ -66,23 +66,77 @@ $connect->close(); // Close connection after use
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/global.css">
     <style>
-
         .hidden {
             display: none;
         }
-
+        @media only screen and (max-width: 991px) {
+        .w3-container {
+            margin: 0px;
+        }
+        .title{
+            margin: 0px;
+        }
+        .test {
+            margin: 0px;
+        }
+        .details{
+            display: inline-block;
+        }
+        #modelValue, #fuelValue, #mileageValue, #seaterValue, #statusValue, #typeValue, #yearValue, #plateNoValue{
+            margin: 0;
+            padding: 10px;
+        }
         
+    }
+    @media only screen and (max-width: 600px) {
+    .grid-cols-3 {
+        grid-template-columns: 1fr; 
+    }
+
+    .min-h-[620px] {
+        min-height: auto;
+    }
+
+    .col-span-2 {
+        grid-column: span 1; 
+    }
+
+    .details {
+        grid-template-columns: 1fr; 
+    }
+
+    .text-3xl {
+        font-size: 2rem; 
+    }
+
+    .mt-10 {
+        margin-top: 1.5rem; 
+    }
+
+    .ml-8 {
+        margin-left: 1rem; 
+    }
+    .shadowbox{
+        box-shadow: none;
+    }
+    #nameValue, #cellphoneNoValue, #tripValue, #driverstatusValue, #latitudeValue, #lastupdateValue {
+        margin: 0;
+        padding: 10px; /* Optionally adjust padding if needed */
+    }
+    
+}
+</style>
         
 
     </style>
 </head>
 <body class="bg-white" >
     <div class="w3-main z-10 ">
-        <div class="bg-slate-900 text-white h-20 static border-none">
+        <div class=" bg-slate-900 text-white h-auto static border-none">
             <button class="w3-button w3-grey w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
             
             <div class="w3-container flex transition-all " style="color: white;">
-                <div class="flex-col  ml-[200px] text-5xl mt-3 font-bold">
+                <div class="title flex-col  ml-[200px] text-5xl mt-3 font-bold">
                     Driver Information
                 </div>
                 <div class="flex-col w3-display-topright w3-margin-right mx-2 my-2 z-50 ml-10">
@@ -100,7 +154,7 @@ $connect->close(); // Close connection after use
 
         <div class="test z-50 ml-[200px]">
             <div class="grid grid-cols-3 gap-3 mx-3 my-3">
-                <div class="rounded-sm min-h-[620px] max-w-[400px] border-2 shadow-2xl shadow-slate-300 ">
+                <div class="shadowbox rounded-sm min-h-[620px] max-w-[400px] border-2 shadow-2xl shadow-slate-300 ">
                     <div class="ml-4 mt-2 text-3xl font-bold">Drivers</div>
                     <?php foreach ($drivers as $index => $driver): ?>
                     <div class="flex justify-between items-center">
@@ -119,36 +173,36 @@ $connect->close(); // Close connection after use
 
                 <div class="rounded-sm col-span-2 max-h-[600px] border-1 shadow-xl shadow-slate-300 transition-all">
                     <div class=" mt-3 ml-8 text-4xl font-extrabold">Driver Information</div>
-                    <div class="  p-4 grid grid-cols-2 gap-y-36 gap-x-10 ml-3">
+                    <div class=" details p-4 grid grid-cols-2 gap-y-36 gap-x-10 ml-3">
 
-                        <div class="flex-col bg-black  ">
-                        <div id="nameLabel" class="fixed text-3xl font-bold">Name</div>
-                        <div id="nameValue" class="fixed mt-10 text-3xl"></div>
+                        <div class="flex-col">
+                        <div id="nameLabel" class="text-3xl font-bold">Name</div>
+                        <div id="nameValue" class="mt-10 text-3xl"></div>
                         </div>
 
                         <div class="flex-col" >
-                        <div id="cellphoneNoLabel" class="fixed text-3xl font-bold">Cellphone No.</div>
-                        <div id="cellphoneNoValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="cellphoneNoLabel" class="text-3xl font-bold">Cellphone No.</div>
+                        <div id="cellphoneNoValue" class="mt-10 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="tripLabel" class="fixed text-3xl font-bold">Trip</div>
-                        <div id="tripValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="tripLabel" class="text-3xl font-bold">Trip</div>
+                        <div id="tripValue" class="mt-10 text-3xl"></div>
                         </div>
 
                         <div class="flex-col"> 
-                        <div id="driverstatusLabel" class="fixed text-3xl font-bold">Status</div>
-                        <div id="driverstatusValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="driverstatusLabel" class="text-3xl font-bold">Status</div>
+                        <div id="driverstatusValue" class="mt-10 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="latitudeLabel" class="fixed text-3xl font-bold">Latitude</div>
-                        <div id="latitudeValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="latitudeLabel" class="text-3xl font-bold">Latitude</div>
+                        <div id="latitudeValue" class="mt-10 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="lastupdateLabel" class="fixed text-3xl font-bold">Last Update</div>
-                        <div id="lastupdateValue" class="fixed mt-10 text-3xl"></div>
+                        <div id="lastupdateLabel" class="text-3xl font-bold">Last Update</div>
+                        <div id="lastupdateValue" class="mt-10 text-3xl"></div>
                         </div>
 
                     </div>
