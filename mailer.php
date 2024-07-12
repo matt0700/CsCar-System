@@ -3,10 +3,27 @@ require 'vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Instantiation and passing `true` enables exceptions
-$mail = new PHPMailer(true);
+if (isset($_GET['ruvNO'])) {
+    $ruvNO = $_GET['ruvNO'];
 
-try {
+    // Perform database update to mark the RUV request as approved (adjust your SQL query as per your database structure)
+    require_once("connection.php"); // Ensure connection is established
+
+    // Update query example (modify according to your schema)
+    $updateQuery = "UPDATE ruv_table SET status = 'Approved' WHERE ruvNO = '$ruvNO'";
+    $result = mysqli_query($connect, $updateQuery);
+
+    if ($result) {
+    // Fetch customer email from database based on $ruvNO
+    $getEmailQuery = "SELECT email FROM ruv_table WHERE ruvNO = '$ruvNO'";
+    $emailResult = mysqli_query($connect, $getEmailQuery);
+    $row = mysqli_fetch_assoc($emailResult);
+    $customerEmail = $row['email'];
+
+    // Instantiation and passing `true` enables exceptions
+    $mail = new PHPMailer(true);
+
+        
     // Server settings
     $mail->SMTPDebug = 2;                   // Enable verbose debug output
     $mail->isSMTP();                        // Set mailer to use SMTP
@@ -19,18 +36,27 @@ try {
 
     // Recipients
     $mail->setFrom('cscarqc@gmail.com', 'Mailer');
-    $mail->addAddress('Duraey@gmail.com', 'Duraemond Baluyot'); 
+    $mail->addAddress($customerEmail); // Recipient's email
     $mail->addReplyTo('cscarqc@gmail.com', 'Information');
 
     // Content
     $mail->isHTML(true); 
-    $mail->Subject = 'DURAEMOND POGING BAGSIK';
-    $mail->Body    = 'Matthew babaero';
+    $mail->Subject = 'RUV Request Approved';
+    $mail->Body = 'Your RUV request has been approved. Please check your details and schedule.';
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-    $mail->send();
-    echo "<script>alert('Message has been sent successfully.'); window.history.back();</script>";
-} catch (Exception $e) {
-    echo "<script>alert('Message could not be sent. Mailer Error: {$mail->ErrorInfo}'); window.history.back();</script>";
+    if ($mail->send()) 
+    {
+        echo "<script>alert('Message has been sent successfully.'); window.history.back();</script>";
+    } else {
+        echo "<script>alert('Message could not be sent. Mailer Error: {$mail->ErrorInfo}'); window.history.back();</script>";
+    } 
+    mysqli_close($connect);
+
+}else {
+    echo 'Failed to update status.';
+}
+} else {
+echo 'Invalid request.';
 }
 ?>

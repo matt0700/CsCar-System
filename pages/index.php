@@ -166,7 +166,22 @@ document.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {
                     disapproveButton.disabled = false;
 
                     approveButton.onclick = () => {
-                        window.location.href = `../assign.php?ruvNO=${ruvNo}`;
+                        fetch(`../assign.php?ruvNO=${ruvNo}`)
+                            .then(response => response.text())
+                            .then(data => {
+                                alert(data); // Display alert based on response from assign.php
+                                return fetch(`../mailer.php?ruvNO=${ruvNo}`);
+                            })
+                            .then(response => response.text())
+                            .then(data => {
+                                alert('Email Sent!'); // Display alert based on response from mailer.php
+
+                                // navigate to a new location after both requests complete
+                                window.location.reload();
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
                     };
 
                     disapproveButton.onclick = () => {

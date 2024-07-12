@@ -1,39 +1,41 @@
 <?php
-
 session_start();
 require_once("connection.php"); 
 
-if (isset($_POST['ruv_submit']))
-{
-  $pickup_point = $_POST['pickup_point'];
-  $destination = $_POST['destination'];
-  $trip_date = $_POST['trip_date'];
-  $pref_time = $_POST['pref_time'];
-  $no_passengers = $_POST['no_passengers'];
-  $eta_destination = $_POST['eta_destination'];
-  $req_official = $_POST['req_official'];
-  $name_passengers = $_POST['name_passengers'];
-  $reason = $_POST['reason'];
+if (isset($_POST['ruv_submit'])) {
+    // Fetching form data
+    $pickup_point = mysqli_real_escape_string($connect, $_POST['pickup_point']);
+    $destination = mysqli_real_escape_string($connect, $_POST['destination']);
+    $trip_date = mysqli_real_escape_string($connect, $_POST['trip_date']);
+    $pref_time = mysqli_real_escape_string($connect, $_POST['pref_time']);
+    $no_passengers = mysqli_real_escape_string($connect, $_POST['no_passengers']);
+    $eta_destination = mysqli_real_escape_string($connect, $_POST['eta_destination']);
+    $req_official = mysqli_real_escape_string($connect, $_POST['req_official']);
+    $reason = mysqli_real_escape_string($connect, $_POST['reason']);
+    $email = mysqli_real_escape_string($connect, $_POST['email']);
 
     // Convert array of passenger names into a comma-separated string
-    $passenger_list = implode(", ", $name_passengers);
+    $passenger_list = implode(", ", $_POST['name_passengers']);
 
-    $query = "INSERT INTO ruv_table (pickup_point, destination, trip_date, pref_time, no_passengers, eta_destination, req_official, reason, name_passengers) 
-              VALUES ('$pickup_point', '$destination', '$trip_date', '$pref_time', '$no_passengers', '$eta_destination', '$req_official', '$reason', '$passenger_list')";
-    $result = mysqli_query($connect,$query);
+    // SQL query
+    $query = "INSERT INTO ruv_table (pickup_point, destination, trip_date, pref_time, no_passengers, eta_destination, req_official, reason, name_passengers, email) 
+              VALUES ('$pickup_point', '$destination', '$trip_date', '$pref_time', '$no_passengers', '$eta_destination', '$req_official', '$reason', '$passenger_list', '$email')";
 
-  if ($result) {
-    // Alert on successful submission and reload the page
-    echo "<script>alert('RUV has been submitted successfully.');
-          window.location.href = 'RUV.php';</script>";
-} else {
-    // Alert on submission failure
-    echo "<script>alert('Failed to submit RUV. Please try again.');
-          window.location.href = 'RUV.php';</script>";
+    // Executing query
+    $result = mysqli_query($connect, $query);
+
+    if ($result) {
+        // Alert on successful submission and reload the page
+        echo "<script>alert('RUV has been submitted successfully.');
+              window.location.href = 'RUV.php';</script>";
+    } else {
+        // Alert on submission failure
+        echo "<script>alert('Failed to submit RUV. Please try again.');
+              window.location.href = 'RUV.php';</script>";
+    }
+
+    mysqli_close($connect);
 }
-  mysqli_close($connect);
-}
-
 ?>
 
 
@@ -72,6 +74,12 @@ if (isset($_POST['ruv_submit']))
                     <label class="block text-sm font-medium text-gray-700" for="password1">Destination <span class="text-red-500">*</span></label>
                     <input type="text" id="password1" name="destination" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
                 </div>
+
+                <!-- Email -->
+                <div class="w-full mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="password3">Email<span class="text-red-500">*</span></label>
+                    <input type="email" id="email" name="email" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                    </div>
 
                 <!-- Date of Trip -->
                 <div class="w-full mb-4">
@@ -117,8 +125,10 @@ if (isset($_POST['ruv_submit']))
                     <input type="text" id="form2Example1" name="reason" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
                 </div>
 
+
+
                 <!-- Submit button -->
-                <button type="submit" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">Submit</button>
+                <button type="submit" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm justify-center">Submit</button>
             </div>
         </div>
     </form>

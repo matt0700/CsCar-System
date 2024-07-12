@@ -124,8 +124,6 @@ $connect->close(); // Close connection after use
     }
     
 }
-        
-        
 
     </style>
 </head>
