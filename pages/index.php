@@ -93,6 +93,7 @@ mysqli_close($connect); // Close connection after use
                                     <th class="px-4 py-2 border">RUV No</th>
                                     <th class="px-4 py-2 border">Pick-up Point</th>
                                     <th class="px-4 py-2 border">Destination</th>
+                                    <th class="px-4 py-2 border">Date Submitted</th>
                                     <th class="px-4 py-2 border">Details</th>
                                 </tr>
                             </thead>
@@ -104,6 +105,7 @@ mysqli_close($connect); // Close connection after use
                                         echo "<td class='border px-4 py-2'>" . $row['ruvNO'] . "</td>";
                                         echo "<td class='border px-4 py-2'>" . $row['pickup_point'] . "</td>";
                                         echo "<td class='border px-4 py-2'>" . $row['destination'] . "</td>";
+                                        echo "<td class='border px-4 py-2'>" . $row['submitted'] . "</td>";
                                         echo "<td class='border px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#detailsModal' data-ruvno='" . $row['ruvNO'] . "'>Details</button></td>";
                                         echo "</tr>";
                                     }
