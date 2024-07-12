@@ -33,6 +33,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $_SESSION['driver_id'] = $driver['driver_id'];
         $_SESSION['driver_name'] = $driver['driver_name'];
         $_SESSION['driver_status'] = $driver['driver_status']; // Ensure 'driver_status' matches your database column name
+        
         // Redirect to driver dashboard or success message
         header("Location: driver/pages/index.php");
         exit();

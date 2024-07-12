@@ -15,17 +15,22 @@ if (isset($_POST['ruv_submit']))
   $name_passengers = $_POST['name_passengers'];
   $reason = $_POST['reason'];
 
-  $query = "INSERT INTO ruv_table (pickup_point, destination, trip_date, pref_time, no_passengers, eta_destination, req_official, name_passengers, reason) 
-  VALUES ('$pickup_point', '$destination', '$trip_date', '$pref_time', '$no_passengers', '$eta_destination', '$req_official', '$name_passengers', '$reason')";
-  $result = mysqli_query($connect,$query);
+    // Convert array of passenger names into a comma-separated string
+    $passenger_list = implode(", ", $name_passengers);
 
-  if($result)
-  {
-    echo "RUV has been submitted";
-  }else{
-    echo "RUV has not been submitted";
-  }
+    $query = "INSERT INTO ruv_table (pickup_point, destination, trip_date, pref_time, no_passengers, eta_destination, req_official, reason, name_passengers) 
+              VALUES ('$pickup_point', '$destination', '$trip_date', '$pref_time', '$no_passengers', '$eta_destination', '$req_official', '$reason', '$passenger_list')";
+    $result = mysqli_query($connect,$query);
 
+  if ($result) {
+    // Alert on successful submission and reload the page
+    echo "<script>alert('RUV has been submitted successfully.');
+          window.location.href = 'RUV.php';</script>";
+} else {
+    // Alert on submission failure
+    echo "<script>alert('Failed to submit RUV. Please try again.');
+          window.location.href = 'RUV.php';</script>";
+}
   mysqli_close($connect);
 }
 
@@ -52,99 +57,124 @@ if (isset($_POST['ruv_submit']))
 <script src="https://cdn.tailwindcss.com"></script>
 
 <div class="flex bg-black">
-      <form class="m-auto" action="RUV.php" method="POST">
-            <div class="mx-auto bg-white p-6 rounded-lg shadow-lg w-400">
-                <h2 class="text-2xl font-bold mb-6">RUV</h2>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <!-- Pick-up point input -->
-                      <div class="w-full mb-4">
-                          <label class="block text-sm font-medium text-gray-700" for="pickup-point">Pick-up point <span class="text-red-500">*</span></label>
-                          <input type="text" id="pickup-point" name="pickup_point" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
-                      </div>
-                      
-                        <!-- Destination -->
-                        <div class="w-full mb-4">
-                            <label class="block text-sm font-medium text-gray-700" for="password1">Destination <span class="text-red-500">*</span></label>
-                            <input type="text" id="password1" name="destination" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"required  />
-                        </div>
+    <form class="m-auto" action="RUV.php" method="POST">
+        <div class="mx-auto bg-white p-6 rounded-lg shadow-lg w-400">
+            <h2 class="text-2xl font-bold mb-6">RUV</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Pick-up point input -->
+                <div class="w-full mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="pickup-point">Pick-up point <span class="text-red-500">*</span></label>
+                    <input type="text" id="pickup-point" name="pickup_point" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                </div>
 
-                          <!-- Date of Trip -->
-                          <div class="w-full mb-4">
-                              <label class="block text-sm font-medium text-gray-700" for="date-of-trip">Date of Trip <span class="text-red-500">*</span></label>
-                              <input type="date" id="date-of-trip" name="trip_date" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
-                          </div>
-                            
-                            <!-- Preferred Pick-up Time -->
-                            <div class="w-full mb-4">
-                                <label class="block text-sm font-medium text-gray-700" for="password3">Preferred Pick-up Time <span class="text-red-500">*</span></label>
-                                <input type="time" id="password3" name="pref_time" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
-                            </div>
+                <!-- Destination -->
+                <div class="w-full mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="password1">Destination <span class="text-red-500">*</span></label>
+                    <input type="text" id="password1" name="destination" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                </div>
 
-                              <div class="w-full mb-4">
-                                <label class="block text-sm font-medium text-gray-700" for="num-passengers">No. of Passengers <span class="text-red-500">*</span></label>
-                                <select id="num-passengers" name="no_passengers" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required >
-                                    <!-- Options will be populated by JavaScript -->
-                                </select>
-                              </div>
+                <!-- Date of Trip -->
+                <div class="w-full mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="date-of-trip">Date of Trip <span class="text-red-500">*</span></label>
+                    <input type="date" id="date-of-trip" name="trip_date" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                </div>
 
-                                <!-- Expected Time of Arrival at Destination -->
-                                <div class="w-full mb-4">
-                                    <label class="block text-sm font-medium text-gray-700" for="password3">Expected Time of Arrival at Destination <span class="text-red-500">*</span></label>
-                                    <input type="time" id="password3" name="eta_destination" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
-                                </div>
+                <!-- Preferred Pick-up Time -->
+                <div class="w-full mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="password3">Preferred Pick-up Time <span class="text-red-500">*</span></label>
+                    <input type="time" id="password3" name="pref_time" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                </div>
 
-                                  <!-- Requesting Official -->
-                                  <div class="w-full mb-4">
-                                      <label class="block text-sm font-medium text-gray-700" for="password3">Requesting Official <span class="text-red-500">*</span> </label>
-                                      <input type="text" id="password3" name="req_official" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
-                                  </div>
+                <div class="w-full mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="num-passengers">No. of Passengers <span class="text-red-500">*</span></label>
+                    <select id="num-passengers" name="no_passengers" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
 
-                                    <!-- Name of Passengers -->
-                                    <div class="w-full mb-4">
-                                        <label class="block text-sm font-medium text-gray-700" for="password3">Name of Passengers <span class="text-red-500">*</span> </label>
-                                        <input type="text" id="password3" name="name_passengers" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"required  />
-                                    </div>                         
-                  </div>
-                                        <!-- Reason of Use -->
-                                        <div class="w-full mb-4">
-                                            <label class="block text-sm font-medium text-gray-700" for="password3">Reason of Use <span class="text-red-500">*</span></label>
-                                            <input type="text" id="form2Example1" name="reason" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required  />
-                                          </div>    
+                <!-- Expected Time of Arrival at Destination -->
+                <div class="w-full mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="password3">Expected Time of Arrival at Destination <span class="text-red-500">*</span></label>
+                    <input type="time" id="password3" name="eta_destination" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                </div>
 
-                                            <!-- Submit button -->
-                                            <button  type="submit" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">Submit</button>
-                                          </div>      
-        </div> 
-      </form>
+                <!-- Requesting Official -->
+                <div class="w-full mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="password3">Requesting Official <span class="text-red-500">*</span> </label>
+                    <input type="text" id="password3" name="req_official" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                </div>
+
+                <!-- Name of Passengers -->
+                <div class="passenger-container mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="passengers">Name of Passengers <span class="text-red-500">*</span></label>
+                    <input type="text" id="passengers" name="name_passengers[]" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                    <button type="button" class="btn btn-sm btn-primary mt-2 add-passenger">Add Another Passenger</button>
+                </div>
+
+                <!-- Reason of Use -->
+                <div class="w-full mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="password3">Reason of Use <span class="text-red-500">*</span></label>
+                    <input type="text" id="form2Example1" name="reason" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">Submit</button>
+            </div>
+        </div>
+    </form>
 
       
 <script>
-// Populate the dropdown with numbers from 1 to 100
-    const numPassengersSelect = document.getElementById('num-passengers');
-    for (let i = 1; i <= 100; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        numPassengersSelect.appendChild(option);
-    }
-    // Get today's date
-    var today = new Date();
+       // Populate the dropdown with numbers from 1 to 100
+       const numPassengersSelect = document.getElementById('num-passengers');
+        for (let i = 1; i <= 100; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            numPassengersSelect.appendChild(option);
+        }
 
-    // Add 2 days
-    today.setDate(today.getDate() + 2);
+        // Get today's date
+        var today = new Date();
 
-    // Format date to YYYY-MM-DD (required format for <input type="date">)
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-    var yyyy = today.getFullYear();
+        // Add 2 days
+        today.setDate(today.getDate() + 2);
 
-    var formattedDate = yyyy + '-' + mm + '-' + dd;
+        // Format date to YYYY-MM-DD (required format for <input type="date">)
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = today.getFullYear();
 
-    // Set the value of the date input field
-    document.getElementById('date-of-trip').value = formattedDate;
+        var formattedDate = yyyy + '-' + mm + '-' + dd;
 
-    document.getElementById('date-of-trip').min = formattedDate;
+        // Set the value of the date input field
+        document.getElementById('date-of-trip').value = formattedDate;
 
+        document.getElementById('date-of-trip').min = formattedDate;
+
+        // Event listener to add more passenger input fields
+        document.querySelector('.add-passenger').addEventListener('click', function() {
+            const passengerContainer = document.createElement('div');
+            passengerContainer.classList.add('w-full', 'mb-4');
+
+            const label = document.createElement('label');
+            label.classList.add('block', 'text-sm', 'font-medium', 'text-gray-700');
+            label.textContent = 'Name of Passengers';
+            label.innerHTML += ' <span class="text-red-500">*</span>';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.classList.add('mt-1', 'block', 'w-full', 'p-2', 'border', 'border-gray-300', 'rounded-md', 'shadow-sm', 'focus:ring-indigo-500', 'focus:border-indigo-500', 'sm:text-sm');
+            input.name = 'name_passengers[]';
+            input.required = true;
+
+            passengerContainer.appendChild(label);
+            passengerContainer.appendChild(input);
+
+            // Insert before the add passenger button
+            const addButton = document.querySelector('.add-passenger');
+            addButton.parentNode.insertBefore(passengerContainer, addButton);
+        });
     // script for mdb
   type="text/javascript"
   src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
