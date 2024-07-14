@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['attachment'])) {
             // Content
             $mail->isHTML(true); 
             $mail->Subject = 'RUV Request Approved';
-            $mail->Body    = 'Your RUV request has been approved. Please check your details and schedule.';
+            $mail->Body    = 'Your RUV request has been approved. Please check the details and schedule in the attached file.';
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();

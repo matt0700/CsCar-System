@@ -126,7 +126,10 @@ $stmt->bind_param("i", $driverId);
         })
         .then(response => response.text())
         .then(data => {
-            alert(data);
+            alert('Email Sent!'); // Display alert based on response from mailer.php
+
+            // navigate to a new location after both requests complete
+            window.location.reload();
         })
         .catch(error => {
             console.error('Error:', error);
