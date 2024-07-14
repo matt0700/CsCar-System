@@ -9,11 +9,11 @@ if($result->rowCount()){
         ?>
         <tr>
             <td>
-                <a href="append.php?ruvNO=<?php echo $ruvNO['ruvNO'];
+                <a href="ruvappend.php?ruvNO=<?php echo $ruvNO['ruvNO'];
                 ?>">view online</a>
             </td>
             <td>
-                <a href="append.php?ruvNO=<?php echo $ruvNO['ruvNO'];
+                <a href="ruvappend.php?ruvNO=<?php echo $ruvNO['ruvNO'];
                 ?>">Download Now</a>
             </td>
         </tr>
