@@ -35,7 +35,7 @@ if (isset($_GET['ruvNO'])) {
     $mail->Port       = 587; // TCP port to connect to
 
     // Recipients
-    $mail->setFrom('cscarqc@gmail.com', 'Mailer');
+    $mail->setFrom('cscarqc@gmail.com', 'ADMIN');
     $mail->addAddress($customerEmail); // Recipient's email
     $mail->addReplyTo('cscarqc@gmail.com', 'Information');
 

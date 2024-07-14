@@ -98,11 +98,32 @@ $stmt->bind_param("i", $driverId);
                 <div class="modal-body">
                     <!-- Driver details will be loaded here via JavaScript -->
                 </div>
+                <form id="emailForm" enctype="multipart/form-data">
+                    <input type="file" name="attachment" id="attachment" accept=".pdf" required>
+                    <button type="button" class="btn btn-success" onclick="sendEmail()">Send Email</button>
+                </form>
             </div>
         </div>
     </div>
 
     <script>
+        
+        function sendEmail() {
+        const form = document.getElementById('emailForm');
+        const formData = new FormData(form);
+
+        fetch('../send_email.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
         document.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {
             button.addEventListener('click', () => {
                 const driverId = button.getAttribute('data-driverid');

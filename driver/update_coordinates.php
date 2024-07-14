@@ -4,13 +4,14 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
     header("Location: ../driver_login.php");
     exit();
 }
- 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lat = $_POST['lat'];
     $lng = $_POST['lng'];
     $driver_id = $_SESSION['driver_id'];
 
     // Database connection
+    $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "cscar_database";
