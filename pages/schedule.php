@@ -54,39 +54,47 @@ $stmt->bind_param("i", $driverId);
     </div>
 
     <div class="bg-gray-100 p-10">
-        <div class="test z-50 flex justify-center ml-[200px]">
-            <?php
-            if ($result->num_rows > 0) {
-                echo "<table class='table-auto border-collapse border border-gray-400'>";
-                echo "<thead><tr class='bg-gray-200'>";
-                echo "<th class='border border-gray-400 px-4 py-2'>TRIP ID</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>RUV NO.</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>PLATE NO.</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>DRIVER ID</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>TRIP DATE</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'></th>";
-                echo "<th class='border border-gray-400 px-4 py-2'></th>";
-                echo "</tr></thead><tbody>";
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["trip_id"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["ruvNO"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["plate_no"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["driver_id"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["trip_date"] . "</td>";
-                    // Button to view driver details in modal
-                    echo "<td class='border border-gray-400 px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#driverDetailsModal' data-driverid='" . $row['driver_id'] . "'>View Driver</button></td>";
-                    echo "</tr>";
-                }
-                echo "</tbody></table>";
-            } else {
-                echo "<p class='text-gray-500'>0 results</p>";
+    <div class="test z-50 flex justify-center ml-[200px]">
+        <?php
+        if ($result->num_rows > 0) {
+            echo "<table class='table-auto border-collapse border border-gray-400'>";
+            echo "<thead><tr class='bg-gray-200'>";
+            echo "<th class='border border-gray-400 px-4 py-2'>TRIP ID</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>RUV NO.</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>PLATE NO.</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>DRIVER ID</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>TRIP DATE</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>FILES</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'></th>";
+            echo "</tr></thead><tbody>";
+            while ($row = $result->fetch_assoc()) {
+                $trip_id = $row["trip_id"];
+                $ruvNO = $row["ruvNO"];
+                $plate_no = $row["plate_no"];
+                $driver_id = $row["driver_id"];
+                $trip_date = $row["trip_date"];
+                // Assuming ruvpdf.php generates a PDF and returns a URL to the file
+                $file_url = generateRuvPdf($ruvNO); // Update this function to match your actual implementation
+                echo "<tr>";
+                echo "<td class='border border-gray-400 px-4 py-2'>$trip_id</td>";
+                echo "<td class='border border-gray-400 px-4 py-2'>$ruvNO</td>";
+                echo "<td class='border border-gray-400 px-4 py-2'>$plate_no</td>";
+                echo "<td class='border border-gray-400 px-4 py-2'>$driver_id</td>";
+                echo "<td class='border border-gray-400 px-4 py-2'>$trip_date</td>";
+                echo "<td class='border border-gray-400 px-4 py-2'><a href='$file_url' target='_blank'>Download PDF</a></td>";
+                echo "<td class='border border-gray-400 px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#driverDetailsModal' data-driverid='$driver_id'>View Driver</button></td>";
+                echo "</tr>";
             }
-            $connect->close();
-            ?>
+            echo "</tbody></table>";
+        } else {
+            echo "<p class='text-gray-500'>0 results</p>";
+        }
+        $connect->close();
+        ?>
         </div>
+        
     </div>
-
+                
     <!-- Driver Details Modal -->
     <div class="modal fade" id="driverDetailsModal" tabindex="-1" aria-labelledby="driverDetailsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -151,6 +159,14 @@ $stmt->bind_param("i", $driverId);
                 });
         }
     </script>
+    <?php
+// Function to generate PDF and return the file URL
+function generateRuvPdf($ruvNO) {
+    // Your logic to generate the PDF and save it to a file
+    // Return the URL to the generated PDF file
+    return "../ruvappend.php?ruvNO=$ruvNO";
+}
+?>
 
 </body>
 </html>

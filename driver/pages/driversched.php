@@ -19,6 +19,20 @@ $stmt->bind_param("i", $driverId);
 $stmt->execute();
 $result = $stmt->get_result();
 
+
+    // Check if the form has been submitted (Accept Trip button clicked)
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['accept_trip']) && isset($_POST['ruvNO'])) {
+        // Update the status of the trip to 'ongoing'
+        $update_sql = "UPDATE trips SET status = 'ongoing' WHERE ruvNO = ?";
+        $update_stmt = $connect->prepare($update_sql);
+        $update_stmt->bind_param("i", $_POST['ruvNO']);
+        $update_stmt->execute();
+        $update_stmt->close();
+
+        // Optionally, you can perform other actions after updating the status
+        // For example, you may want to send notifications or log the acceptance of the trip
+        echo "<p>Trip accepted successfully.</p>";
+    }
 ?>
 
 <!DOCTYPE html>
@@ -56,39 +70,71 @@ $result = $stmt->get_result();
         </div>
     </div>
 
-    <div class="bg-gray-100 p-10">
-        <div class="test z-50 flex justify-center ml-[200px]">
-            <?php
-            if ($result->num_rows > 0) {
-                echo "<table class='table-auto border-collapse border border-gray-400'>";
-                echo "<thead><tr class='bg-gray-200'>";
-                echo "<th class='border border-gray-400 px-4 py-2'>TRIP ID</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>RUV NO.</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>PLATE NO.</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>DRIVER ID</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>TRIP DATE</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'></th>";
-                echo "</tr></thead><tbody>";
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["trip_id"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["ruvNO"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["plate_no"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["driver_id"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["trip_date"] . "</td>";
-                    // Button to view ruv details in modal
-                    echo "<td class='border border-gray-400 px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#ruvDetailsModal' data-ruvno='" . $row['ruvNO'] . "'>View RUV</button></td>";
-                    echo "</tr>";
+    <div class=" p-10">
+    <div class="flex justify-center ml-[200px]">
+        <?php       
+        include '../connection.php';
+
+        // Query to fetch trips excluding 'ongoing'
+        $sql = "SELECT * FROM trips WHERE driver_id = ? AND status != 'ongoing' AND status != 'done'";
+        $stmt = $connect->prepare($sql);
+        $stmt->bind_param("i", $_SESSION['driver_id']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            echo "<table class='table-auto border-collapse border border-gray-400'>";
+            echo "<thead>";
+            echo "<tr class='bg-gray-200'>";
+            echo "<th class='border border-gray-400 px-4 py-2'>TRIP ID</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>RUV NO.</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>PLATE NO.</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>DRIVER ID</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>APPROVED DATE</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>INFORMATION</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'></th>";
+            echo "</tr>";
+            echo "</thead>";
+            echo "<tbody>";
+
+            while ($row = $result->fetch_assoc()) {
+                // Check if the trip status is 'ongoing'; if yes, skip displaying it
+                if ($row['status'] == 'ongoing') {
+                    continue;
                 }
-                echo "</tbody></table>";
-            } else {
-                echo "<p class='text-gray-500'>0 results</p>";
+                echo "<tr>";
+                echo "<td class='border border-gray-400 px-4 py-2'>" . $row["trip_id"] . "</td>";
+                echo "<td class='border border-gray-400 px-4 py-2'>" . $row["ruvNO"] . "</td>";
+                echo "<td class='border border-gray-400 px-4 py-2'>" . $row["plate_no"] . "</td>";
+                echo "<td class='border border-gray-400 px-4 py-2'>" . $row["driver_id"] . "</td>";
+                echo "<td class='border border-gray-400 px-4 py-2'>" . $row["trip_date"] . "</td>";
+                // Button to view ruv details in modal
+                echo "<td class='border border-gray-400 px-4 py-2'>";
+                echo "<button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#ruvDetailsModal' data-ruvno='" . $row['ruvNO'] . "'>View RUV</button>";
+                echo "</td>";
+                // Button to accept trip
+                echo "<td class='border border-gray-400 px-4 py-2'>";
+                echo "<form action='../accept_trip.php' method='post' onsubmit='return confirmTrip()'>";
+                echo "<input type='hidden' name='trip_id' value='" . $row['trip_id'] . "' />";
+                echo "<input type='hidden' name='confirm_accept' value='yes' />";
+                echo "<button type='submit' class='btn btn-primary '>Accept Trip</button>";
+                echo "</form>";
+                echo "</td>";
+                echo "</tr>";
             }
-            $stmt->close();
-            $connect->close();
-            ?>
-        </div>
+
+            echo "</tbody>";
+            echo "</table>";
+        } else {
+            echo "<p class='text-gray-500'>0 results</p>";
+        }
+
+        $stmt->close();
+        $connect->close();
+        ?>
     </div>
+</div>
+
 
     <!-- RUV Details Modal -->
     <div class="modal fade" id="ruvDetailsModal" tabindex="-1" aria-labelledby="ruvDetailsModalLabel" aria-hidden="true">
@@ -109,22 +155,11 @@ $result = $stmt->get_result();
 
     <script>
 
-        function sendEmail() {
-        const form = document.getElementById('emailForm');
-        const formData = new FormData(form);
 
-        fetch('send_email.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-            alert(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
+        function confirmTrip() {
+            return confirm("Are you sure you want to confirm this trip?");
+        }
+
         document.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {
             button.addEventListener('click', () => {
                 const ruvNO = button.getAttribute('data-ruvno');

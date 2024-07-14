@@ -67,7 +67,7 @@
                 $pdf->SetFont('Arial');
                 $pdf->SetXY(29,50);
                 $pdf->Write(20,$ruvNO['reason']);
-                
+                $pdf->Output('',$ruvNO['ruvNO'].'-RUV-'.$ruvNO['trip_date'].'.pdf', false);
                 
                
                
@@ -87,22 +87,4 @@
     $pdf->Output();
 
 
-
-
-
-
 ?>
-
-
-/* $pdf->AddPage();
-    $pdf->SetFont("Arial","B",16);
-    $pdf->setTextColor(252,3,3);
-    $pdf->Cell(200,20,"Betlog", "0","1","C");
-
-    $pdf->setLeftMargin(30);
-    $pdf->setTextColor(0,0,0);
-
-    $pdf->Cell(20,10,"No","1","0","C");
-    $pdf->Cell(20,10,"Name","1","0","C");
-    $pdf->Cell(20,10,"Age","1","0","C");
-    $pdf->Cell(20,10,"Salary","1","1","C");*/

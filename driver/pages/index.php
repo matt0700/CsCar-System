@@ -115,31 +115,113 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
                     </div>
                  </div>
           </div>
-          <div class="w3-container flex static ml-56" style="color: white;">
-                                <div>
-                                <div class="text-black">
-                                  <p>Track, manage and forecast your clients, schedules, and maintenance. </p>
-                                  </div>
+            <div class="w3-container flex static ml-56" style="color: white;">
+                <div>
+                    <div class="flex items-center mt-3 mr-4">
+                        <form action="../update_status.php" method="post" class="ml-2">
+                            <label for="status" class="mr-2 text-black">Status:</label>
+                            <select name="status" onchange="this.form.submit()" class="text-black border border-gray-300 rounded-md px-2 py-1 m-2 focus:outline-none focus:border-blue-500">
+                                <option value="Available" <?php echo ($_SESSION['driver_status'] == 'Available') ? 'selected' : ''; ?>>Available</option>
+                                <option value="Unavailable" <?php echo ($_SESSION['driver_status'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>
+                            </select>
+                            <input type="hidden" name="driver_id" value="<?php echo htmlspecialchars($_SESSION['driver_id']); ?>">
+                        </form>
+                    </div>
 
+                        <?php
+                        include '../connection.php';
+                        // Count the number of rows for the current driver_id excluding 'ongoing' trips
+                        $countSql = "SELECT COUNT(*) AS count FROM trips WHERE driver_id = ? AND status != 'ongoing' AND status != 'done'";
+                        $countStmt = $connect->prepare($countSql);
+                        $countStmt->bind_param("i", $_SESSION['driver_id']);
+                        $countStmt->execute();
+                        $countResult = $countStmt->get_result();
+                        $countRow = $countResult->fetch_assoc();
+                        $count = $countRow['count'];
 
+                        echo "<div class='bg-gray-200 rounded-md p-4 mb-4'>";
+                        echo "<p class='text-lg font-semibold text-gray-800'>Total Approved Trips" . ": <span class='text-primary'>" . $count . "</span></p>";
+                        echo "<a href='driversched.php' class='btn btn-primary mt-auto'>Check it here</a>";
+                        echo "</div>";
+                        ?>
+             
+        </div>
+        <div class="w3-container flex-auto	 ml-40 text-black " style="color: white;">
+    <?php
+    // Include your connection file
+    include '../connection.php';
 
-                            <div class="flex items-center mt-3 mr-4">
-                                <form action="../update_status.php" method="post" class="ml-2">
-                                <label for="status" class="mr-2 text-black">Status:</label>
-                                    <select name="status" onchange="this.form.submit()" class="text-black border border-gray-300 rounded-md px-2 py-1 m-2 focus:outline-none focus:border-blue-500">
-                                        <option value="Available" <?php echo ($_SESSION['driver_status'] == 'Available') ? 'selected' : ''; ?>>Available</option>
-                                        <option value="Unavailable" <?php echo ($_SESSION['driver_status'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>
-                                    </select>
-                                    <input type="hidden" name="driver_id" value="<?php echo htmlspecialchars($_SESSION['driver_id']); ?>">
-                                </form>
+    // Check if the form has been submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['trip_id'])) {
+        if (isset($_POST['confirm_end']) && $_POST['confirm_end'] == 'yes') {
+            // Update the status of the trip to 'done'
+            $update_sql = "UPDATE trips SET status = 'done' WHERE trip_id = ?";
+            $update_stmt = $connect->prepare($update_sql);
+            $update_stmt->bind_param("i", $_POST['trip_id']);
+            $update_stmt->execute();
+            $update_stmt->close();
+
+            // Optionally, you can perform other actions after updating the status
+            // For example, you may want to send notifications or log the end of the trip
+            echo "<p>Trip ended successfully.</p>";
+        } else {
+            echo "<p>Trip end canceled.</p>";
+        }
+    }
+
+    // Query to fetch ongoing trips with RUV details for the current driver
+    $sql = "SELECT t.trip_id, t.ruvNO, t.plate_no, t.driver_id, t.trip_date, r.pickup_point, r.destination
+            FROM trips t
+            INNER JOIN ruv_table r ON t.ruvNO = r.ruvNO
+            WHERE t.driver_id = ? AND t.status = 'ongoing'";
+    $stmt = $connect->prepare($sql);
+    $stmt->bind_param("i", $_SESSION['driver_id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        echo "<div class='mt-4 w-96'>";
+        echo "<h1>Ongoing Trips</h1>";
+        while ($row = $result->fetch_assoc()) {
+            echo "<div class='bg-gray-200 rounded-md p-4 mb-4 w-auto' >";
+            echo "<p class='text-lg font-semibold text-gray-800'>Trip ID: <span class='text-primary'>" . $row['trip_id'] . "</span></p>";
+            echo "<p><strong>RUV No:</strong> " . $row['ruvNO'] . "</p>";
+            echo "<p><strong>Plate No:</strong> " . $row['plate_no'] . "</p>";
+            echo "<p><strong>Driver ID:</strong> " . $row['driver_id'] . "</p>";
+            echo "<p><strong>Trip Date:</strong> " . $row['trip_date'] . "</p>";
+            echo "<p><strong>Pick-up Point:</strong> " . $row['pickup_point'] . "</p>";
+            echo "<p><strong>Destination:</strong> " . $row['destination'] . "</p>";
+            
+            // Form to end the trip with confirmation
+            echo "<form action='../end_trip.php' method='post' onsubmit='return confirmEndTrip()'>";
+            echo "<input type='hidden' name='trip_id' value='" . $row['trip_id'] . "' />";
+            echo "<input type='hidden' name='confirm_end' value='yes' />";
+            echo "<button type='submit' class='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-2'>End Trip</button>";
+            echo "</form>";
+            
+            echo "</div>";
+        }
+        
+    } else {
+        echo "<h1>No ongoing trips found.</h1>";
+        echo "</div>";
+    }
+
+    $stmt->close();
+    $connect->close();
+    ?>
+
+    <script>
+        function confirmEndTrip() {
+            return confirm("Are you sure you want to end this trip?");
+        }
+    </script>
 </div>
-<div>
-<button onclick="getLocation()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Locate and Save Coordinates</button>
-                                    <form action="/CSCAR-System/mailer.php" method="POST" class="inline">
-                                        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Send Email</button>
-                                    </form>
-                                </div> 
+
 </body>
+
+
+
 <script>
     // Toggle dropdown menu
     document.getElementById('menu-button').addEventListener('click', function() {

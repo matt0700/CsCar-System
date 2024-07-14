@@ -80,43 +80,43 @@ mysqli_close($connect); // Close connection after use
         </div>
         <div class="w3-container flex static ml-56" style="color: white;">
             <div>
-                <div class="text-black">
-                    <p>Track, manage and forecast your clients, schedules, and maintenance.</p>
-                </div>
                 <div class="m-auto p-6 rounded-lg shadow-lg text-black w-full max-w-7xl">
-                    <h2 class="text-2xl font-bold mb-6">Pending RUV requests</h2>
-                    <p>NOTE: You can only accept or dissaprove request that are on the top of the list</p>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white text-black">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-2 border">RUV No</th>
-                                    <th class="px-4 py-2 border">Pick-up Point</th>
-                                    <th class="px-4 py-2 border">Destination</th>
-                                    <th class="px-4 py-2 border">Date Submitted</th>
-                                    <th class="px-4 py-2 border">Details</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo "<tr>";
-                                        echo "<td class='border px-4 py-2'>" . $row['ruvNO'] . "</td>";
-                                        echo "<td class='border px-4 py-2'>" . $row['pickup_point'] . "</td>";
-                                        echo "<td class='border px-4 py-2'>" . $row['destination'] . "</td>";
-                                        echo "<td class='border px-4 py-2'>" . $row['submitted'] . "</td>";
-                                        echo "<td class='border px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#detailsModal' data-ruvno='" . $row['ruvNO'] . "'>Details</button></td>";
-                                        echo "</tr>";
+                <h2 class="text-2xl font-bold mb-6">Pending RUV requests</h2>
+                        <p>NOTE: You can only accept or disapprove requests that are on the top of the list</p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white text-black">
+                                <thead>
+                                    <tr>
+                                        <th class="px-4 py-2 border">RUV No</th>
+                                        <th class="px-4 py-2 border">Pick-up Point</th>
+                                        <th class="px-4 py-2 border">Destination</th>
+                                        <th class="px-4 py-2 border">Date Submitted</th>
+                                        <th class="px-4 py-2 border">Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            // Check if status is not "Approved"
+                                            if ($row['status'] !== 'Approved') {
+                                                echo "<tr>";
+                                                echo "<td class='border px-4 py-2'>" . $row['ruvNO'] . "</td>";
+                                                echo "<td class='border px-4 py-2'>" . $row['pickup_point'] . "</td>";
+                                                echo "<td class='border px-4 py-2'>" . $row['destination'] . "</td>";
+                                                echo "<td class='border px-4 py-2'>" . $row['submitted'] . "</td>";
+                                                echo "<td class='border px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#detailsModal' data-ruvno='" . $row['ruvNO'] . "'>Details</button></td>";
+                                                echo "</tr>";
+                                            }
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='4' class='border px-4 py-2'>No pending requests found</td></tr>";
                                     }
-                                } else {
-                                    echo "<tr><td colspan='4' class='border px-4 py-2'>No data found</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+
                 <!-- Details Modal -->
                 <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">

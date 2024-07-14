@@ -64,7 +64,8 @@ if ($trips_result->num_rows > 0) {
             $stmt->bind_param("s", $vehicle['plate_no']);
             $stmt->execute();
             $stmt->close();
-        
+
+            echo "Assigned" . $trip['ruvNO'] . " with " . $trip['no_passengers'] . " passengers.\n";
         } else {
             echo "No available driver or suitable vehicle for trip " . $trip['ruvNO'] . " with " . $trip['no_passengers'] . " passengers.\n";
         }
