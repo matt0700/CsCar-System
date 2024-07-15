@@ -7,7 +7,7 @@ require_once 'fpdi2/src/autoload.php';
 $pdf = new Fpdi();
 
 // get the page count
-$pageCount = $pdf->setSourceFile('ruv_temp.pdf');
+$pageCount = $pdf->setSourceFile('trip_ticket.pdf');
 
 // iterate through all pages
 for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
@@ -33,58 +33,23 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
         if ($tripresult->rowCount() != 0) {
             while ($tripRow = $tripresult->fetch()) {
                 $pdf->SetFont('Arial');
-                $pdf->SetXY(55, 115); 
+                $pdf->SetXY(100, 31); 
                 $pdf->Write(20, $tripRow['plate_no']);
 
                 $pdf->SetFont('Arial');
-                $pdf->SetXY(55, 119); 
+                $pdf->SetXY(100, 126); 
                 $pdf->Write(20, $tripRow['driver_name']);
 
-                $pdf->SetFont('Arial');
-                $pdf->SetXY(134, 107);
-                $pdf->Write(20, $tripRow['ruvNO']."-RUV-".$tripRow['trip_date']);
 
                 $pdf->SetFont('Arial');
-                $pdf->SetXY(12, 61); 
-                $pdf->Write(20, $tripRow['name_passengers']);
-
-                $pdf->SetFont('Arial');
-                $pdf->SetXY(83, 21);
-                $pdf->Write(20, $tripRow['pickup_point']);
-
-                $pdf->SetFont('Arial');
-                $pdf->SetXY(83, 26);
-                $pdf->Write(20, $tripRow['destination']);
-
-                $pdf->SetFont('Arial');
-                $pdf->SetXY(83, 24);
+                $pdf->SetXY(154, 33);
                 $pdf->Write(4, $tripRow['trip_date']);
 
                 $pdf->SetFont('Arial');
-                $pdf->SetXY(167, 21);
-                $pdf->Write(20, $tripRow['pref_time']);
-
-                $pdf->SetFont('Arial');
-                $pdf->SetXY(167, 28);
-                $pdf->Write(20, $tripRow['eta_destination']);
-
-                $pdf->SetFont('Arial');
-                $pdf->SetXY(15, 21);
-                $pdf->Write(20, $tripRow['req_official']);
-
-                $pdf->SetFont('Arial');
-                $pdf->SetXY(29, 50);
+                $pdf->SetXY(29, 84);
                 $pdf->Write(20, $tripRow['reason']);
 
-                $pdf->SetFont('Arial');
-                $pdf->SetXY(29, 44);
-                $pdf->Write(20, $tripRow['submitted']);
-
-                $pdf->SetFont('Arial');
-                $pdf->SetXY(55, 111);
-                $pdf->Write(20, $tripRow['make_series_type']);
-
-                $pdf->Output('',$tripRow['ruvNO'].'-RUV-'.$tripRow['trip_date'].'.pdf', false);
+                $pdf->Output('',$tripRow['ruvNO'].'-TT-'.$tripRow['trip_date'].'.pdf', false);
 
 
                 
