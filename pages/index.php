@@ -169,13 +169,12 @@ document.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {
                         fetch(`../assign.php?ruvNO=${ruvNo}`)
                             .then(response => response.text())
                             .then(data => {
-                                alert(data); // Display alert based on response from assign.php
+                                
                                 return fetch(`../mailer.php?ruvNO=${ruvNo}`);
                             })
                             .then(response => response.text())
                             .then(data => {
-                                alert('Email Sent!'); // Display alert based on response from mailer.php
-
+                                alert('Assignment and Email Sent Successfully!'); // Display alert based on response from mailer.php
                                 // navigate to a new location after both requests complete
                                 window.location.reload();
                             })
@@ -193,7 +192,7 @@ document.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {
                                 return response.text();
                             })
                             .then(deleteResponse => {
-                                alert('RUV Dissaproved.');
+                                alert('RUV Disapproved.');
                                 window.location.reload();
                             })
                             .catch(error => {
@@ -217,6 +216,7 @@ document.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {
             });
     });
 });
+
 </script>
             </div>
         </div>

@@ -1,24 +1,36 @@
 <?php
+session_start();
 
-$servername = 'localhost';
-$username = 'root';
-$password = '';
-$dbname = 'cscar_database';
-
-// Connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php");
+    exit();
 }
 
-// Fetched unassigned Trips
-$trips_sql = 'SELECT * FROM ruv_table WHERE ruvNO NOT IN (SELECT ruvNO FROM trips)';
-$trips_result = $conn->query($trips_sql);
+include "connection.php";
 
-if ($trips_result->num_rows > 0) {
-    while ($trip = $trips_result->fetch_assoc()) {
+if (isset($_GET['ruvNO'])) {
+    $ruvNO = $_GET['ruvNO'];
+
+    $servername = 'localhost';
+    $username = 'root';
+    $password = '';
+    $dbname = 'cscar_database';
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $trips_sql = "SELECT * FROM ruv_table WHERE ruvNO = ?";
+    $stmt = $conn->prepare($trips_sql);
+    $stmt->bind_param("i", $ruvNO);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $trip = $result->fetch_assoc();
+
         // Find Available driver
         $driver_found = false;
         $driver_sql = "SELECT * FROM drivers WHERE driver_status = 'Available' LIMIT 1";
@@ -47,14 +59,14 @@ if ($trips_result->num_rows > 0) {
             // Insert new trip
             $assign_sql = "INSERT INTO trips (ruvNO, driver_id, plate_no, trip_date) VALUES (?, ?, ?, CURDATE())";
             $stmt = $conn->prepare($assign_sql);
-            $stmt->bind_param("iis", $trip['ruvNO'], $driver['driver_id'], $vehicle['plate_no']);
+            $stmt->bind_param("iis", $ruvNO, $driver['driver_id'], $vehicle['plate_no']);
             $stmt->execute();
             $stmt->close();
 
             // Update driver status
             $update_driver_sql = "UPDATE drivers SET driver_status = 'Unavailable' WHERE driver_id = ?";
             $stmt = $conn->prepare($update_driver_sql);
-            $stmt->bind_param("i", $driver['driver_id']); 
+            $stmt->bind_param("i", $driver['driver_id']);
             $stmt->execute();
             $stmt->close();
 
@@ -65,15 +77,16 @@ if ($trips_result->num_rows > 0) {
             $stmt->execute();
             $stmt->close();
 
-            echo "Assigned" . $trip['ruvNO'] . " with " . $trip['no_passengers'] . " passengers.\n";
+            echo "Assigned " . $ruvNO . " with " . $trip['no_passengers'] . " passengers.";
         } else {
-            echo "No available driver or suitable vehicle for trip " . $trip['ruvNO'] . " with " . $trip['no_passengers'] . " passengers.\n";
+            echo "No available driver or suitable vehicle for trip " . $ruvNO . " with " . $trip['no_passengers'] . " passengers.";
         }
+    } else {
+        echo "RUV request not found.";
     }
+
+    $conn->close();
 } else {
-    echo "No unassigned trips found.\n";
+    echo "Invalid request.";
 }
-
-$conn->close();
-
 ?>
