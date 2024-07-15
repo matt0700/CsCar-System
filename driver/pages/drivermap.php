@@ -68,13 +68,13 @@
                 <div id="map"></div>
             </div>
             <button id="use-location-btn" >Use My Current Location</button>
-            <!-- <div class="mt-4">
+            <div class="mt-4">
                 <form id="locate-driver-form" class="flex space-x-2">
-                    <input type="text" id="latitude" placeholder="Latitude" class="border border-gray-300 p-2 rounded">
-                    <input type="text" id="longitude" placeholder="Longitude" class="border border-gray-300 p-2 rounded">
-                    <button type="submit" class="bg-blue-500 text-white p-2 rounded">Locate Driver</button>
+                    <!-- <input type="text" id="latitude" placeholder="Latitude" class="border border-gray-300 p-2 rounded">
+                    <input type="text" id="longitude" placeholder="Longitude" class="border border-gray-300 p-2 rounded"> -->
+                    <!-- <button type="submit" class="bg-blue-500 text-white p-2 rounded">Locate Driver</button> -->
                 </form>
-            </div> -->
+            </div>
                     <!-- Report Problem Form -->
                     <div class="bg-gray-200 rounded-md p-4 mb-4">
                                 <h3 class="text-lg font-semibold text-gray-800 mb-2">Report a Problem</h3>
