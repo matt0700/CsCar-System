@@ -1,13 +1,6 @@
 <?php
 
-$hostname = "localhost";
-$username = "root";
-$password = "";
-$databaseName = "cscar_database";
-
-// Establish MySQLi connection
-$connect = mysqli_connect($hostname, $username, $password, $databaseName);
-
+include 'connection.php';
 // Check connection
 if (mysqli_connect_errno()) {
     die("Connection failed: " . mysqli_connect_error());
