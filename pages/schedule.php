@@ -79,8 +79,6 @@ $stmt->bind_param("i", $driverId);
                 $file_url = generateRuvPdf($trip_id); // Update this function to match your actual implementation
                 $trip_url = generateTripPdf($trip_id);    
 
-
-
                 echo "<tr>";
                 echo "<td class='border border-gray-400 px-4 py-2'>$trip_id</td>";
                 echo "<td class='border border-gray-400 px-4 py-2'>$ruvNO</td>";

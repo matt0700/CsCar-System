@@ -1,11 +1,11 @@
 <?php
 
 include 'connection.php';
+
 // Check connection
 if (mysqli_connect_errno()) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -19,78 +19,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $issue = mysqli_real_escape_string($connect, $issue);
     $distance = mysqli_real_escape_string($connect, $distance);
 
+    // Calculate fuel_trip based on plate_no
     switch ($plate_no) {
         case 'SAA-9865':
-            $fuel_trip = $distance / 8.5; 
-            break;
-        
         case 'SAA-9866':
-            $fuel_trip = $distance / 8.5; 
+            $fuel_trip = $distance / 8.5;
             break;
-        
         case 'SFY-477':
-            $fuel_trip = $distance / 8; 
-            break;
-        
         case 'SFY-488':
             $fuel_trip = $distance / 8;
             break;
-        
         case 'SHZ-133':
-            $fuel_trip = $distance /11;
+            $fuel_trip = $distance / 11;
             break;
-
         case 'SJH-967':
-            $fuel_trip = $distance / 9.2; 
+            $fuel_trip = $distance / 9.2;
             break;
-            
         case 'SJH-977':
-            $fuel_trip = $distance / 11; 
-            break;
-            
         case 'SJP-285':
-            $fuel_trip = $distance / 11; 
-            break;
-            
         case 'SJP-286':
             $fuel_trip = $distance / 11;
             break;
-            
         case 'U9-D041':
-            $fuel_trip = $distance /8;
+            $fuel_trip = $distance / 8;
             break;
-
         case 'Z4T-867':
-            $fuel_trip = $distance /9;
+            $fuel_trip = $distance / 9;
             break;
-
-         case 'Z5G-191':
-             $fuel_trip = $distance / 11;
-             break;
-        
-
-        // Add more cases as needed for each plate number
+        case 'Z5G-191':
+            $fuel_trip = $distance / 11;
+            break;
         default:
             // Default calculation if plate number doesn't match any case
             $fuel_trip = $distance / 20; // Example default calculation
             break;
     }
 
-    // Insert into database
+    // Insert into mrot table
     $sql = "INSERT INTO mrot (plate_no, issue, mileage_trip, fuel_trip) VALUES ('$plate_no', '$issue', '$distance', '$fuel_trip')";
-    $sql2 = "UPDATE vehicle_data SET mileage = mileage + '$distance' WHERE plate_no = '$plate_no'";
-    
 
-    if (mysqli_query($connect, $sql, $sql2)) {
+    if (mysqli_query($connect, $sql)) {
         $message = "Record inserted successfully.";
+
+        // Update vehicle_data table
+        $sql2 = "UPDATE vehicle_data SET mileage = mileage + '$distance' WHERE plate_no = '$plate_no'";
+        if (!mysqli_query($connect, $sql2)) {
+            $message .= " Error updating vehicle_data: " . mysqli_error($connect);
+        }
     } else {
         $message = "Error inserting record: " . mysqli_error($connect);
     }
+
+    // Redirect with alert message
+    echo "<script>alert('$message'); window.location.href = 'pages/drivermap.php';</script>";
 }
-echo "<script>alert('$message'); window.location.href = 'pages/drivermap.php';</script>";
 
 // Close connection
 mysqli_close($connect);
 
 ?>
-

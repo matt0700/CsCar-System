@@ -225,25 +225,22 @@ $connect->close(); // Close connection after use
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <script>
-            var vehicleData = <?php echo json_encode($vehicle_data); ?>;
+            <script>
+                var vehicleData = <?php echo json_encode($vehicle_data); ?>;
 
-            function showCarData(index) {
-                var vehicle = vehicleData[index];
+                function showCarData(index) {
+                    var vehicle = vehicleData[index];
 
-                // Update labels and values
-                document.getElementById("modelValue").textContent = vehicle.make_series_type;
-                document.getElementById("plateNoValue").textContent = vehicle.plate_no;
-                document.getElementById("yearValue").textContent = vehicle.model;
-                document.getElementById("typeValue").textContent = vehicle.type;
-                document.getElementById("statusValue").textContent = vehicle.car_status;
-                document.getElementById("seaterValue").textContent = vehicle.seater;
-                document.getElementById("mileageValue").textContent = vehicle.mileage;
-                document.getElementById("fuelValue").textContent = vehicle.fuel_consump;
-            }
-
-               
-    
-        </script>
+                    // Update labels and values
+                    document.getElementById("modelValue").textContent = vehicle.make_series_type;
+                    document.getElementById("plateNoValue").textContent = vehicle.plate_no;
+                    document.getElementById("yearValue").textContent = vehicle.model;
+                    document.getElementById("typeValue").textContent = vehicle.type;
+                    document.getElementById("statusValue").textContent = vehicle.car_status;
+                    document.getElementById("seaterValue").textContent = vehicle.seater;
+                    document.getElementById("mileageValue").textContent = vehicle.mileage;
+                    document.getElementById("fuelValue").textContent = vehicle.fuel_consump;
+                }
+            </script>
     </body>
 </html>
