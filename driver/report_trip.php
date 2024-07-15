@@ -1,33 +1,43 @@
 <?php
-// Include the database connection file
-include 'connection.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Capture form data
-    $vehicle = $_POST['cars'];
-    $issue = $_POST['issue'];
-    $distance = 0.00; // Assuming distance is initially 0.00 km
+$hostname = "localhost";
+$username = "root";
+$password = "";
+$databaseName = "cscar_database";
 
-    // Sanitize the table name (remove hyphens and replace them with underscores)
-    $table_name = str_replace('-', '_', $vehicle);
+// Establish MySQLi connection
+$connect = mysqli_connect($hostname, $username, $password, $databaseName);
 
-    // Prepare the SQL statement
-    $sql = "INSERT INTO $table_name (mileage_trip, fuel_trip, issue_trip) VALUES (?, ?, ?)";
-    $stmt = $connect->prepare($sql);
-    if ($stmt === false) {
-        die("Error preparing statement: " . $connect->error);
-    }
-    $stmt->bind_param("ssd", $issue, $contact, $distance);
-
-    // Execute the statement
-    if ($stmt->execute()) {
-        echo "New record created successfully in table $table_name";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-
-    // Close the statement and connection
-    $stmt->close();
-    $connect->close();
+// Check connection
+if (mysqli_connect_errno()) {
+    die("Connection failed: " . mysqli_connect_error());
 }
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Collect form data
+    $plate_no = $_POST['cars']; // Assuming 'cars' corresponds to 'plate_no'
+    $issue = $_POST['issue'];
+    $distance = $_POST['distance']; // Get distance value
+
+    // Escape inputs to prevent SQL injection
+    $plate_no = mysqli_real_escape_string($connect, $plate_no);
+    $issue = mysqli_real_escape_string($connect, $issue);
+    $distance = mysqli_real_escape_string($connect, $distance);
+
+    // Insert into database
+    $sql = "INSERT INTO mrot (plate_no, issue, mileage_trip, fuel_trip) VALUES ('$plate_no', '$issue', '$distance', '$distance')";
+
+    if (mysqli_query($connect, $sql)) {
+        $message = "Record inserted successfully.";
+    } else {
+        $message = "Error inserting record: " . mysqli_error($connect);
+    }
+}
+echo "<script>alert('$message'); window.location.href = 'pages/drivermap.php';</script>";
+
+// Close connection
+mysqli_close($connect);
+
 ?>
+

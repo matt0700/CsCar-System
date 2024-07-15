@@ -42,7 +42,7 @@ $stmt->bind_param("i", $driverId);
 <body class="bg-white">
     <div class="w3-main z-10">
         <div class="text-black h-20 static border-none">
-            <button class="w3-button w3-greyw3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
+            <button class="w3-button w3-grey w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
             <div class="w3-container flex static z-50 ml-56" style="color: white;">
                 <div class="flex-col text-black">
                     <div>
@@ -53,18 +53,19 @@ $stmt->bind_param("i", $driverId);
         </div>
     </div>
 
-    <div class="bg-gray-100 p-10">
+    <div class=" p-10">
     <div class="test z-50 flex justify-center ml-[200px]">
         <?php
         if ($result->num_rows > 0) {
-            echo "<table class='table-auto border-collapse border border-gray-400'>";
+            echo "<table class='table-auto border-collapse border border-gray-400 text-center'>";
             echo "<thead><tr class='bg-gray-200'>";
             echo "<th class='border border-gray-400 px-4 py-2'>TRIP ID</th>";
             echo "<th class='border border-gray-400 px-4 py-2'>RUV NO.</th>";
             echo "<th class='border border-gray-400 px-4 py-2'>PLATE NO.</th>";
             echo "<th class='border border-gray-400 px-4 py-2'>DRIVER ID</th>";
             echo "<th class='border border-gray-400 px-4 py-2'>TRIP DATE</th>";
-            echo "<th class='border border-gray-400 px-4 py-2'>FILES</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>RUV</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>TRIP TICKET</th>";
             echo "<th class='border border-gray-400 px-4 py-2'></th>";
             echo "</tr></thead><tbody>";
             while ($row = $result->fetch_assoc()) {
@@ -73,15 +74,21 @@ $stmt->bind_param("i", $driverId);
                 $plate_no = $row["plate_no"];
                 $driver_id = $row["driver_id"];
                 $trip_date = $row["trip_date"];
+                
                 // Assuming ruvpdf.php generates a PDF and returns a URL to the file
-                $file_url = generateRuvPdf($ruvNO); // Update this function to match your actual implementation
+                $file_url = generateRuvPdf($trip_id); // Update this function to match your actual implementation
+                $trip_url = generateTripPdf($trip_id);    
+
+
+
                 echo "<tr>";
                 echo "<td class='border border-gray-400 px-4 py-2'>$trip_id</td>";
                 echo "<td class='border border-gray-400 px-4 py-2'>$ruvNO</td>";
                 echo "<td class='border border-gray-400 px-4 py-2'>$plate_no</td>";
                 echo "<td class='border border-gray-400 px-4 py-2'>$driver_id</td>";
                 echo "<td class='border border-gray-400 px-4 py-2'>$trip_date</td>";
-                echo "<td class='border border-gray-400 px-4 py-2'><a href='$file_url' target='_blank'>Download PDF</a></td>";
+                echo "<td class='border border-gray-400 px-4 py-2'><a href='$file_url' target='_blank'>Download File</a></td>";
+                echo "<td class='border border-gray-400 px-4 py-2'><a href='$trip_url' target='_blank'>Download File</a></td>";
                 echo "<td class='border border-gray-400 px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#driverDetailsModal' data-driverid='$driver_id'>View Driver</button></td>";
                 echo "</tr>";
             }
@@ -164,10 +171,17 @@ $stmt->bind_param("i", $driverId);
     </script>
     <?php
 // Function to generate PDF and return the file URL
-function generateRuvPdf($ruvNO) {
+function generateRuvPdf($trip_id) {
     // Your logic to generate the PDF and save it to a file
     // Return the URL to the generated PDF file
-    return "../ruvappend.php?ruvNO=$ruvNO";
+    return "../ruvappend.php?trip_id=$trip_id";
+}
+
+// Function to generate PDF and return the file URL
+function generateTripPdf($trip_id) {
+    // Your logic to generate the PDF and save it to a file
+    // Return the URL to the generated PDF file
+    return "../ticketappend.php?trip_id=$trip_id";
 }
 ?>
 

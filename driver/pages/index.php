@@ -89,7 +89,7 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
         }
 
         // Update location every 30 seconds
-        setInterval(updateLocation, 30000);
+        setInterval(updateLocation, 5000);
     </script>
 
 </head>
@@ -127,7 +127,6 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
                             <input type="hidden" name="driver_id" value="<?php echo htmlspecialchars($_SESSION['driver_id']); ?>">
                         </form>
                     </div>
-
                         <?php
                         include '../connection.php';
                         // Count the number of rows for the current driver_id excluding 'ongoing' trips
@@ -144,7 +143,6 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
                         echo "<a href='driversched.php' class='btn btn-primary mt-auto'>Check it here</a>";
                         echo "</div>";
                         ?>
-             
         </div>
         <div class="w3-container flex-auto	 ml-40 text-black " style="color: white;">
     <?php

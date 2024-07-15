@@ -99,24 +99,26 @@ include "../connection.php";
                     <div class="bg-gray-200 rounded-md p-4 mb-4">
                                 <h3 class="text-lg font-semibold text-gray-800 mb-2">Report a Problem</h3>
                                     <form action="../report_trip.php" method="post">
-                                    <div><label for="vehicle">Choose a vehicle:</label>
-                                            <select name="cars" id="cars">
-                                            <option value="">SAA-9865</option>
-                                            <option value="">SAA-9866</option>
-                                            <option value="">SFY-477</option>
-                                            <option value="">SFY-488</option>
-                                            <option value="">SHZ-133</option>
-                                            <option value="">SJH-967</option>
-                                            <option value="">SJH-977</option>
-                                            <option value="">SJP-285</option>
-                                            <option value="">SJP-286</option>
-                                            <option value="">U9-D041</option>
-                                            <option value="">Z4T-867</option>
-                                            <option value="">Z5G-191</option>
-                                            </select></div>
+                                        <div>
+                                        <select name="cars" id="cars">
+                                            <option value="SAA-9865">SAA-9865</option>
+                                            <option value="SAA-9866">SAA-9866</option>
+                                            <option value="SFY-477">SFY-477</option>
+                                            <option value="SFY-488">SFY-488</option>
+                                            <option value="SHZ-133">SHZ-133</option>
+                                            <option value="SJH-967">SJH-967</option>
+                                            <option value="SJH-977">SJH-977</option>
+                                            <option value="SJP-285">SJP-285</option>
+                                            <option value="SJP-286">SJP-286</option>
+                                            <option value="U9-D041">U9-D041</option>
+                                            <option value="Z4T-867">Z4T-867</option>
+                                            <option value="Z5G-191">Z5G-191</option>
+                                        </select>
                                                 <div class="mt-2">
+                                                    <input type="hidden" name="distance" id="distance_value">
                                                     <div id="distance_display">Total Distance: 0.00 km</div>
                                                 </div>  
+                                    
                                         <div class="mb-4">
                                             <label for="issue" class="block text-sm font-medium text-gray-700">Issue:</label>
                                             <textarea name="issue" id="issue" rows="3" class="form-textarea mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"></textarea>
@@ -220,15 +222,19 @@ include "../connection.php";
 
         // Function to update distance display 
         function updateDistanceDisplay(distance) {
-            let numString = distance;
-            let numDouble = parseFloat(numString);
-            document.getElementById('distance_display').innerText = `Total Distance: ${numDouble} km`;
-        }
+    let numString = distance;
+    let numDouble = parseFloat(numString);
+    
+    // Update display
+    document.getElementById('distance_display').innerText = `Total Distance: ${numDouble.toFixed(2)} km`;
+
+    // Store value in hidden input field
+    document.getElementById('distance_value').value = numDouble.toFixed(2); // Assuming 'distance_value' is the ID of your hidden input
+}
     });
 
 
         //Update automatic
-
         function updateLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(sendLocationToServer, showError);
@@ -270,7 +276,7 @@ include "../connection.php";
         }
 
         // Update location every 30 seconds
-        setInterval(updateLocation, 30000);
+        setInterval(updateLocation, 5000);
 
 
    

@@ -229,7 +229,7 @@ $result = $stmt->get_result();
         }
 
         // Update location every 30 seconds
-        setInterval(updateLocation, 30000);
+        setInterval(updateLocation, 5000);
    
     </script>
 
