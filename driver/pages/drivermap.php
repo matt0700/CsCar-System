@@ -222,15 +222,15 @@ include "../connection.php";
 
         // Function to update distance display 
         function updateDistanceDisplay(distance) {
-    let numString = distance;
-    let numDouble = parseFloat(numString);
+            let numString = distance;
+            let numDouble = parseFloat(numString);
     
-    // Update display
-    document.getElementById('distance_display').innerText = `Total Distance: ${numDouble.toFixed(2)} km`;
+        // Update display
+        document.getElementById('distance_display').innerText = `Total Distance: ${numDouble.toFixed(2)} km`;
 
-    // Store value in hidden input field
-    document.getElementById('distance_value').value = numDouble.toFixed(2); // Assuming 'distance_value' is the ID of your hidden input
-}
+        // Store value in hidden input field
+        document.getElementById('distance_value').value = numDouble.toFixed(2); // Assuming 'distance_value' is the ID of your hidden input
+    }
     });
 
 
