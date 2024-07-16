@@ -5,17 +5,16 @@ if (!isset($_SESSION['username'])) {
     header("Location: ../login.php");
     exit();
 }
-// Include database connection
-include "../connection.php";
+    // Include database connection
+    include "../connection.php";
 
-$sql = "SELECT * FROM trips";
-$result = $connect->query($sql);
+    $sql = "SELECT * FROM trips";
+    $result = $connect->query($sql);
 
-// Query to fetch driver details
-$driverQuery = "SELECT * FROM drivers WHERE driver_id = ?";
-$stmt = $connect->prepare($driverQuery);
-$stmt->bind_param("i", $driverId);
-
+        // Query to fetch driver details
+        $driverQuery = "SELECT * FROM drivers WHERE driver_id = ?";
+        $stmt = $connect->prepare($driverQuery);
+        $stmt->bind_param("i", $driverId);
 ?>
 
 <!DOCTYPE html>
@@ -54,48 +53,53 @@ $stmt->bind_param("i", $driverId);
     </div>
 
     <div class=" p-10">
-    <div class="test z-50 flex justify-center ml-[200px]">
-        <?php
-        if ($result->num_rows > 0) {
-            echo "<table class='table-auto border-collapse border border-gray-400 text-center'>";
-            echo "<thead><tr class='bg-gray-200'>";
-            echo "<th class='border border-gray-400 px-4 py-2'>TRIP ID</th>";
-            echo "<th class='border border-gray-400 px-4 py-2'>RUV NO.</th>";
-            echo "<th class='border border-gray-400 px-4 py-2'>PLATE NO.</th>";
-            echo "<th class='border border-gray-400 px-4 py-2'>DRIVER ID</th>";
-            echo "<th class='border border-gray-400 px-4 py-2'>TRIP DATE</th>";
-            echo "<th class='border border-gray-400 px-4 py-2'>RUV</th>";
-            echo "<th class='border border-gray-400 px-4 py-2'>TRIP TICKET</th>";
-            echo "<th class='border border-gray-400 px-4 py-2'></th>";
-            echo "</tr></thead><tbody>";
-            while ($row = $result->fetch_assoc()) {
-                $trip_id = $row["trip_id"];
-                $ruvNO = $row["ruvNO"];
-                $plate_no = $row["plate_no"];
-                $driver_id = $row["driver_id"];
-                $trip_date = $row["trip_date"];
-                
-                // Assuming ruvpdf.php generates a PDF and returns a URL to the file
-                $file_url = generateRuvPdf($trip_id); // Update this function to match your actual implementation
-                $trip_url = generateTripPdf($trip_id);    
+        <div class="test z-50 flex justify-center ml-[200px]">
+            <?php
+            if ($result->num_rows > 0) {
+                echo "<table class='table-auto border-collapse border border-gray-400 text-center'>";
+                echo "<thead><tr class='bg-gray-800 text-white'>";
+                echo "<th class='border border-gray-400 px-4 py-2'>TRIP ID</th>";
+                echo "<th class='border border-gray-400 px-4 py-2'>RUV NO.</th>";
+                echo "<th class='border border-gray-400 px-4 py-2'>PLATE NO.</th>";
+                echo "<th class='border border-gray-400 px-4 py-2'>DRIVER ID</th>";
+                echo "<th class='border border-gray-400 px-4 py-2'>TRIP DATE</th>";
+                echo "<th class='border border-gray-400 px-4 py-2'>RUV</th>";
+                echo "<th class='border border-gray-400 px-4 py-2'>TRIP TICKET</th>";
+                echo "<th class='border border-gray-400 px-4 py-2'></th>";
+                echo "</tr></thead><tbody>";
 
-                echo "<tr>";
-                echo "<td class='border border-gray-400 px-4 py-2'>$trip_id</td>";
-                echo "<td class='border border-gray-400 px-4 py-2'>$ruvNO</td>";
-                echo "<td class='border border-gray-400 px-4 py-2'>$plate_no</td>";
-                echo "<td class='border border-gray-400 px-4 py-2'>$driver_id</td>";
-                echo "<td class='border border-gray-400 px-4 py-2'>$trip_date</td>";
-                echo "<td class='border border-gray-400 px-4 py-2'><a href='$file_url' target='_blank'>Download File</a></td>";
-                echo "<td class='border border-gray-400 px-4 py-2'><a href='$trip_url' target='_blank'>Download File</a></td>";
-                echo "<td class='border border-gray-400 px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#driverDetailsModal' data-driverid='$driver_id'>View Driver</button></td>";
-                echo "</tr>";
+                while ($row = $result->fetch_assoc()) {
+                    $trip_id = $row["trip_id"];
+                    $ruvNO = $row["ruvNO"];
+                    $plate_no = $row["plate_no"];
+                    $driver_id = $row["driver_id"];
+                    $trip_date = $row["trip_date"];
+                    $status = $row["status"]; // Assuming 'status' is a column in your database table
+
+                    // Check if the trip status is not 'done' or 'ongoing'
+                    if ($status != 'done' && $status != 'ongoing') {
+                        // Assuming ruvpdf.php generates a PDF and returns a URL to the file
+                        $file_url = generateRuvPdf($trip_id); // Update this function to match your actual implementation
+                        $trip_url = generateTripPdf($trip_id);    
+
+                        echo "<tr>";
+                        echo "<td class='border border-gray-400 px-4 py-2'>$trip_id</td>";
+                        echo "<td class='border border-gray-400 px-4 py-2'>$ruvNO</td>";
+                        echo "<td class='border border-gray-400 px-4 py-2'>$plate_no</td>";
+                        echo "<td class='border border-gray-400 px-4 py-2'>$driver_id</td>";
+                        echo "<td class='border border-gray-400 px-4 py-2'>$trip_date</td>";
+                        echo "<td class='border border-gray-400 px-4 py-2'><a href='$file_url' target='_blank'>Download File</a></td>";
+                        echo "<td class='border border-gray-400 px-4 py-2'><a href='$trip_url' target='_blank'>Download File</a></td>";
+                        echo "<td class='border border-gray-400 px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#driverDetailsModal' data-driverid='$driver_id'>View Driver</button></td>";
+                        echo "</tr>";
+                    }
+                }
+                echo "</tbody></table>";
+            } else {
+                echo "<p class='text-gray-500'>0 results</p>";
             }
-            echo "</tbody></table>";
-        } else {
-            echo "<p class='text-gray-500'>0 results</p>";
-        }
-        $connect->close();
-        ?>
+            $connect->close();
+            ?>
         </div>
         
     </div>
@@ -111,62 +115,76 @@ $stmt->bind_param("i", $driverId);
                 <div class="modal-body">
                     <!-- Driver details will be loaded here via JavaScript -->
                 </div>
-                <form id="emailForm" enctype="multipart/form-data">
-                    <input type="file" name="attachment" id="attachment" accept=".pdf" required>
-                    <button type="button" class="btn btn-success" onclick="sendEmail()">Send Email</button>
+                <div class="modal-body">
+                <form id="emailForm" enctype="multipart/form-data" class="d-flex  flex-column">
+                    <input type="hidden" name="driverId" id="driverId">
+                    <div class="mb-3">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Enter recipient's email" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="file" class="form-control" name="attachment1" id="attachment1" accept=".pdf" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="file" class="form-control" name="attachment2" id="attachment2" accept=".pdf">
+                    </div>
+                    <div class="mb-3">
+                        <button type="button" onclick="sendEmail();" class="btn btn-success">Send Email</button>
+                    </div>
                 </form>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        
-        function sendEmail() {
-        const form = document.getElementById('emailForm');
-        const formData = new FormData(form);
+            function sendEmail() {
+            const form = document.getElementById('emailForm');
+            const formData = new FormData(form);
 
-        fetch('../send_email.php', {
-            method: 'POST',
-            body: formData
+            fetch('../send_email.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert('Email Sent!'); // Display alert based on response from send_email.php
+
+                // Optionally, refresh the page or perform other actions
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+        document.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {
+    button.addEventListener('click', () => {
+        const driverId = button.getAttribute('data-driverid');
+        fetchDriverDetails(driverId);
+    });
+});
+
+function fetchDriverDetails(driverId) {
+    const modalBody = document.querySelector('#driverDetailsModal .modal-body');
+    const url = `../driver_details.php?driverId=${driverId}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
         })
-        .then(response => response.text())
         .then(data => {
-            alert('Email Sent!'); // Display alert based on response from mailer.php
-
-            // navigate to a new location after both requests complete
-            window.location.reload();
+            modalBody.innerHTML = data;
         })
         .catch(error => {
             console.error('Error:', error);
+            modalBody.innerHTML = '<p>Error fetching driver details.</p>';
         });
-    }
-        document.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {
-            button.addEventListener('click', () => {
-                const driverId = button.getAttribute('data-driverid');
-                fetchDriverDetails(driverId);
-            });
-        });
-
-        function fetchDriverDetails(driverId) {
-            const modalBody = document.querySelector('#driverDetailsModal .modal-body');
-            const url = `../driver_details.php?driverId=${driverId}`;
-
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    modalBody.innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    modalBody.innerHTML = '<p>Error fetching driver details.</p>';
-                });
-        }
+}
     </script>
+
+    
     <?php
 // Function to generate PDF and return the file URL
 function generateRuvPdf($trip_id) {

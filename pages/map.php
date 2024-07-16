@@ -61,7 +61,6 @@
                         <div>
                             <h1>MAP</h1>
                         </div>
-
                     </div>
                  </div>
           </div>

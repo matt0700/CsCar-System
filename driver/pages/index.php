@@ -21,6 +21,8 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
     <!-- tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
 
+
+
 <!-- Geolocation and AJAX script -->
 <!-- <script>
         function getLocation() {
@@ -47,6 +49,10 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
             xhr.send("lat=" + lat + "&lng=" + lng);
         }
     </script> -->
+
+
+
+
     <script>
         function updateLocation() {
             if (navigator.geolocation) {
@@ -145,69 +151,69 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
                         ?>
         </div>
         <div class="w3-container flex-auto	 ml-40 text-black " style="color: white;">
-    <?php
-    // Include your connection file
-    include '../connection.php';
+            <?php
+            // Include your connection file
+            include '../connection.php';
 
-    // Check if the form has been submitted
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['trip_id'])) {
-        if (isset($_POST['confirm_end']) && $_POST['confirm_end'] == 'yes') {
-            // Update the status of the trip to 'done'
-            $update_sql = "UPDATE trips SET status = 'done' WHERE trip_id = ?";
-            $update_stmt = $connect->prepare($update_sql);
-            $update_stmt->bind_param("i", $_POST['trip_id']);
-            $update_stmt->execute();
-            $update_stmt->close();
+            // Check if the form has been submitted
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['trip_id'])) {
+                if (isset($_POST['confirm_end']) && $_POST['confirm_end'] == 'yes') {
+                    // Update the status of the trip to 'done'
+                    $update_sql = "UPDATE trips SET status = 'done' WHERE trip_id = ?";
+                    $update_stmt = $connect->prepare($update_sql);
+                    $update_stmt->bind_param("i", $_POST['trip_id']);
+                    $update_stmt->execute();
+                    $update_stmt->close();
 
-            // Optionally, you can perform other actions after updating the status
-            // For example, you may want to send notifications or log the end of the trip
-            echo "<p>Trip ended successfully.</p>";
-        } else {
-            echo "<p>Trip end canceled.</p>";
-        }
-    }
+                    // Optionally, you can perform other actions after updating the status
+                    // For example, you may want to send notifications or log the end of the trip
+                    echo "<p>Trip ended successfully.</p>";
+                } else {
+                    echo "<p>Trip end canceled.</p>";
+                }
+            }
 
-    // Query to fetch ongoing trips with RUV details for the current driver
-    $sql = "SELECT t.trip_id, t.ruvNO, t.plate_no, t.driver_id, t.trip_date, r.pickup_point, r.destination
-            FROM trips t
-            INNER JOIN ruv_table r ON t.ruvNO = r.ruvNO
-            WHERE t.driver_id = ? AND t.status = 'ongoing'";
-    $stmt = $connect->prepare($sql);
-    $stmt->bind_param("i", $_SESSION['driver_id']);
-    $stmt->execute();
-    $result = $stmt->get_result();
+                // Query to fetch ongoing trips with RUV details for the current driver
+                $sql = "SELECT t.trip_id, t.ruvNO, t.plate_no, t.driver_id, t.trip_date, r.pickup_point, r.destination
+                        FROM trips t
+                        INNER JOIN ruv_table r ON t.ruvNO = r.ruvNO
+                        WHERE t.driver_id = ? AND t.status = 'ongoing'";
+                $stmt = $connect->prepare($sql);
+                $stmt->bind_param("i", $_SESSION['driver_id']);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        echo "<div class='mt-4 w-96'>";
-        echo "<h1>Ongoing Trips</h1>";
-        while ($row = $result->fetch_assoc()) {
-            echo "<div class='bg-gray-200 rounded-md p-4 mb-4 w-auto' >";
-            echo "<p class='text-lg font-semibold text-gray-800'>Trip ID: <span class='text-primary'>" . $row['trip_id'] . "</span></p>";
-            echo "<p><strong>RUV No:</strong> " . $row['ruvNO'] . "</p>";
-            echo "<p><strong>Plate No:</strong> " . $row['plate_no'] . "</p>";
-            echo "<p><strong>Driver ID:</strong> " . $row['driver_id'] . "</p>";
-            echo "<p><strong>Trip Date:</strong> " . $row['trip_date'] . "</p>";
-            echo "<p><strong>Pick-up Point:</strong> " . $row['pickup_point'] . "</p>";
-            echo "<p><strong>Destination:</strong> " . $row['destination'] . "</p>";
-            
-            // Form to end the trip with confirmation
-            echo "<form action='../end_trip.php' method='post' onsubmit='return confirmEndTrip()'>";
-            echo "<input type='hidden' name='trip_id' value='" . $row['trip_id'] . "' />";
-            echo "<input type='hidden' name='confirm_end' value='yes' />";
-            echo "<button type='submit' class='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-2'>End Trip</button>";
-            echo "</form>";
-            
-            echo "</div>";
-        }
-        
-    } else {
-        echo "<h1>No ongoing trips found.</h1>";
-        echo "</div>";
-    }
+                if ($result->num_rows > 0) {
+                    echo "<div class='mt-4 w-96'>";
+                    echo "<h1>Ongoing Trips</h1>";
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<div class='bg-gray-200 rounded-md p-4 mb-4 w-auto' >";
+                        echo "<p class='text-lg font-semibold text-gray-800'>Trip ID: <span class='text-primary'>" . $row['trip_id'] . "</span></p>";
+                        echo "<p><strong>RUV No:</strong> " . $row['ruvNO'] . "</p>";
+                        echo "<p><strong>Plate No:</strong> " . $row['plate_no'] . "</p>";
+                        echo "<p><strong>Driver ID:</strong> " . $row['driver_id'] . "</p>";
+                        echo "<p><strong>Trip Date:</strong> " . $row['trip_date'] . "</p>";
+                        echo "<p><strong>Pick-up Point:</strong> " . $row['pickup_point'] . "</p>";
+                        echo "<p><strong>Destination:</strong> " . $row['destination'] . "</p>";
+                        
+                        // Form to end the trip with confirmation
+                        echo "<form action='../end_trip.php' method='post' onsubmit='return confirmEndTrip()'>";
+                        echo "<input type='hidden' name='trip_id' value='" . $row['trip_id'] . "' />";
+                        echo "<input type='hidden' name='confirm_end' value='yes' />";
+                        echo "<button type='submit' class='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-2'>End Trip</button>";
+                        echo "</form>";
+                        
+                        echo "</div>";
+                    }
+                    
+                } else {
+                    echo "<h1>No ongoing trips found.</h1>";
+                    echo "</div>";
+                }
 
-    $stmt->close();
-    $connect->close();
-    ?>
+                $stmt->close();
+                $connect->close();
+                ?>
 
     <script>
         function confirmEndTrip() {

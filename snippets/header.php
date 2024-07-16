@@ -29,10 +29,10 @@
     <button class="w3-button flex items-center w3-bar">
       <a href="index.php"  class="no-underline flex items-center w3-bar">
         <div>
-        <img class="w-20 h-20" src="/logo-min.png">
+        <!-- <img class="w-20 h-20" src="CSCAR-System/snippets/logo.png" alt="logo"> -->
         </div>
         <div class="ml-1 text-white text-xl">
-          CsCar
+          <h2>CsCar</h2>
         </div>
       </a>
     </button>
@@ -93,6 +93,29 @@
   </div>
 
   <div class="mt-2">
+    <a href="reports.php" class="w3-button flex items-center w3-bar">
+      <div>
+        <img class="w-5 h-5 " src="https://img.icons8.com/?size=100&id=hJecpPVXgZ5Y&format=png&color=FFFFFF" alt="Group Icon">
+      </div>
+      <div class="ml-1">
+        Reports
+      </div>
+    </a>
+  </div>
+
+  <div class="mt-2">
+    <a href="history.php" class="w3-button flex items-center w3-bar">
+      <div>
+        <img class="w-5 h-5 " src="https://img.icons8.com/?size=100&id=bDrb5MdYaEje&format=png&color=FFFFFF" alt="Group Icon">
+      </div>
+      <div class="ml-1">
+        History
+      </div>
+    </a>
+  </div>
+
+
+  <div class="mt-2">
     <a href="../logout.php" class="w3-button flex items-center w3-bar">
       <div>
         <img class="w-5 h-5" src="https://img.icons8.com/ios/50/FFFFFF/exit--v1.png" alt="Exit Icon">
@@ -103,17 +126,6 @@
     </a>
   </div>
   
-
-  <div>
-    <a href="#" class="w3-button flex items-center w3-bar w3-display-bottommiddle">
-      <div>
-        <img class="w-5 h-5" src="https://img.icons8.com/material-outlined/24/FFFFFF/help.png" alt="Help Icon">
-      </div>
-      <div class="ml-1">
-        Help & Support
-      </div>
-    </a>
-  </div>
 
 </div>
 

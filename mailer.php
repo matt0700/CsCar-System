@@ -42,7 +42,7 @@ if (isset($_GET['ruvNO'])) {
     // Content
     $mail->isHTML(true); 
     $mail->Subject = 'RUV Request Approved';
-    $mail->Body = 'Your RUV request has been approved. Please check your details and schedule.';
+    $mail->Body = 'Hi,<br><br>Your RUV request has been approved. <br> Please wait your copy of the RUV to be sent.<br><br> Thank you.';
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     if ($mail->send()) 
@@ -50,7 +50,7 @@ if (isset($_GET['ruvNO'])) {
         echo "<script>alert('Message has been sent successfully.'); window.history.back();</script>";
     } else {
         echo "<script>alert('Message could not be sent. Mailer Error: {$mail->ErrorInfo}'); window.history.back();</script>";
-    } 
+    }
     mysqli_close($connect);
 
 }else {

@@ -2,7 +2,6 @@
 // Include database connection
 include "connection.php";
 
-// Check if driver_id is provided
 if (isset($_GET['driverId'])) {
     $driverId = $_GET['driverId'];
 
@@ -16,9 +15,14 @@ if (isset($_GET['driverId'])) {
 
         if ($result->num_rows > 0) {
             $driver = $result->fetch_assoc();
-            // Output driver details
-            echo "<h3>Name: " . htmlspecialchars($driver['driver_name']) . "</h3>";
-            echo "<p>Phone: " . htmlspecialchars($driver['driver_cellno']) . "</p>";
+
+            // Prepare the driver details in HTML format
+            $driverDetails = "<h3>Name: " . htmlspecialchars($driver['driver_name']) . "</h3>";
+            $driverDetails .= "<p>Phone: " . htmlspecialchars($driver['driver_cellno']) . "</p>";
+            $driverDetails .= "<p>Email: " . htmlspecialchars($driver['email']) . "</p>";
+
+            // Output the driver details
+            echo $driverDetails;
         } else {
             echo "<p>No driver found with ID: " . htmlspecialchars($driverId) . "</p>";
         }
