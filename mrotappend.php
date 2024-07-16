@@ -24,7 +24,7 @@ if (!isset($_GET['plate_no'])) {
         echo '<option value="' . $vehicleRow['plate_no'] . '">' . $vehicleRow['plate_no'] . '</option>';
     }
     echo '  </select>
-            <input type="submit" value="Generate PDF">
+            <input type="submit" value="Generate MROT">
           </form>';
 
     // Output the buffered content (the form)
