@@ -31,7 +31,7 @@
         <div>
       <img class="h-auto max-w-full" src='logo.png'>
         </div>
-        <div class="ml-1 text-white text-xl">
+        <div class=" ml-1 text-6xl mt-1  font-bold">
           CsCar
         </div>
       </a>

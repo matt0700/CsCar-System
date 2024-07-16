@@ -1,9 +1,14 @@
+<?php
+$full_name = "Escarlet R. Conde"
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fleet Management Dashboard</title>
+    <title>Map</title>
     <?php include '../snippets/header.php'; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -58,9 +63,19 @@
               <button class="w3-button w3-grey w3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
                 <div class="w3-container flex static ml-56" style="color: white;">
                     <div class="flex-col text-white" >
-                        <div>
-                            <h1>MAP</h1>
+                        <div class="text-5xl mt-3 mb-3 font-bold">
+                            MAP
                         </div>
+                        <div class="flex-col w3-display-topright w3-margin-right mx-2 my-2 z-50 ml-10">
+                    
+                    <div class="mr-4 mt-2">
+                        <?php echo $full_name; ?>
+                    </div>
+                    <div class="mr-4">
+                        Admin
+                    </div>
+                    
+                </div>
                     </div>
                  </div>
           </div>

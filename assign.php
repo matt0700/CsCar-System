@@ -63,19 +63,6 @@ if (isset($_GET['ruvNO'])) {
             $stmt->execute();
             $stmt->close();
 
-            // Update driver status
-            $update_driver_sql = "UPDATE drivers SET driver_status = 'Unavailable' WHERE driver_id = ?";
-            $stmt = $conn->prepare($update_driver_sql);
-            $stmt->bind_param("i", $driver['driver_id']);
-            $stmt->execute();
-            $stmt->close();
-
-            // Update vehicle status
-            $update_vehicle_sql = "UPDATE vehicle_data SET car_status = 'Unavailable' WHERE plate_no = ?";
-            $stmt = $conn->prepare($update_vehicle_sql);
-            $stmt->bind_param("s", $vehicle['plate_no']);
-            $stmt->execute();
-            $stmt->close();
 
             echo "Assigned " . $ruvNO . " with " . $trip['no_passengers'] . " passengers.";
         } else {

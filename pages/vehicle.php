@@ -61,7 +61,7 @@ $connect->close(); // Close connection after use
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle Overview</title>
+    <title>Vehicle Information</title>
     <?php include '../snippets/header.php'; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/global.css">
@@ -133,22 +133,20 @@ $connect->close(); // Close connection after use
             <button class="w3-button w3-grey w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
             
             <div class="w3-container flex transition-all " style="color: white;">
-                <div class=" title  flex-col  ml-[200px] text-5xl mt-3 mb-3 font-bold">
+                <div class=" title flex-col  ml-[200px] text-5xl mt-3 mb-3 font-bold">
                     Vehicle Information
                 </div>
                 <div class="flex-col w3-display-topright w3-margin-right mx-2 my-2 z-50 ml-10">
-                    
                     <div class="mr-4 mt-2">
                         <?php echo $full_name; ?>
                     </div>
                     <div class="mr-4">
                         Admin
-                    </div>
-                    
+                    </div> 
                 </div>
             </div>
         </div>
-
+            
         <div class="test z-50 ml-[200px]">
             <div class="grid grid-cols-3 gap-3 mx-3 my-3">
                 <div class="vehicledisp rounded-sm min-h-[620px] max-w-[400px] border-2 shadow-2xl shadow-slate-300 ">

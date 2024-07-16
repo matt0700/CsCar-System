@@ -71,9 +71,9 @@ mysqli_close($connect); // Close connection after use
         <div class=" h-25 static border-none bg-slate-900">
             <button class="w3-button w3-grey w3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
             <div class="w3-container flex static ml-56" style="color: white;">
-                <div class="flex-col text-white">
-                    <div>
-                        <h1>Welcome, <br><?php echo htmlspecialchars($full_name); ?>!</h1>
+                <div class="flex text-white">
+                    <div class="text-5xl mt-3 mb-3 font-bold">
+                        Welcome, <?php echo htmlspecialchars($full_name); ?>!
                     </div>
                 </div>
             </div>
