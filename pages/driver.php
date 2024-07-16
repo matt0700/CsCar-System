@@ -55,7 +55,6 @@ while ($row_driver = $result_drivers->fetch_assoc()) {
 $connect->close(); // Close connection after use
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,81 +69,71 @@ $connect->close(); // Close connection after use
             display: none;
         }
         @media only screen and (max-width: 991px) {
-        .w3-container {
-            margin: 0px;
+            .w3-container {
+                margin: 0px;
+            }
+            .title {
+                margin: 0px;
+            }
+            .test {
+                margin: 0px;
+            }
+            .details {
+                display: inline-block;
+            }
+            #modelValue, #fuelValue, #mileageValue, #seaterValue, #statusValue, #typeValue, #yearValue, #plateNoValue {
+                margin: 0;
+                padding: 10px;
+            }
         }
-        .title{
-            margin: 0px;
-        }
-        .test {
-            margin: 0px;
-        }
-        .details{
-            display: inline-block;
-        }
-        #modelValue, #fuelValue, #mileageValue, #seaterValue, #statusValue, #typeValue, #yearValue, #plateNoValue{
-            margin: 0;
-            padding: 10px;
+        @media only screen and (max-width: 600px) {
+            .grid-cols-3 {
+                grid-template-columns: 1fr; 
+            }
+            .min-h-[620px] {
+                min-height: auto;
+            }
+            .col-span-2 {
+                grid-column: span 1; 
+            }
+            .details {
+                grid-template-columns: 1fr; 
+            }
+            .text-3xl {
+                font-size: 2rem; 
+            }
+            .mt-10 {
+                margin-top: 1.5rem; 
+            }
+            .ml-8 {
+                margin-left: 1rem; 
+            }
+            .shadowbox {
+                box-shadow: none;
+            }
+            #nameValue, #cellphoneNoValue, #tripValue, #driverstatusValue, #latitudeValue, #lastupdateValue {
+                margin: 0;
+                padding: 10px; /* Optionally adjust padding if needed */
+            }
         }
         
-    }
-    @media only screen and (max-width: 600px) {
-    .grid-cols-3 {
-        grid-template-columns: 1fr; 
-    }
-
-    .min-h-[620px] {
-        min-height: auto;
-    }
-
-    .col-span-2 {
-        grid-column: span 1; 
-    }
-
-    .details {
-        grid-template-columns: 1fr; 
-    }
-
-    .text-3xl {
-        font-size: 2rem; 
-    }
-
-    .mt-10 {
-        margin-top: 1.5rem; 
-    }
-
-    .ml-8 {
-        margin-left: 1rem; 
-    }
-    .shadowbox{
-        box-shadow: none;
-    }
-    #nameValue, #cellphoneNoValue, #tripValue, #driverstatusValue, #latitudeValue, #lastupdateValue {
-        margin: 0;
-        padding: 10px; /* Optionally adjust padding if needed */
-    }
-    
-}
-</style>
-        
-
     </style>
 </head>
-<body class="bg-white" >
-    <div class="w3-main z-10 ">
-        <div class=" bg-slate-900 text-white h-auto static border-none">
+<body class="bg-white">
+    <div class="w3-main z-10">
+        <div class="bg-slate-900 text-white h-auto static border-none">
             <button class="w3-button w3-grey w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
             
-            <div class="w3-container flex transition-all " style="color: white;">
-                <div class="title flex-col  ml-[200px] text-5xl mt-3 font-bold">
+            <div class="w3-container flex transition-all" style="color: white;">
+                <div class="title flex-col ml-[200px] text-5xl mt-3 mb-3 font-bold">
                     Driver Information
                 </div>
                 <div class="flex-col w3-display-topright w3-margin-right mx-2 my-2 z-50 ml-10">
                     
-                    <div>
+                    <div class="mr-4 mt-2">
                         <?php echo $full_name; ?>
                     </div>
-                    <div>
+                    <div class="mr-4">
                         Admin
                     </div>
                     
@@ -154,57 +143,68 @@ $connect->close(); // Close connection after use
 
         <div class="test z-50 ml-[200px]">
             <div class="grid grid-cols-3 gap-3 mx-3 my-3">
-                <div class="shadowbox rounded-sm min-h-[620px] max-w-[400px] border-2 shadow-2xl shadow-slate-300 ">
-                    <div class="ml-4 mt-2 text-3xl font-bold">Drivers</div>
+                <div class="shadowbox rounded-sm min-h-[620px] max-w-[400px] border-2 shadow-2xl shadow-slate-300">
+                    <div class="ml-4 mt-2 text-4xl font-extrabold">Drivers</div>
                     <?php foreach ($drivers as $index => $driver): ?>
                     <div class="flex justify-between items-center">
-                        <div class="flex items-center ">
-                            <button class=" ml-4 flex content-center items-center mt-3 hover:bg-gray-400 duration-300" onclick="showDriverData(<?php echo $index; ?>)">
-                                <img class="w-8 h-8" src="https://img.icons8.com/ios-filled/50/1A1A1A/car.png" alt="car"/>
-                                <span class="ml-2"><?php echo $driver['driver_name']; ?></span>
+                        <div class="flex items-center">
+                            <button class="ml-4 flex content-center items-center mt-4 hover:bg-gray-400 duration-300" onclick="showDriverData(<?php echo $index; ?>)">
+                                <img class="w-9 h-9" src="https://img.icons8.com/ios-filled/50/1A1A1A/car.png" alt="car"/>
+                                <span class="ml-2 text-lg"><?php echo $driver['driver_name']; ?></span>
                             </button>
                         </div>
-                        <div class="mt-3 mr-4 px-1 py-1 bg-opacity-60 <?php echo ($driver['driver_status'] == 'Available') ? 'bg-green-200 border-1 border-green-500' : 'bg-red-200 border-1 border-red-500'; ?>">
-                            <div><?php echo $driver['driver_status']; ?></div>
+                        <div class="flex items-center mt-3 mr-4">
+                            <!-- <div class="px-1 py-1 bg-opacity-60 <?php echo ($driver['driver_status'] == 'Available') ? 'bg-green-200 border-1 border-green-500' : 'bg-red-200 border-1 border-red-500'; ?>">
+                                    <div><?php echo $driver['driver_status']; ?></div>
+                                </div> -->
+                        <form action="update_driver_status.php" method="post" class="ml-2">
+                        <input type="hidden" name="driver_id" value="<?php echo $driver['driver_id']; ?>">
+                        <select name="status" onchange="this.form.submit()" class="ml-2 <?php echo ($driver['driver_status'] == 'Available') ? 'bg-green-200 border-green-500' : 'bg-red-200 border-red-500'; ?>">
+                                    <option value="Available" <?php echo ($driver['driver_status'] == 'Available') ? 'selected' : ''; ?>>Available</option>
+                                    <option value="Unavailable" <?php echo ($driver['driver_status'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>
+                                </select>
+                        </form>
+
                         </div>
                     </div>
                     <?php endforeach; ?>
                 </div>
 
-                <div class="rounded-sm col-span-2 max-h-[600px] border-1 shadow-xl shadow-slate-300 transition-all">
-                    <div class=" mt-3 ml-8 text-4xl font-extrabold">Driver Information</div>
-                    <div class=" details p-4 grid grid-cols-2 gap-y-36 gap-x-10 ml-3">
-
+                <div class="rounded-sm col-span-2 border-1 shadow-xl shadow-slate-300 transition-all">
+                    <div class="mt-3 ml-8 text-4xl font-extrabold">Driver Information</div>
+                    <div class="details p-4 grid grid-cols-2 gap-y-20 gap-x-24 ml-3">
                         <div class="flex-col">
-                        <div id="nameLabel" class="text-3xl font-bold">Name</div>
-                        <div id="nameValue" class="mt-10 text-3xl"></div>
-                        </div>
-
-                        <div class="flex-col" >
-                        <div id="cellphoneNoLabel" class="text-3xl font-bold">Cellphone No.</div>
-                        <div id="cellphoneNoValue" class="mt-10 text-3xl"></div>
+                            <div id="nameLabel" class="text-4xl font-bold">Name</div>
+                            <div id="nameValue" class="mt-6 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="tripLabel" class="text-3xl font-bold">Trip</div>
-                        <div id="tripValue" class="mt-10 text-3xl"></div>
+                            <div id="cellphoneNoLabel" class="text-4xl font-bold">Cellphone No.</div>
+                            <div id="cellphoneNoValue" class="mt-6 text-3xl"></div>
                         </div>
 
+                        <div class="flex-col">
+                            <div id="latitudeLabel" class="text-4xl font-bold">Latitude</div>
+                            <div id="latitudeValue" class="mt-6 text-3xl"></div>
+                        </div>
+
+                        <div class="flex-col">
+                            <div id="longitudeLabel" class="text-4xl font-bold">Longitude</div>
+                            <div id="longitudeValue" class="mt-6 text-3xl"></div>
+                        </div>
+
+                        
                         <div class="flex-col"> 
-                        <div id="driverstatusLabel" class="text-3xl font-bold">Status</div>
-                        <div id="driverstatusValue" class="mt-10 text-3xl"></div>
+                            <div id="driverstatusLabel" class="text-4xl font-bold">Status</div>
+                            <div id="driverstatusValue" class="mt-6 text-3xl"></div>
                         </div>
+
+                        
 
                         <div class="flex-col">
-                        <div id="latitudeLabel" class="text-3xl font-bold">Latitude</div>
-                        <div id="latitudeValue" class="mt-10 text-3xl"></div>
+                            <div id="lastupdateLabel" class="text-4xl font-bold">Last Update</div>
+                            <div id="lastupdateValue" class="mt-6 text-3xl"></div>
                         </div>
-
-                        <div class="flex-col">
-                        <div id="lastupdateLabel" class="text-3xl font-bold">Last Update</div>
-                        <div id="lastupdateValue" class="mt-10 text-3xl"></div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -220,15 +220,11 @@ $connect->close(); // Close connection after use
                 // Update labels and values
                 document.getElementById("nameValue").textContent = driver.driver_name;
                 document.getElementById("cellphoneNoValue").textContent = driver.driver_cellno;
-                document.getElementById("tripValue").textContent = driver.trip;
-                document.getElementById("driverstatusValue").textContent = driver.driver_status;
                 document.getElementById("latitudeValue").textContent = driver.latitude;
+                document.getElementById("longitudeValue").textContent = driver.longitude;
+                document.getElementById("driverstatusValue").textContent = driver.driver_status;
                 document.getElementById("lastupdateValue").textContent = driver.last_update;
-                
             }
-
-               
-    
         </script>
     </body>
 </html>

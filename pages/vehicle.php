@@ -133,15 +133,15 @@ $connect->close(); // Close connection after use
             <button class="w3-button w3-grey w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
             
             <div class="w3-container flex transition-all " style="color: white;">
-                <div class=" title  flex-col  ml-[200px] text-5xl mt-3 font-bold">
+                <div class=" title  flex-col  ml-[200px] text-5xl mt-3 mb-3 font-bold">
                     Vehicle Information
                 </div>
                 <div class="flex-col w3-display-topright w3-margin-right mx-2 my-2 z-50 ml-10">
                     
-                    <div>
+                    <div class="mr-4 mt-2">
                         <?php echo $full_name; ?>
                     </div>
-                    <div>
+                    <div class="mr-4">
                         Admin
                     </div>
                     
@@ -152,25 +152,25 @@ $connect->close(); // Close connection after use
         <div class="test z-50 ml-[200px]">
             <div class="grid grid-cols-3 gap-3 mx-3 my-3">
                 <div class="vehicledisp rounded-sm min-h-[620px] max-w-[400px] border-2 shadow-2xl shadow-slate-300 ">
-                    <div class="ml-4 mt-2 text-3xl font-bold">All Vehicles</div>
+                    <div class="ml-4 mt-2 text-4xl font-extrabold">All Vehicles</div>
                     <?php foreach ($vehicle_data as $index => $vehicle): ?>
                     <div class="flex justify-between items-center">
-                        <div class="flex items-center ">
-                            <button class=" ml-4 flex content-center items-center mt-3 hover:bg-gray-400 duration-300" onclick="showCarData(<?php echo $index; ?>)">
-                                <img class="w-8 h-8" src="https://img.icons8.com/ios-filled/50/1A1A1A/car.png" alt="car"/>
-                                <span class="ml-2"><?php echo $vehicle['make_series_type']; ?></span>
+                        <div class="flex items-center">
+                            <button class=" ml-4 flex content-center items-center mt-4 hover:bg-gray-400 duration-300" onclick="showCarData(<?php echo $index; ?>)">
+                                <img class="w-9 h-9" src="https://img.icons8.com/ios-filled/50/1A1A1A/car.png" alt="car"/>
+                                <span class="ml-2 text-lg"><?php echo $vehicle['make_series_type']; ?></span>
                             </button>
                         </div>
                             <div class="flex items-center mt-3 mr-4">
-                                <!-- <div class="px-1 py-1 bg-opacity-60 <?php echo ($vehicle['car_status'] == 'Available') ? 'bg-green-200 border-1 border-green-500' : 'bg-red-200 border-1 border-red-500'; ?>">
+                                <!-- <div class="px-1 py-1 bg-opacity-60 <?php echo ($vehicle['car_status'] == 'Available') ? 'bg-green-200 border-1 border-green-500': 'bg-red-200 border-1 border-red-500'; ?>">
                                     <div><?php echo $vehicle['car_status']; ?></div>
                                 </div> -->
                                 <form action="update_vehicle_status.php" method="post" class="ml-2">
-                                    <input type="hidden" name="plate_no" value="<?php echo $vehicle['plate_no']; ?>">
-                                    <select name="status" onchange="this.form.submit()" class="ml-2">
-                                        <option value="Available" <?php echo ($vehicle['car_status'] == 'Available') ? 'selected' : ''; ?>>Available</option>
-                                        <option value="Unavailable" <?php echo ($vehicle['car_status'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>
-                                    </select>
+                                <input type="hidden" name="plate_no" value="<?php echo $vehicle['plate_no']; ?>">
+                                <select name="status" onchange="this.form.submit()" class="ml-2 <?php echo ($vehicle['car_status'] == 'Available') ? 'bg-green-200 border-green-500' : 'bg-red-200 border-red-500'; ?>">
+                                    <option value="Available" <?php echo ($vehicle['car_status'] == 'Available') ? 'selected' : ''; ?>>Available</option>
+                                    <option value="Unavailable" <?php echo ($vehicle['car_status'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>
+                                </select>
                                 </form>
                             </div>
                     </div>
@@ -179,45 +179,45 @@ $connect->close(); // Close connection after use
 
                 <div class="rounded-sm col-span-2  border-1 shadow-xl shadow-slate-300 transition-all">
                     <div class=" mt-3 ml-8 text-4xl font-extrabold">Vehicle Information</div>
-                    <div class=" details p-4 grid grid-cols-2 gap-y-36 gap-x-24 ml-3">
+                    <div class=" details p-4 grid grid-cols-2 gap-y-20 gap-x-24 ml-3">
 
                         <div class="flex-col">
-                        <div id="modelLabel" class="  text-3xl font-bold">Model</div>
-                        <div id="modelValue" class="  mt-10 text-3xl"></div>
+                        <div id="modelLabel" class="  text-4xl font-bold">Model</div>
+                        <div id="modelValue" class="  mt-6 text-3xl"></div>
                         </div>
                         <div class="flex-col" >
-                        <div id="plateNoLabel" class="  text-3xl font-bold">Plate No.</div>
-                        <div id="plateNoValue" class=" mt-10 text-3xl"></div>
+                        <div id="plateNoLabel" class="  text-4xl font-bold">Plate No.</div>
+                        <div id="plateNoValue" class=" mt-6 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="yearLabel" class="  text-3xl font-bold">Year</div>
-                        <div id="yearValue" class=" mt-10 text-3xl"></div>
+                        <div id="yearLabel" class="  text-4xl font-bold">Year</div>
+                        <div id="yearValue" class=" mt-6 text-3xl"></div>
                         </div>
 
                         <div class="flex-col"> 
-                        <div id="typeLabel" class="  text-3xl font-bold">Type</div>
-                        <div id="typeValue" class="  mt-10 text-3xl"></div>
+                        <div id="typeLabel" class="  text-4xl font-bold">Type</div>
+                        <div id="typeValue" class="  mt-6 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="statusLabel" class="  text-3xl font-bold">Status</div>
-                        <div id="statusValue" class="  mt-10 text-3xl"></div>
+                        <div id="statusLabel" class="  text-4xl font-bold">Status</div>
+                        <div id="statusValue" class="  mt-6 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="seaterLabel" class="  text-3xl font-bold">Seater</div>
-                        <div id="seaterValue" class="  mt-10 text-3xl"></div>
+                        <div id="seaterLabel" class="  text-4xl font-bold">Seater</div>
+                        <div id="seaterValue" class="  mt-6 text-3xl"></div>
                         </div>
 
                         <div class="flex--col">
-                        <div id="mileageLabel" class="  text-3xl font-bold">Mileage</div>
-                        <div id="mileageValue" class="  mt-10 text-3xl"></div>
+                        <div id="mileageLabel" class="  text-4xl font-bold">Mileage</div>
+                        <div id="mileageValue" class="  mt-6 text-3xl"></div>
                         </div>
 
                         <div class="flex-col">
-                        <div id="fuelLabel" class="  text-3xl font-bold">Fuel Consumption</div>
-                        <div id="fuelValue" class="  mt-10 text-3xl"></div>
+                        <div id="fuelLabel" class="  text-4xl font-bold">Recent Fuel Consumption</div>
+                        <div id="fuelValue" class="  mt-6 text-3xl"></div>
                         </div>
                     </div>
                 </div>
