@@ -79,7 +79,7 @@ mysqli_close($connect); // Close connection after use
             </div>
         </div>
             <div class="w3-container flex static ml-56" style="color: white;">
-                    <div class=" p-6 rounded-lg shadow-lg text-black w-full max-w-7xl m-2">
+                    <div class="p-6 rounded-lg shadow-lg text-black w-full max-w-7xl m-2">
                         <h2 class="text-2xl font-bold mb-6">Pending RUV requests</h2>
                             <p>NOTE: You can only accept or disapprove requests that are on the top of the list</p>
                                 <div class="overflow-x-auto">
@@ -144,7 +144,7 @@ mysqli_close($connect); // Close connection after use
                                 $reportCount = $reportCountRow['count'];                        
 
                                     echo "<div class='flex flex-col m-2'>";
-                                        echo "<div class='bg-gray-800 rounded-md p-4 mb-4'>";
+                                        echo "<div class='bg-gray-800 rounded-md p-4 mb-4 m-2'>";
                                         echo "<p class='text-lg font-semibold text-white'>Available Drivers" . ": <span class='text-warning'>" . $driverCount . "</span></p>";
                                         echo "<a href='driver.php' class='btn btn-primary mt-auto'>Check it here</a>";
                                         echo "</div>";
