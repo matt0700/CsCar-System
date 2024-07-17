@@ -28,16 +28,8 @@
   <div class="mt-4">
     <button class="w3-button flex items-center w3-bar">
       <a href="index.php" class="no-underline flex items-center w3-bar">
-<<<<<<< Updated upstream
-        <div>
-      <img class="h-auto max-w-full" src='logo.png'>
-        </div>
-        <div class=" ml-1 text-6xl mt-1  font-bold">
+        <div class=" text-white text-4xl mt-2 mb-3 font-bold">
           CsCar
-=======
-        <div class="ml-1 text-white text-xl">
-          <h2>CsCar</h2>
->>>>>>> Stashed changes
         </div>
       </a>
     </button>

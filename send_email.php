@@ -52,8 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Content
         $mail->isHTML(true); 
-        $mail->Subject = 'RUV Request Approved';
-        $mail->Body = 'Your RUV request has been approved. Please check your details and schedule.';
+        $mail->Subject = 'RUV Schedule';
+        $mail->Body = 'Hi,<br><br> Here is the copy of your RUV/TRIP TICKET <br><br> Thank you.';
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
         // Send email
