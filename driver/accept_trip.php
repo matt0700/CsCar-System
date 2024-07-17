@@ -50,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_accept'])) {
         $message .= "Thank you for choosing our service. We look forward to serving you!\n\nBest regards,\n CSCAR";
         
         // Add more details as needed
-
         sendEmail($toEmail, $subject, $message);
     } elseif ($confirmAccept == 'no') {
         // Update trip status to 'denied' and save reason in trip_denials table

@@ -76,7 +76,7 @@ $result = $stmt->get_result();
         include '../connection.php';
 
         // Query to fetch trips excluding 'ongoing'
-        $sql = "SELECT * FROM trips WHERE driver_id = ? AND status != 'ongoing' AND status != 'done' AND status != 'denied'";
+        $sql = "SELECT * FROM trips WHERE driver_id = ? AND status != 'Ongoing' AND status != 'Done' AND status != 'Denied'";
         $stmt = $connect->prepare($sql);
         $stmt->bind_param("i", $_SESSION['driver_id']);
         $stmt->execute();

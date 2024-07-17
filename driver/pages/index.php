@@ -218,7 +218,7 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
                             <?php
                             include '../connection.php';
                             // Count the number of rows for the current driver_id excluding 'ongoing' trips
-                            $countSql = "SELECT COUNT(*) AS count FROM trips WHERE driver_id = ? AND status != 'ongoing' AND status != 'done'";
+                            $countSql = "SELECT COUNT(*) AS count FROM trips WHERE driver_id = ? AND status != 'Ongoing' AND status != 'Denied' AND status != 'Done'";
                             $countStmt = $connect->prepare($countSql);
                             $countStmt->bind_param("i", $_SESSION['driver_id']);
                             $countStmt->execute();
