@@ -5,6 +5,7 @@ if (!isset($_SESSION['username'])) {
     header("Location: ../login.php");
     exit();
 }
+
 // Include database connection
 include "../connection.php";
 
@@ -83,8 +84,8 @@ mysqli_close($connect); // Close connection after use
                         <h2 class="text-2xl font-bold mb-6">Pending RUV requests</h2>
                             <p>NOTE: You can only accept or disapprove requests that are on the top of the list</p>
                                 <div class="overflow-x-auto">
-                                    <table class="min-w-full bg-gray-800 text-white">
-                                        <thead>
+                                    <table class="min-w-full text-black">
+                                        <thead class="bg-gray-800 text-white" >
                                             <tr>
                                                 <th class="px-4 py-2 border">RUV No</th>
                                                 <th class="px-4 py-2 border">Pick-up Point</th>
@@ -98,7 +99,7 @@ mysqli_close($connect); // Close connection after use
                                                 if ($result->num_rows > 0) {
                                                     while ($row = $result->fetch_assoc()) {
                                                         // Check if status is not "Approved"
-                                                        if ($row['status'] !== 'Approved' && $row['status'] !== 'denied') {
+                                                        if ($row['status'] !== 'Approved' && $row['status'] !== 'Denied') {
                                                             echo "<tr>";
                                                             echo "<td class='border px-4 py-2'>" . $row['ruvNO'] . "</td>";
                                                             echo "<td class='border px-4 py-2'>" . $row['pickup_point'] . "</td>";

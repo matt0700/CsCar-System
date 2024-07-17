@@ -3,7 +3,7 @@ include '../connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['trip_id']) && isset($_POST['confirm_end']) && $_POST['confirm_end'] === 'yes') {
     // Update the status of the trip to 'done'
-    $update_sql = "UPDATE trips SET status = 'done' WHERE trip_id = ?";
+    $update_sql = "UPDATE trips SET status = 'Done' WHERE trip_id = ?";
     $update_stmt = $connect->prepare($update_sql);
     $update_stmt->bind_param("i", $_POST['trip_id']);
     $update_stmt->execute();

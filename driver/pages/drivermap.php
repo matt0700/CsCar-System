@@ -9,11 +9,6 @@ if (!isset($_SESSION['driver_id'])) {
 // Include database connection
 include "../connection.php";
 
-
-
-
-
-
 ?>
 
 

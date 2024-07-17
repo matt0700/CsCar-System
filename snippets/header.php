@@ -49,11 +49,12 @@
   </div>
   
   <div class="relative inline-block text-left">
+    
     <div>
       <button class="w3-button flex items-center w3-bar" id="menu-button" aria-expanded="false" aria-haspopup="true">
         <img class="w-5 h-5" src="https://img.icons8.com/?size=100&id=12666&format=png&color=FFFFFF" alt="Car Icon">
         <span class="ml-1">Fleet Management</span>
-        <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <svg class="-mr-1 ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
         </svg>
       </button>
@@ -66,6 +67,25 @@
       </div>
     </div>
   </div>
+
+  <div>
+      <button class="w3-button flex items-center w3-bar" id="menu-button-history" aria-expanded="false" aria-haspopup="true">
+      <img class="w-5 h-5 " src="https://img.icons8.com/?size=100&id=bDrb5MdYaEje&format=png&color=FFFFFF" alt="Group Icon">
+        <span class="ml-1">History</span>
+          <svg class="-mr-1 ml-2 h-5 w-5 absolute right-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+      </button>
+    </div>
+    
+    <div class="history origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+      <div class="py-1" role="none">
+        <a href="trip_history.php" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Trip History</a>
+        <a href="ruv_history.php" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-1">RUV History</a>
+      </div>
+    </div>
+
+
 
   <div class="mt-2">
     <a href="schedule.php" class="w3-button flex items-center w3-bar">
@@ -100,16 +120,6 @@
     </a>
   </div>
 
-  <div class="mt-2">
-    <a href="history.php" class="w3-button flex items-center w3-bar">
-      <div>
-        <img class="w-5 h-5 " src="https://img.icons8.com/?size=100&id=bDrb5MdYaEje&format=png&color=FFFFFF" alt="Group Icon">
-      </div>
-      <div class="ml-1">
-        History
-      </div>
-    </a>
-  </div>
 
 
   <div class="mt-2">
@@ -141,6 +151,22 @@
       dropdown.classList.add('hidden');
     }
   });
+
+  document.getElementById('menu-button-history').addEventListener('click', function() {
+    const dropdown = document.querySelector('.history');
+    dropdown.classList.toggle('hidden');
+  });
+
+  // Close dropdown when clicking outside
+  window.addEventListener('click', function(e) {
+    const button = document.getElementById('menu-button-history');
+    const dropdown = document.querySelector('.history');
+    if (!button.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.classList.add('hidden');
+    }
+  });
+
+
   function w3_open() {
             document.getElementById("mySidebar").style.display = "block";
         }

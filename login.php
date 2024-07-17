@@ -99,7 +99,7 @@
       <a href="RUV.php" class="text-black hover:underline no-underline">Schedule an RUV</a>
     </div> 
         <div>
-          <a href="driverlogin.php" class="text-black hover:underline no-underline">Click here if you're a driver</a>
+          <a href="driverlogin.php" class="text-black hover:underline no-underline">Click here to driver login</a>
         </div>
 
 

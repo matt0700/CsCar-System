@@ -11,6 +11,8 @@ include "../connection.php";
 
 
 mysqli_close($connect); // Close connection after use
+
+$full_name = "Escarlet R. Conde"
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,27 +48,49 @@ mysqli_close($connect); // Close connection after use
                     </div>
                 </div>
         </div>
-            <div class="w3-container flex static ml-56">
-                <?php
+            <div class="w3-container ml-56">
+            <?php
                 include '../connection.php';
 
-                // Query to fetch all records from the mrot table
-                $mrotSql = "SELECT mrot_id, plate_no, mileage_trip, fuel_trip, issue, submitted FROM mrot";
+                // Set the number of records per page
+                $recordsPerPage = 10;
+
+                // Get the current page number from the query string, defaulting to 1 if not set
+                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                $offset = ($page - 1) * $recordsPerPage;
+
+                // Get sorting parameters from the query string, defaulting to 'mrot_id' and 'asc'
+                $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : 'mrot_id';
+                $sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'asc';
+                $validSortBy = ['mrot_id', 'plate_no', 'mileage_trip', 'fuel_trip', 'issue', 'submitted'];
+                $sortBy = in_array($sortBy, $validSortBy) ? $sortBy : 'mrot_id';
+                $sortOrder = ($sortOrder === 'asc' || $sortOrder === 'desc') ? $sortOrder : 'asc';
+
+                // Query to fetch records with sorting and pagination
+                $mrotSql = "SELECT mrot_id, plate_no, mileage_trip, fuel_trip, issue, submitted FROM mrot ORDER BY $sortBy $sortOrder LIMIT ? OFFSET ?";
                 $mrotStmt = $connect->prepare($mrotSql);
+                $mrotStmt->bind_param('ii', $recordsPerPage, $offset);
                 $mrotStmt->execute();
                 $mrotResult = $mrotStmt->get_result();
 
+                // Query to count total number of records
+                $countSql = "SELECT COUNT(*) AS total FROM mrot";
+                $countStmt = $connect->prepare($countSql);
+                $countStmt->execute();
+                $countResult = $countStmt->get_result();
+                $totalRecords = $countResult->fetch_assoc()['total'];
+                $totalPages = ceil($totalRecords / $recordsPerPage);
+
                 echo "<div class='text-black rounded-md p-4 mb-4'>";
-                echo "<h2 class='text-lg font-semibold text-gray-800'>MROT Records</h2>";
                 echo "<table class='min-w-full bg-white'>";
                 echo "<thead class='bg-gray-800 text-white'>";
                 echo "<tr>";
-                echo "<th class='w-1/6 px-4 py-2'>MROT ID</th>";
-                echo "<th class='w-1/6 px-4 py-2'>Plate No</th>";
-                echo "<th class='w-1/6 px-4 py-2'>Mileage Trip</th>";
-                echo "<th class='w-1/6 px-4 py-2'>Fuel Trip</th>";
-                echo "<th class='w-1/6 px-4 py-2'>Issue</th>";
-                echo "<th class='w-1/6 px-4 py-2'>Submitted</th>";
+                echo "<th class='w-1/6 px-4 py-2 '><a href='?sortBy=mrot_id&sortOrder=" . ($sortOrder == 'asc' ? 'desc' : 'asc') . "' style='color: white; text-decoration: none;'>MROT ID</a></th>";
+                echo "<th class='w-1/6 px-4 py-2 '><a href='?sortBy=plate_no&sortOrder=" . ($sortOrder == 'asc' ? 'desc' : 'asc') . "' style='color: white; text-decoration: none;'>Plate No</a></th>";
+                echo "<th class='w-1/6 px-4 py-2'><a href='?sortBy=mileage_trip&sortOrder=" . ($sortOrder == 'asc' ? 'desc' : 'asc') . "' style='color: white; text-decoration: none;'>Mileage Trip</a></th>";
+                echo "<th class='w-1/6 px-4 py-2'><a href='?sortBy=fuel_trip&sortOrder=" . ($sortOrder == 'asc' ? 'desc' : 'asc') . "' style='color: white; text-decoration: none;'>Fuel Trip</a></th>";
+                echo "<th class='w-1/6 px-4 py-2'><a href='?sortBy=issue&sortOrder=" . ($sortOrder == 'asc' ? 'desc' : 'asc') . "' style='color: white; text-decoration: none;'>Issue</a></th>";
+                echo "<th class='w-1/6 px-4 py-2'><a href='?sortBy=submitted&sortOrder=" . ($sortOrder == 'asc' ? 'desc' : 'asc') . "' style='color: white; text-decoration: none;'>Submitted</a></th>";
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
@@ -92,9 +116,25 @@ mysqli_close($connect); // Close connection after use
                 echo "</table>";
                 echo "</div>";
 
+                // Pagination controls
+                echo "<div class='mt-4'>";
+                echo "<nav class='flex justify-center'>";
+                echo "<ul class='pagination'>";
+                for ($i = 1; $i <= $totalPages; $i++) {
+                    $activeClass = $i == $page ? 'bg-blue-500 text-white' : 'bg-white text-blue-500';
+                    echo "<li class='mx-1'>";
+                    echo "<a class='px-3 py-1 border rounded $activeClass' href='?page=$i&sortBy=$sortBy&sortOrder=$sortOrder'>$i</a>";
+                    echo "</li>";
+                }
+                echo "</ul>";
+                echo "</nav>";
+                echo "</div>";
+
                 $mrotStmt->close();
+                $countStmt->close();
                 $connect->close();
                 ?>
+
 
             </div>
     </div>

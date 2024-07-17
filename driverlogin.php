@@ -84,7 +84,7 @@
       <a href="RUV.php" class="text-black hover:underline no-underline">Click here to schedule an RUV</a>
     </div> 
         <div>
-          <a href="driverlogin.php" class="text-black hover:underline no-underline">Click here if you're a driver</a>
+          <a href="driverlogin.php" class="text-black hover:underline no-underline">Click here to admin login</a>
         </div>
 
         

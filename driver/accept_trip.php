@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['trip_id']) && isset($_
 
     if ($confirm_accept === 'yes') {
         // Update the status of the trip to 'ongoing'
-        $update_sql = "UPDATE trips SET status = 'ongoing' WHERE trip_id = ?";
+        $update_sql = "UPDATE trips SET status = 'Ongoing' WHERE trip_id = ?";
         $update_stmt = $connect->prepare($update_sql);
         $update_stmt->bind_param("i", $trip_id);
         $update_stmt->execute();
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['trip_id']) && isset($_
 
 
          // Update the status of the trip to 'denied'
-         $update_sql = "UPDATE trips SET status = 'denied' WHERE trip_id = ?";
+         $update_sql = "UPDATE trips SET status = 'Denied' WHERE trip_id = ?";
          $update_stmt = $connect->prepare($update_sql);
          $update_stmt->bind_param("i", $trip_id);
          $update_stmt->execute();
