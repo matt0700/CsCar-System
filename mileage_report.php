@@ -40,8 +40,11 @@ if ($result) {
             // Loop through the results to compose email body
             $emailBody = '';
             while ($row = mysqli_fetch_assoc($result)) {
-                $emailBody .= 'Vehicle ' . $row['plate_no'] . ' has incremented by 5000km. Current mileage: ' . $row['mileage'] . '<br><br>';
-
+                $emailBody = 'Vehicle ' . $row['plate_no'] . ' has driven an additional 5000 km. Current mileage: ' . $row['mileage'] . ' km.<br><br>';
+                $emailBody .= 'It is recommended to schedule a maintenance check and change the oil soon to keep the vehicle running smoothly.<br><br>';
+                $emailBody .= 'Please take necessary action to maintain the vehicle\'s performance and longevity.<br><br>';
+                $emailBody .= 'Thank you for your attention to this matter.';
+                
                 // Update the last mileage check in the database
                 $newLastCheck = $row['last_mileage_check'] + 5000;
                 $updateQuery = "UPDATE vehicle_data SET last_mileage_check = $newLastCheck WHERE plate_no = '" . $row['plate_no'] . "'";
