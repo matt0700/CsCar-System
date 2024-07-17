@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Form</title>
+  <title>Admin Login</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <!-- Google Fonts -->
@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.1/mdb.min.css">
   <!-- Tailwind CSS (for eye icon animation) -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  
   <style>
     body {
       background-color: #f0f0f0;
@@ -59,12 +60,10 @@
 </head>
 <body>
 
-  <div class="flex items-center content-center">
-  <img class="mx-24 w-50 h-50" src="logo-min.png">
-
+<img class="absolute top-0 left-0 right-0 bottom-0 m-auto w-2/4 z-0" src="logo-min.png" alt="Logo">
 <div class=" flex-col login-container">
-  <form action="login-check.php" method="post" class="login-form">
-    <h1 class="text-center mb-4">CSCAR LOGIN</h1>
+  <form action="login-check.php" method="post" class="login-form z-1 m-auto">
+  <h1 class="text-center mb-4 text-2xl	"><strong>Admin Login</strong></h1>
     <?php
       // Check if logout was successful
       if (isset($_GET['logout']) && $_GET['logout'] === 'success') {
@@ -95,16 +94,14 @@
 
 
       <!-- HYPERLINKS -->
-    <div>
-      <a href="RUV.php" class="text-black hover:underline no-underline">Schedule an RUV</a>
-    </div> 
-        <div>
-          <a href="driverlogin.php" class="text-black hover:underline no-underline">Click here to driver login</a>
-        </div>
-
-
-  </form>
-
+        <div class="flex justify-between mt-4">
+      <div>
+        <a href="RUV.php" class="text-black hover:underline">Schedule RUV</a>
+      </div>
+      <div>
+        <a href="driverlogin.php" class="text-black hover:underline">Driver Login</a>
+      </div>
+    </div>
 </div>
 
 

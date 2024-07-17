@@ -58,7 +58,7 @@ if (isset($_POST['ruv_submit'])) {
 <!-- tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-<div class="flex bg-black">
+<body class="flex bg-black">
     <form class="m-auto" action="RUV.php" method="POST">
         <div class="mx-auto bg-white p-6 rounded-lg shadow-lg w-400">
             <h2 class="text-2xl font-bold mb-6">RUV</h2>
@@ -125,11 +125,10 @@ if (isset($_POST['ruv_submit'])) {
                     <input type="text" id="form2Example1" name="reason" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
                 </div>
 
-
-
-                <!-- Submit button -->
-                <button type="submit" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm justify-center">Submit</button>
             </div>
+                           <!-- Submit button -->
+                           <button type="submit" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm justify-center">Submit</button>
+ 
         </div>
     </form>
 
@@ -189,6 +188,6 @@ if (isset($_POST['ruv_submit'])) {
   type="text/javascript"
   src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
 </script>
-</div>
+</body>
 
 

@@ -9,36 +9,7 @@ if (!isset($_SESSION['username'])) {
 // Include database connection
 include "../connection.php";
 
-// Sanitize username input
-$username = mysqli_real_escape_string($connect, $_SESSION['username']);
 
-// Query to retrieve user information
-$sql = "SELECT ui.Ln, ui.Fn, ui.Mn
-        FROM users u
-        JOIN information ui ON u.user_id = ui.user_id
-        WHERE u.username = '$username'";
-
-$result = mysqli_query($connect, $sql);
-
-if (!$result) {
-    // Handle query error
-    die("Query failed: " . mysqli_error($connect));
-}
-
-// Check if user information exists
-if (mysqli_num_rows($result) > 0) {
-    // Fetch user information
-    $row = mysqli_fetch_assoc($result);
-    $last_name = $row['Ln'];
-    $first_name = $row['Fn'];
-    $middle_name = $row['Mn']; 
-
-    $full_name = $first_name . ' ' . $middle_name . ' ' . $last_name;
-    
-} else {
-    // Handle case where user information is not found
-    die("User information not found.");
-}
 
 $sql = "SELECT * FROM ruv_table";
 $result = $connect->query($sql);
@@ -50,7 +21,7 @@ mysqli_close($connect); // Close connection after use
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Dashboard</title>
+    <title>Dashboard</title>
     <?php include '../snippets/header.php'; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -64,6 +35,13 @@ mysqli_close($connect); // Close connection after use
   .w3-container{
   margin: 0px;
 }
+  .alerts{
+    margin:0px !important;
+
+  }
+  .alertscol{
+    margin:0px !important;
+  }
 }
 </style>
 
@@ -144,18 +122,18 @@ mysqli_close($connect); // Close connection after use
                                 $reportCountRow = $reportCountResult->fetch_assoc();
                                 $reportCount = $reportCountRow['count'];                        
 
-                                    echo "<div class='flex flex-col m-2'>";
-                                        echo "<div class='bg-gray-800 rounded-md p-4 mb-4 m-2'>";
+                                    echo "<div class='alerts m-2'>";
+                                        echo "<div class='alertscol bg-gray-800 rounded-md p-4 mb-4 m-2'>";
                                         echo "<p class='text-lg font-semibold text-white'>Available Drivers" . ": <span class='text-warning'>" . $driverCount . "</span></p>";
                                         echo "<a href='driver.php' class='btn btn-primary mt-auto'>Check it here</a>";
                                         echo "</div>";
 
-                                            echo "<div class='bg-gray-800 rounded-md p-4 mb-4 m-2'>";
+                                            echo "<div class='alertscol bg-gray-800 rounded-md p-4 mb-4 m-2'>";
                                             echo "<p class='text-lg font-semibold text-white'>Available Vehicles" . ": <span class='text-warning'>" . $vehicleCount . "</span></p>";
                                             echo "<a href='vehicle.php' class='btn btn-primary mt-auto'>Check it here</a>";
                                             echo "</div>";
 
-                                                echo "<div class='bg-gray-800 rounded-md p-4 mb-4 m-2'>";
+                                                echo "<div class=' alertscol bg-gray-800 rounded-md p-4 mb-4 m-2'>";
                                                 echo "<p class='text-lg font-semibold text-white'>Reports" . ": <span class='text-warning'>" . $reportCount . "</span></p>";
                                                 echo "<a href='reports.php' class='btn btn-primary mt-auto'>Check it here</a>";
                                                 echo "</div>";
@@ -175,8 +153,8 @@ mysqli_close($connect); // Close connection after use
                                             <!-- Details will be loaded here via JavaScript -->
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" id="disapproveButton">Disapprove</button>
-                                            <button type="button" class="btn btn-success" id="approveButton">Approve</button>
+                                        <button type="button" class="btn btn-danger" id="disapproveButton">Disapprove</button>
+                                        <button type="button" class="btn btn-success" id="approveButton">Approve</button>
                                         </div>
                                     </div>
                                 </div>

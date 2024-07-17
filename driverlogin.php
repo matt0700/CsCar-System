@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Driver Login Form</title>
+  <title>Driver Login</title>
   <!-- Include necessary stylesheets and scripts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
@@ -51,13 +51,21 @@
     .eye-icon {
       cursor: pointer;
     }
+
+    @media only screen and (max-width: 600px) {
+      body {
+        background-color: lightblue;
+      }
+    }
   </style>
 </head>
 <body>
+  
 
+<img class="absolute top-0 left-0 right-0 bottom-0 m-auto w-2/4 z-0" src="logo-min.png" alt="Logo">
 <div class="login-container">
-  <form action="driver_login_check.php" method="post" class="login-form">
-    <h1 class="text-center mb-4">Driver Login</h1>
+  <form action="driver_login_check.php" method="post" class="login-form z-1 m-auto">
+  <h1 class="text-center mb-4 text-2xl"><strong>Driver Login</strong></h1>
     <?php
       if (isset($_GET['error'])) {
           echo '<div class="alert alert-danger text-center">' . htmlspecialchars($_GET['error']) . '</div>';
@@ -78,16 +86,15 @@
     </div>
     <button type="submit" class="btn btn-primary btn-block">Sign in</button>
 
-
           <!-- HYPERLINKS -->
+        <div class="flex justify-between mt-4">
           <div>
-      <a href="RUV.php" class="text-black hover:underline no-underline">Click here to schedule an RUV</a>
-    </div> 
-        <div>
-          <a href="driverlogin.php" class="text-black hover:underline no-underline">Click here to admin login</a>
-        </div>
-
-        
+            <a href="RUV.php" class="text-black hover:underline">Schedule RUV</a>
+          </div>
+              <div>
+                <a href="login.php" class="text-black hover:underline">Admin Login</a>
+              </div>
+        </div> 
   </form>
 </div>
 

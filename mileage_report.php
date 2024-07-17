@@ -40,7 +40,7 @@ if ($result) {
             // Loop through the results to compose email body
             $emailBody = '';
             while ($row = mysqli_fetch_assoc($result)) {
-                $emailBody .= 'Vehicle ' . $row['plate_no'] . ' has incremented by 5000km. Current mileage: ' . $row['mileage'] . '<br>';
+                $emailBody .= 'Vehicle ' . $row['plate_no'] . ' has incremented by 5000km. Current mileage: ' . $row['mileage'] . '<br><br>';
 
                 // Update the last mileage check in the database
                 $newLastCheck = $row['last_mileage_check'] + 5000;

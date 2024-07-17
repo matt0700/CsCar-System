@@ -53,8 +53,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Content
         $mail->isHTML(true); 
         $mail->Subject = 'RUV Schedule';
-        $mail->Body = 'Hi,<br><br> Here is the copy of your RUV/TRIP TICKET <br><br> Thank you.';
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+        $mail->Body = '
+        <p>Hello,</p>
+        
+        <p>We are delighted to provide you with a copy of your RUV/TRIP TICKET for your records!</p>
+        
+        <p>Please find the details enclosed in the attached document. If you have any questions or need further assistance, feel free to reach out to us.</p>
+        
+        <p>Thank you for choosing CSCAR!</p>
+        
+        <p>Best regards,</p>
+        <p>The CSCAR Team</p>
+    ';
+            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
         // Send email
         $mail->send();

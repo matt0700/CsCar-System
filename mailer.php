@@ -42,8 +42,19 @@ if (isset($_GET['ruvNO'])) {
     // Content
     $mail->isHTML(true); 
     $mail->Subject = 'RUV Request Approved';
-    $mail->Body = 'Hi,<br><br>Your RUV is still under review. We will reach out to you once it is approved. <br><br> Thank you.';
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+    $mail->Body = '
+    <p>Hello,</p>
+    
+    <p>We wanted to update you on your recent RUV request. It is currently under review, and we are working diligently to process it.</p>
+    
+    <p>Rest assured, we will notify you as soon as it is approved and ready to go!</p>
+    
+    <p>Thank you for your patience and understanding.</p>
+    
+    <p>Best regards,</p>
+    <p>The CSCAR Team</p>
+';   
+
 
     if ($mail->send()) 
     {

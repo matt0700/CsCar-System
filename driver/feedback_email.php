@@ -44,9 +44,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['trip_id']) && isset($_
                 // Content
                 $mail->isHTML(true); 
                 $mail->Subject = 'Trip Complete';
-                $mail->Body = 'The Driver has completed your trip. If you have any feedback please access this link <a href="https://docs.google.com/forms/d/e/1FAIpQLSd-dqZ7gmPP0IejLrJsx2rYJJ_p8zByQ6Try9KRgmYLMm-PEQ/viewform?fbclid=IwAR1f6kFfWvIlh9Y7DpCzGLG4IrS6dbWVX-nYeukZ6GNVMB0o6jj8QfM5nBM">Feedback Form</a>. <br><br>Thank you!';
-                $mail->AltBody = 'The Driver has completed your trip. If you have any feedback please access this link: https://docs.google.com/forms/d/e/1FAIpQLSd-dqZ7gmPP0IejLrJsx2rYJJ_p8zByQ6Try9KRgmYLMm-PEQ/viewform?fbclid=IwAR1f6kFfWvIlh9Y7DpCzGLG4IrS6dbWVX-nYeukZ6GNVMB0o6jj8QfM5nBM';
-
+                $mail->Body = '
+                <p>Hello,</p>
+                
+                <p>We appreciate your use of CSCAR! We are pleased to inform you that the driver has successfully completed your trip.</p>
+                
+                <p>Your feedback is valuable to us! Please take a moment to share your thoughts with us through our <a href="https://docs.google.com/forms/d/e/1FAIpQLSd-dqZ7gmPP0IejLrJsx2rYJJ_p8zByQ6Try9KRgmYLMm-PEQ/viewform?fbclid=IwAR1f6kFfWvIlh9Y7DpCzGLG4IrS6dbWVX-nYeukZ6GNVMB0o6jj8QfM5nBM">Feedback Form</a>.</p>
+                
+                <p>We look forward to hearing from you!</p>
+                
+                <p>Thank you for choosing CSCAR!</p>
+            ';
                 // Send email
                 if (!$mail->send()) {
                     throw new Exception('Email sending failed: ' . $mail->ErrorInfo);

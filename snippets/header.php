@@ -22,7 +22,7 @@
 
 <body>
   
-<div class="w3-sidebar w3-bar-fixed w3-collapse w3-card w3-animate-left bg-slate-900 text-white sidebar overflow-x-hidden border-none" style="width:200px;" id="mySidebar">
+<div class="w3-sidebar w3-bar-fixed w3-collapse w3-card w3-animate-left bg-slate-900 text-white sidebar overflow-x-hidden border-none z-3" style="width:200px;" id="mySidebar">
   <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
   
   <div class="mt-4">

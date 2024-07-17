@@ -16,7 +16,6 @@ if (!isset($_SESSION['username'])) {
         $stmt = $connect->prepare($driverQuery);
         $stmt->bind_param("i", $driverId);
 
-    $full_name = "Escarlet R. Conde"
 ?>
 
 <!DOCTYPE html>
