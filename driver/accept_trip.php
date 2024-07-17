@@ -40,10 +40,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_accept'])) {
 
         // Send email to requester
         $toEmail = $ruvData['email']; // Change to the column name where email is stored in your 'ruv' table
-        $subject = "Trip Accepted - RUV Details";
-        $message = "Your trip request has been accepted. Details:\n\n";
-        $message .= "Pickup Point: " . $ruvData['pickup_point'] . "\n";
-        $message .= "Destination: " . $ruvData['destination'] . "\n";
+        $subject = "Great News! Your Trip Request Has Been Accepted";
+        $message = "Hey there,\n\nWe are excited to inform you that your trip request has been approved! Here are the details of your upcoming trip:\n\n";
+        $message .= "🚗 **Pickup Point:** " . $ruvData['pickup_point'] . "\n";
+        $message .= "📍  **Destination:** " . $ruvData['destination'] . "\n";
+        $message .= "📅 **Trip Date:** " . $ruvData['trip_date'] . "\n";
+        $message .= "⏰ **Preferred Time:** " . $ruvData['pref_time'] . "\n\n";
+        $message .= "If you have any questions or need to make changes to your trip, please do not hesitate to contact us.\n\n";
+        $message .= "Thank you for choosing our service. We look forward to serving you!\n\nBest regards,\n CSCAR";
+        
         // Add more details as needed
 
         sendEmail($toEmail, $subject, $message);
@@ -73,9 +78,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_accept'])) {
 
         // Send email to requester with deny reason from trip_denials table
         $toEmail = $ruvData['email']; // Change to the column name where email is stored in your 'ruv' table
-        $subject = "Trip Denied - Reason: $denyReason";
-        $message = "Your trip request has been denied. Reason:\n\n";
-        $message .= $denyReason;
+        $subject = "Important Notice: Trip Request Denied";
+        $message = "Hi,\n\nWe regret to inform you that your recent trip request has been denied. Below is the reason provided:\n\n";
+        $message .= "$denyReason\n\n";
+        $message .= "We apologize for any inconvenience this may cause. If you have any questions or need further assistance, please do not hesitate to contact our support team.\n\n";
+        $message .= "Thank you for understanding.\n\nBest regards,\nCSCAR";
 
         sendEmail($toEmail, $subject, $message);
     }
@@ -104,9 +111,9 @@ function sendEmail($toEmail, $subject, $message) {
         $mail->Body    = $message;
 
         $mail->send();
-        echo 'Message has been sent';
+        echo "<script>alert('Trip updated successfully and message has been sent to the requester.'); window.history.back();</script>";
     } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        echo "<script>alert('Message could not be sent. PHPMailer Error: " . $e->getMessage() . "'); window.history.back();</script>";
     }
 }
 
