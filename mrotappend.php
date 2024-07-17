@@ -13,7 +13,7 @@ if (!isset($_GET['plate_no'])) {
     $vehicleResult = $con->prepare($vehicleQuery);
     $vehicleResult->execute();
 
-    // Start output buffering to capture the form
+    // Start output buffering to capturQe the form
     ob_start();
     
     // Display a dropdown menu for selecting plate_no

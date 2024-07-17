@@ -76,7 +76,7 @@ $result = $stmt->get_result();
         include '../connection.php';
 
         // Query to fetch trips excluding 'ongoing'
-        $sql = "SELECT * FROM trips WHERE driver_id = ? AND status != 'ongoing' AND status != 'done'";
+        $sql = "SELECT * FROM trips WHERE driver_id = ? AND status != 'ongoing' AND status != 'done' AND status != 'denied'";
         $stmt = $connect->prepare($sql);
         $stmt->bind_param("i", $_SESSION['driver_id']);
         $stmt->execute();
@@ -118,6 +118,9 @@ $result = $stmt->get_result();
                 echo "<input type='hidden' name='trip_id' value='" . $row['trip_id'] . "' />";
                 echo "<input type='hidden' name='confirm_accept' value='yes' />";
                 echo "<button type='submit' class='btn btn-primary '>Accept Trip</button>";
+
+                echo "<input type='hidden' name='deny_reason' value=''>";
+                echo "<button type='button' class='btn btn-danger' onclick='denyTrip()'>Deny Trip</button>";
                 echo "</form>";
                 echo "</td>";
                 echo "</tr>";
@@ -158,6 +161,17 @@ $result = $stmt->get_result();
 
         function confirmTrip() {
             return confirm("Are you sure you want to confirm this trip?");
+        }
+        
+        function denyTrip() {
+            var reason = prompt("Please enter the reason for denying the trip:");
+            if (reason) {
+                document.getElementsByName('confirm_accept')[0].value = 'no';
+                document.getElementsByName('deny_reason')[0].value = reason;
+                document.forms[0].submit();
+            } else {
+                alert('You must provide a reason for denying the trip.');
+            }
         }
 
         document.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {

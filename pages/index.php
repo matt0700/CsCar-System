@@ -73,7 +73,7 @@ mysqli_close($connect); // Close connection after use
             <div class="w3-container flex static ml-56" style="color: white;">
                 <div class="flex text-white">
                     <div class="text-5xl mt-3 mb-3 font-bold">
-                        Welcome, <?php echo htmlspecialchars($full_name); ?>!
+                            Dashboard
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@ mysqli_close($connect); // Close connection after use
                                                 if ($result->num_rows > 0) {
                                                     while ($row = $result->fetch_assoc()) {
                                                         // Check if status is not "Approved"
-                                                        if ($row['status'] !== 'Approved') {
+                                                        if ($row['status'] !== 'Approved' && $row['status'] !== 'denied') {
                                                             echo "<tr>";
                                                             echo "<td class='border px-4 py-2'>" . $row['ruvNO'] . "</td>";
                                                             echo "<td class='border px-4 py-2'>" . $row['pickup_point'] . "</td>";

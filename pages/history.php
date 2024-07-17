@@ -9,9 +9,8 @@ if (!isset($_SESSION['username'])) {
 include "../connection.php";
 
 // SQL query to fetch data from the trips table where status is 'done'
-$sql = "SELECT trip_id, ruvNO, plate_no, driver_id, trip_date, status FROM trips WHERE status = 'done'";
-$result = $connect->query($sql);
-$full_name = "Escarlet R. Conde"
+$sql = "SELECT trip_id, ruvNO, plate_no, driver_id, trip_date, status FROM trips WHERE status = 'done' OR status = 'denied'";
+    $result = $connect->query($sql);
 
 ?>
 
@@ -45,15 +44,7 @@ $full_name = "Escarlet R. Conde"
                         <div class="text-5xl mt-3 mb-3 font-bold">
                             History
                         </div>
-                        <div class="flex-col w3-display-topright w3-margin-right mx-2 my-2 z-50 ml-10">
-                        <div class="mr-4 mt-2">
-                            <?php echo $full_name; ?>
-                        </div>
-                        <div class="mr-4">
-                            Admin
-                        </div>
-                    
-                </div>
+
                     </div>
                  </div>
           </div>

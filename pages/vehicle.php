@@ -136,14 +136,6 @@ $connect->close(); // Close connection after use
                 <div class=" title flex-col  ml-[200px] text-5xl mt-3 mb-3 font-bold">
                     Vehicle Information
                 </div>
-                <div class="flex-col w3-display-topright w3-margin-right mx-2 my-2 z-50 ml-10">
-                    <div class="mr-4 mt-2">
-                        <?php echo $full_name; ?>
-                    </div>
-                    <div class="mr-4">
-                        Admin
-                    </div> 
-                </div>
             </div>
         </div>
             
