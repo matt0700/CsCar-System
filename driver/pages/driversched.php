@@ -58,12 +58,12 @@ $result = $stmt->get_result();
 </head>
 <body class="bg-white">
     <div class="w3-main z-10">
-        <div class="text-black h-20 static border-none">
+        <div class="bg-slate-900 text-white h-20 static border-none">
             <button class="w3-button w3-greyw3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
             <div class="w3-container flex static z-50 ml-56" style="color: white;">
                 <div class="flex-col text-black">
-                    <div>
-                        <h1>Approved Trips</h1>
+                    <div class="text-5xl mt-3 mb-3 font-bold text-white">
+                        Approved Trips
                     </div>
                 </div>
             </div>

@@ -67,11 +67,10 @@ include "../connection.php";
           <div class=" h-25 static border-none bg-slate-900">
               <button class="w3-button w3-grey w3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
                 <div class="w3-container flex static ml-56" style="color: white;">
-                    <div class="flex-col text-white" >
+                    <div class="text-5xl mt-3 mb-3 font-bold" >
                         <div>
-                            <h1>MAP</h1>
+                            MAP
                         </div>
-
                     </div>
                  </div>
           </div>
@@ -92,7 +91,7 @@ include "../connection.php";
             </div>
                     <!-- Report Problem Form -->
                     <div class="bg-gray-200 rounded-md p-4 mb-4">
-                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Report a Problem</h3>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Trip Report</h3>
                                     <form action="../report_trip.php" method="post">
                                         <div>
                                         <select name="cars" id="cars">
