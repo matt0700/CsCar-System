@@ -32,27 +32,23 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
 
         if ($tripresult->rowCount() != 0) {
             while ($tripRow = $tripresult->fetch()) {
-                $pdf->SetFont('Arial');
+                $pdf->SetFont('Arial', '', 12);
                 $pdf->SetXY(100, 31); 
                 $pdf->Write(20, $tripRow['plate_no']);
 
-                $pdf->SetFont('Arial');
+                $pdf->SetFont('Arial', '', 10);
                 $pdf->SetXY(100, 126); 
                 $pdf->Write(20, $tripRow['driver_name']);
 
-
-                $pdf->SetFont('Arial');
+                $pdf->SetFont('Arial', '', 12);
                 $pdf->SetXY(154, 33);
                 $pdf->Write(4, $tripRow['trip_date']);
 
-                $pdf->SetFont('Arial');
+                $pdf->SetFont('Arial', '', 12);
                 $pdf->SetXY(29, 84);
                 $pdf->Write(20, $tripRow['reason']);
 
                 $pdf->Output('',$tripRow['ruvNO'].'-TT-'.$tripRow['trip_date'].'.pdf', false);
-
-
-                
             }
         }
     }

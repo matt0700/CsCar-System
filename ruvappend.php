@@ -44,9 +44,21 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
                 $pdf->SetXY(134, 107);
                 $pdf->Write(20, $tripRow['ruvNO']."-RUV-".$tripRow['trip_date']);
 
-                $pdf->SetFont('Arial');
-                $pdf->SetXY(12, 61); 
-                $pdf->Write(20, $tripRow['name_passengers']);
+                // Display up to 8 names from the name_passengers field
+                $names = explode(',', $tripRow['name_passengers']);
+                $maxNames = 8;
+                $x1 = 12;
+                $x2 = 75; // X coordinate for the 5th name onwards
+                $y = 61;
+                $yIncrement = 5; // Adjust as necessary to avoid overlapping
+                $namesToDisplay = array_slice($names, 0, $maxNames);
+
+                foreach ($namesToDisplay as $index => $name) {
+                    $pdf->SetFont('Arial');
+                    $x = ($index < 4) ? $x1 : $x2; // Use different X coordinates
+                    $pdf->SetXY($x, $y + (($index % 4) * $yIncrement)); // Adjust Y coordinate
+                    $pdf->Write(20, trim($name));
+                }
 
                 $pdf->SetFont('Arial');
                 $pdf->SetXY(83, 21);
@@ -84,10 +96,7 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
                 $pdf->SetXY(55, 111);
                 $pdf->Write(20, $tripRow['make_series_type']);
 
-                $pdf->Output('',$tripRow['ruvNO'].'-RUV-'.$tripRow['trip_date'].'.pdf', false);
-
-
-                
+                $pdf->Output('', $tripRow['ruvNO'].'-RUV-'.$tripRow['trip_date'].'.pdf', false);
             }
         }
     }
