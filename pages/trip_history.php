@@ -29,6 +29,7 @@ $sql = "SELECT t.trip_id, t.ruvNO, d.driver_name, tr.make_series_type, t.trip_da
         LEFT JOIN vehicle_data tr ON t.plate_no = tr.plate_no
         ORDER BY $sortBy $sortOrder
         LIMIT ? OFFSET ?";
+        
 $stmt = $connect->prepare($sql);
 $stmt->bind_param('ii', $recordsPerPage, $offset);
 $stmt->execute();

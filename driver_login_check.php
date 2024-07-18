@@ -35,7 +35,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $_SESSION['driver_status'] = $driver['driver_status']; // Ensure 'driver_status' matches your database column name
         
         // Redirect to driver dashboard or success message
-        header("Location: driver/pages/index.php");
+        header("Location: verify-special-password-driver.php");
         exit();
     } else {
         // User not found or credentials do not match

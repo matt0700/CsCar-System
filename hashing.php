@@ -28,7 +28,7 @@ function insertSpecialPassword($username, $password) {
 
 // Example usage
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Retrieve username and password from POST data (make sure to validate/sanitize input)
+    // Retrieve username and password from POST data (sanitize/validate input as needed)
     $username = $_POST['username'];
     $password = $_POST['password'];
 

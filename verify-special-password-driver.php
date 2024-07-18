@@ -2,37 +2,42 @@
 session_start();
 require 'connection.php';
 
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
+if (!isset($_SESSION['driver_id'])) {
+    header('Location: driver_login.php'); // Redirect if driver is not logged in
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $special_password = $_POST['special_password'];
-    $username = $_SESSION['username'];
+    $driver_id = $_SESSION['driver_id']; // Fetch driver_id from session
 
-    // Fetch the user from the database
-    $stmt = $connect->prepare("SELECT user_ID, special_password FROM users WHERE username = ?");
-    $stmt->bind_param('s', $username);
+    // Fetch the driver from the database
+    $stmt = $connect->prepare("SELECT driver_id, special_password FROM drivers WHERE driver_id = ?");
+    $stmt->bind_param('s', $driver_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows === 1) {
-        $user = $result->fetch_assoc();
-        $hashed_password_from_db = $user['special_password'];
-
+        $driver = $result->fetch_assoc();
+        $hashed_password_from_db = $driver['special_password'];
+    
         // Compare the entered special password with the hashed password from the database
         if (password_verify($special_password, $hashed_password_from_db)) {
-            $_SESSION['username'] = $username;
-            $_SESSION['user_ID'] = $user_ID;
-            header('Location: pages/index.php');
+            // Set session variables
+            $_SESSION['user_type'] = 'driver';
+            $_SESSION['driver_id'] = $driver['driver_id'];
+            $_SESSION['driver_name'] = $driver['driver_name']; // Add other necessary variables
+            $_SESSION['driver_status'] = $driver['driver_status'];
+            
+            // Redirect to driver's dashboard
+            header('Location: driver/pages/index.php');
             exit();
         } else {
-            header('Location: verify-special-password.php?error=Invalid special password');
+            header('Location: verify-special-password-driver.php?error=Invalid special password');
             exit();
         }
     } else {
-        header('Location: verify-special-password.php?error=User not found');
+        header('Location: verify-special-password-driver.php?error=Driver not found');
         exit();
     }
 }
@@ -70,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 <div class="login-container">
-    <form action="verify-special-password.php" method="post" class="login-form">
+    <form action="verify-special-password-driver.php" method="post" class="login-form">
         <h1 class="text-center mb-2 text-2xl"><strong>Verify Special Password</strong></h1>
         <?php
         if (isset($_GET['error'])) {

@@ -59,7 +59,7 @@ mysqli_close($connect); // Close connection after use
         </div>
             <div class="w3-container flex static ml-56" style="color: white;">
                     <div class="p-6 rounded-lg shadow-lg text-black w-full max-w-7xl m-2">
-                        <h2 class="text-2xl font-bold mb-6">Pending RUV requests</h2>
+                        <h2 class="text-2xl font-bold mb-6">Pending RUV</h2>
                             <p>NOTE: You can only accept or disapprove requests that are on the top of the list</p>
                                 <div class="overflow-x-auto">
                                     <table class="min-w-full text-black">

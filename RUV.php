@@ -115,8 +115,13 @@ if (isset($_POST['ruv_submit'])) {
                 <!-- Name of Passengers -->
                 <div class="passenger-container mb-4">
                     <label class="block text-sm font-medium text-gray-700" for="passengers">Name of Passengers <span class="text-red-500">*</span></label>
-                    <input type="text" id="passengers" name="name_passengers[]" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
-                    <button type="button" class="btn btn-sm btn-primary mt-2 add-passenger">Add Another Passenger</button>
+
+                    <div id="passengerInputs">
+                        <div class="passenger-input flex items-center">
+                            <input type="text" name="name_passengers[]" class="mt-1 block w-full p-2 border border-gray-800 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                            <button type="button" class="btn btn-sm btn-primary ml-2 add-passenger"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Reason of Use -->
@@ -126,8 +131,8 @@ if (isset($_POST['ruv_submit'])) {
                 </div>
 
             </div>
-                           <!-- Submit button -->
-                           <button type="submit" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm justify-center">Submit</button>
+                <!-- Submit button -->
+                <button type="submit" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm justify-center">Submit</button>
  
         </div>
     </form>
@@ -161,29 +166,48 @@ if (isset($_POST['ruv_submit'])) {
 
         document.getElementById('date-of-trip').min = formattedDate;
 
+
+        // Function to add passenger input fields
+        const addPassenger = () => {
+            if (document.querySelectorAll('.passenger-input').length < 8) {
+                const passengerContainer = document.createElement('div');
+                passengerContainer.classList.add('passenger-input', 'flex', 'items-center');
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'name_passengers[]';
+                input.classList.add('mt-1', 'block', 'w-full', 'p-2', 'border', 'border-gray-300', 'rounded-md', 'shadow-sm', 'focus:ring-indigo-500', 'focus:border-indigo-500', 'sm:text-sm');
+                input.required = true;
+
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.classList.add('btn', 'btn-sm', 'btn-danger', 'ml-2', 'remove-passenger');
+                removeButton.innerHTML = '<i class="fa-solid fa-x"></i>';
+                removeButton.addEventListener('click', () => {
+                    passengerContainer.remove();
+                });
+
+                const addButton = document.createElement('button');
+                addButton.addEventListener('click', addPassenger);
+
+                passengerContainer.appendChild(input);
+                passengerContainer.appendChild(removeButton);
+                passengerContainer.appendChild(addButton);
+
+                document.getElementById('passengerInputs').appendChild(passengerContainer);
+            } else {
+                alert('You can only add up to 8 passengers.');
+            }
+        };
+
         // Event listener to add more passenger input fields
-        document.querySelector('.add-passenger').addEventListener('click', function() {
-            const passengerContainer = document.createElement('div');
-            passengerContainer.classList.add('w-full', 'mb-4');
+        document.querySelector('.add-passenger').addEventListener('click', addPassenger);
 
-            const label = document.createElement('label');
-            label.classList.add('block', 'text-sm', 'font-medium', 'text-gray-700');
-            label.textContent = 'Name of Passengers';
-            label.innerHTML += ' <span class="text-red-500">*</span>';
-
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.classList.add('mt-1', 'block', 'w-full', 'p-2', 'border', 'border-gray-300', 'rounded-md', 'shadow-sm', 'focus:ring-indigo-500', 'focus:border-indigo-500', 'sm:text-sm');
-            input.name = 'name_passengers[]';
-            input.required = true;
-
-            passengerContainer.appendChild(label);
-            passengerContainer.appendChild(input);
-
-            // Insert before the add passenger button
-            const addButton = document.querySelector('.add-passenger');
-            addButton.parentNode.insertBefore(passengerContainer, addButton);
+        // Initial add passenger button functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.add-passenger').addEventListener('click', addPassenger);
         });
+
     // script for mdb
   type="text/javascript"
   src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
