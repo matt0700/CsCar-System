@@ -67,7 +67,7 @@ mysqli_close($connect); // Close connection after use
         </div>
 
         <div class="w3-container flex static ml-56" style="color: white;">
-            <div class="p-6 rounded-lg shadow-lg text-black w-full max-w-7xl m-2">
+            <div class="p-6 rounded-lg text-black w-full max-w-7xl m-2">
                 <div class="overflow-x-auto">
                     <table class="min-w-full text-black">
                         <thead class="bg-gray-800 text-white">

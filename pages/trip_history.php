@@ -60,10 +60,6 @@
         <!-- Tailwind CSS -->
         <script src="https://cdn.tailwindcss.com"></script>
         <!-- Mapbox and Directions Plugin -->
-        <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
-        <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
-        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
-        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css" type="text/css">
     </head>
 
 
@@ -82,8 +78,8 @@
             </div>
 
             <div class="w3-container ml-56 mt-7">
-                <div class="overflow-x-auto">
-                    <table class="table-auto w-full border-collapse border border-gray-200">
+                <div class="overflow-x-auto ">
+                    <table class="table-auto w-full border-collapse border border-gray-200 ">
                         <thead>
                             <tr class="bg-gray-800 text-white">
                                 <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=trip_id&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Trip ID</a></th>
