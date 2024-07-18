@@ -8,7 +8,6 @@ if (!isset($_SESSION['username'])) {
 // Include database connection
 include "../connection.php";
 
-
 // Set default values for pagination and sorting
 $limit = 10; // Number of entries per page
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -17,13 +16,13 @@ $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : 'ruvNO';
 $sortOrder = isset($_GET['sortOrder']) && $_GET['sortOrder'] == 'desc' ? 'desc' : 'asc';
 
 // Count total records
-$countSql = "SELECT COUNT(*) as total FROM ruv_table";
+$countSql = "SELECT COUNT(*) as total FROM ruv_table WHERE status IN ('Approved', 'Denied')";
 $countResult = $connect->query($countSql);
 $totalRecords = $countResult->fetch_assoc()['total'];
 $totalPages = ceil($totalRecords / $limit);
 
-// Fetch data with pagination and sorting
-$sql = "SELECT * FROM ruv_table ORDER BY $sortBy $sortOrder LIMIT $limit OFFSET $offset";
+// Fetch data with pagination and sorting, filtering by status
+$sql = "SELECT * FROM ruv_table WHERE status IN ('Approved', 'Denied') ORDER BY $sortBy $sortOrder LIMIT $limit OFFSET $offset";
 $result = $connect->query($sql);
 
 mysqli_close($connect); // Close connection after use
@@ -78,6 +77,7 @@ mysqli_close($connect); // Close connection after use
                                 <th class="px-4 py-2 border"><a href="?sortBy=destination&sortOrder=<?= $sortOrder == 'asc' ? 'desc' : 'asc' ?>">Destination</a></th>
                                 <th class="px-4 py-2 border"><a href="?sortBy=submitted&sortOrder=<?= $sortOrder == 'asc' ? 'desc' : 'asc' ?>">Date Submitted</a></th>
                                 <th class="px-4 py-2 border"><a href="?sortBy=status&sortOrder=<?= $sortOrder == 'asc' ? 'desc' : 'asc' ?>">Status</a></th>
+                                <th class="px-4 py-2 border"><a href="?sortBy=pref_time&sortOrder=<?= $sortOrder == 'asc' ? 'desc' : 'asc' ?>">Pick up time</a></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,6 +90,7 @@ mysqli_close($connect); // Close connection after use
                                     echo "<td class='border px-4 py-2'>" . $row['destination'] . "</td>";
                                     echo "<td class='border px-4 py-2'>" . $row['submitted'] . "</td>";
                                     echo "<td class='border px-4 py-2'>" . $row['status'] . "</td>";
+                                    echo "<td class='border px-4 py-2'>" . $row['pref_time'] . "</td>";
                                     echo "</tr>";
                                 }
                             } else {
@@ -115,4 +116,3 @@ mysqli_close($connect); // Close connection after use
     </div>
 </body>
 </html>
-

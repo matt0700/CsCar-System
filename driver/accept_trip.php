@@ -50,35 +50,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_accept'])) {
         $message .= "Thank you for choosing our service. We look forward to serving you!\n\nBest regards,\n CSCAR";
 
         sendEmail($toEmail, $subject, $message);
+
+        // Update status to blank (assuming setting it to an empty value or null)
+        $update_ruv_sql = "UPDATE ruv_table SET status = '' WHERE ruvNO = ?";
+        $update_ruv_stmt = $connect->prepare($update_ruv_sql);
+        $update_ruv_stmt->bind_param("i", $ruvData['ruvNO']);
+        $update_ruv_stmt->execute();
+        $update_ruv_stmt->close();
     } elseif ($confirmAccept == 'no') {
         // Update trip status to 'Denied' and save reason in trips table
         $update_sql = "UPDATE trips SET status = 'Denied', deny_reason = ? WHERE trip_id = ?";
         $update_stmt = $connect->prepare($update_sql);
         $update_stmt->bind_param("si", $denyReason, $tripId);
 
-        $update_stmt->close();
+        if ($update_stmt->execute()) {
+            // Trip status updated successfully
+            echo "<script>alert('Trip denied successfully.'); window.history.back();</script>";
 
-        // Send email to requester with deny reason
-        $ruvSql = "SELECT * FROM ruv_table WHERE ruvNO = (SELECT ruvNO FROM trips WHERE trip_id = ?)";
-        $ruvStmt = $connect->prepare($ruvSql);
-        $ruvStmt->bind_param("i", $tripId);
-        $ruvStmt->execute();
-        $ruvResult = $ruvStmt->get_result();
-        $ruvData = $ruvResult->fetch_assoc();
-        $ruvStmt->close();
+            // Send email to requester with deny reason
+            $ruvSql = "SELECT * FROM ruv_table WHERE ruvNO = (SELECT ruvNO FROM trips WHERE trip_id = ?)";
+            $ruvStmt = $connect->prepare($ruvSql);
+            $ruvStmt->bind_param("i", $tripId);
+            $ruvStmt->execute();
+            $ruvResult = $ruvStmt->get_result();
+            $ruvData = $ruvResult->fetch_assoc();
+            $ruvStmt->close();
 
-        $toEmail = $ruvData['cscarqc@gmail.com']; // Change to the appropriate column name for email in your 'ruv_table'
-        $subject = "Important Notice: Trip Request Denied";
-        $message = "Hi,\n\nWe regret to inform you that your recent trip request has been denied. Below is the reason provided:\n\n";
-        $message .= "$denyReason\n\n";
-        $message .= "We apologize for any inconvenience this may cause. If you have any questions or need further assistance, please do not hesitate to contact our support team.\n\n";
-        $message .= "Thank you for understanding.\n\nBest regards,\nCSCAR";
+            $toEmail = ('cscarqc@gmail.com'); // Change to the appropriate column name for email in your 'ruv_table'
+            $subject = "Important Notice: Trip Request Denied";
+            $message = "Hi,\n\nWe regret to inform you that your recent trip request has been denied. Below is the reason provided:\n\n";
+            $message .= "$denyReason\n\n";
+            $message .= "We apologize for any inconvenience this may cause. If you have any questions or need further assistance, please do not hesitate to contact our support team.\n\n";
+            $message .= "Thank you for understanding.\n\nBest regards,\nCSCAR";
 
-        sendEmail($toEmail, $subject, $message); // Assuming sendEmail function is defined elsewhere
+            sendEmail($toEmail, $subject, $message); // Assuming sendEmail function is defined elsewhere
 
-        // Redirect or provide feedback as necessary
-        echo "<script>window.history.back();</script>";
+            // Update status to blank (assuming setting it to an empty value or null)
+            $update_ruv_sql = "UPDATE ruv_table SET status = '' WHERE ruvNO = ?";
+            $update_ruv_stmt = $connect->prepare($update_ruv_sql);
+            $update_ruv_stmt->bind_param("i", $ruvData['ruvNO']);
+            $update_ruv_stmt->execute();
+            $update_ruv_stmt->close();
+
+        } else {
+            // Error updating trip status
+            echo "<script>alert('Error: Unable to deny trip.'); window.history.back();</script>";
+        }
     }
+
+    // Redirect or provide feedback as necessary
+    echo "<script>window.history.back();</script>";
 }
 
 function sendEmail($toEmail, $subject, $message) {

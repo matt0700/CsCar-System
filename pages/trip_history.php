@@ -18,12 +18,17 @@ $offset = ($page - 1) * $recordsPerPage;
 // Get sorting parameters from the query string, defaulting to 'trip_id' and 'asc'
 $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : 'trip_id';
 $sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'asc';
-$validSortBy = ['trip_id', 'ruvNO', 'plate_no', 'driver_id', 'trip_date', 'status'];
+$validSortBy = ['trip_id', 'ruvNO', 'driver_name', 'make_series_type', 'trip_date', 'status'];
 $sortBy = in_array($sortBy, $validSortBy) ? $sortBy : 'trip_id';
 $sortOrder = ($sortOrder === 'asc' || $sortOrder === 'desc') ? $sortOrder : 'asc';
 
-// Query to fetch records with sorting and pagination
-$sql = "SELECT trip_id, ruvNO, plate_no, driver_id, trip_date, status FROM trips ORDER BY $sortBy $sortOrder LIMIT ? OFFSET ?";
+// Query to fetch records with sorting and pagination, joining drivers and trips tables
+$sql = "SELECT t.trip_id, t.ruvNO, d.driver_name, tr.make_series_type, t.trip_date, t.status, t.deny_reason 
+        FROM trips t
+        LEFT JOIN drivers d ON t.driver_id = d.driver_id
+        LEFT JOIN vehicle_data tr ON t.plate_no = tr.plate_no
+        ORDER BY $sortBy $sortOrder
+        LIMIT ? OFFSET ?";
 $stmt = $connect->prepare($sql);
 $stmt->bind_param('ii', $recordsPerPage, $offset);
 $stmt->execute();
@@ -58,72 +63,80 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css" type="text/css">
 </head>
-<body>
+
+
+
 <body class="bg-white">
-      <div class="w3-main">
-          <div class=" h-25 static border-none bg-slate-900">
-              <button class="w3-button w3-grey w3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
-                <div class="w3-container flex static ml-56" style="color: white;">
-                    <div class="flex-col text-white" >
-                        <div class="text-5xl mt-3 mb-3 font-bold">
-                            Trip History
-                        </div>
+    <div class="w3-main">
+        <div class="h-25 static border-none bg-slate-900">
+            <button class="w3-button w3-grey w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
+            <div class="w3-container flex static ml-56" style="color: white;">
+                <div class="flex-col text-white">
+                    <div class="text-5xl mt-3 mb-3 font-bold">
+                        Trip History
                     </div>
-                 </div>
-          </div>
-
-            <div class="w3-container ml-56 mt-7">
-                <div class="overflow-x-auto">
-                    <table class="table-auto w-full border-collapse border border-gray-200 ">
-                        <thead>
-                            <tr class="bg-gray-800 text-white">
-                                <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=trip_id&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Trip ID</a></th>
-                                <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=ruvNO&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">RUV NO</a></th>
-                                <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=plate_no&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Plate No</a></th>
-                                <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=driver_id&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Driver ID</a></th>
-                                <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=trip_date&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Trip Date</a></th>
-                                <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=status&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Status</a></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                            // Output data of each row
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr class='border border-gray-200'>";
-                                echo "<td class='px-4 py-2'>" . htmlspecialchars($row["trip_id"]) . "</td>";
-                                echo "<td class='px-4 py-2'>" . htmlspecialchars($row["ruvNO"]) . "</td>";
-                                echo "<td class='px-4 py-2'>" . htmlspecialchars($row["plate_no"]) . "</td>";
-                                echo "<td class='px-4 py-2'>" . htmlspecialchars($row["driver_id"]) . "</td>";
-                                echo "<td class='px-4 py-2'>" . htmlspecialchars($row["trip_date"]) . "</td>";
-                                echo "<td class='px-4 py-2'>" . htmlspecialchars($row["status"]) . "</td>";
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
                 </div>
-                            <div class="mt-4">
-                                <nav class="flex justify-center">
-                                    <ul class="pagination">
-                                        <?php
-                                        for ($i = 1; $i <= $totalPages; $i++) {
-                                            $activeClass = $i == $page ? 'bg-blue-500 text-white' : 'bg-white text-blue-500';
-                                            echo "<li class='mx-1'>";
-                                            echo "<a class='px-3 py-1 border rounded $activeClass' href='?page=$i'>$i</a>";
-                                            echo "</li>";
-                                        }
-                                        ?>
-                                    </ul>
-                                </nav>
-                            </div>
-            </div> 
+            </div>
         </div>
-</body>
 
-<footer>
-</footer>
+        <div class="w3-container ml-56 mt-7">
+            <div class="overflow-x-auto">
+                <table class="table-auto w-full border-collapse border border-gray-200">
+                    <thead>
+                        <tr class="bg-gray-800 text-white">
+                            <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=trip_id&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Trip ID</a></th>
+                            <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=ruvNO&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">RUV NO</a></th>
+                            <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=driver_name&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Driver Name</a></th>
+                            <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=make_series_type&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Vehicle Name</a></th>
+                            <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=trip_date&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Trip Date</a></th>
+                            <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=status&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Status</a></th>
+                            <th class="border border-gray-300 px-4 py-2"><a href="?sortBy=deny_reason&sortOrder=<?php echo ($sortOrder == 'asc' ? 'desc' : 'asc'); ?>" style="color: white; text-decoration: none;">Deny Reason</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        // Output data of each row
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr class='border border-gray-200'>";
+                            echo "<td class='px-4 py-2'>" . htmlspecialchars($row["trip_id"]) . "</td>";
+                            echo "<td class='px-4 py-2'>" . htmlspecialchars($row["ruvNO"]) . "</td>";
+                            echo "<td class='px-4 py-2'>" . htmlspecialchars($row["driver_name"]) . "</td>";
+                            echo "<td class='px-4 py-2'>" . htmlspecialchars($row["make_series_type"]) . "</td>";
+                            echo "<td class='px-4 py-2'>" . htmlspecialchars($row["trip_date"]) . "</td>";
+                            echo "<td class='px-4 py-2'>" . htmlspecialchars($row["status"]) . "</td>";
+                            echo "<td class='px-4 py-2'>" . htmlspecialchars($row["deny_reason"]) . "</td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4">
+                <nav class="flex justify-center">
+                    <ul class="pagination">
+                        <?php
+                        for ($i = 1; $i <= $totalPages; $i++) {
+                            $activeClass = $i == $page ? 'bg-blue-500 text-white' : 'bg-white text-blue-500';
+                            echo "<li class='mx-1'>";
+                            echo "<a class='px-3 py-1 border rounded $activeClass' href='?page=$i'>$i</a>";
+                            echo "</li>";
+                        }
+                        ?>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
+
 <?php
-// Close connection
+// Close statement and connection
+$stmt->close();
+$countStmt->close();
 $connect->close();
 ?>
+
+
+
+
