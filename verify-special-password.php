@@ -23,8 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Compare the entered special password with the hashed password from the database
         if (password_verify($special_password, $hashed_password_from_db)) {
-            $_SESSION['username'] = $username;
-            $_SESSION['user_ID'] = $user_ID;
+            // Special password verified, proceed to the admin area
+            $_SESSION['user_ID'] = $user['user_ID'];
             header('Location: pages/index.php');
             exit();
         } else {

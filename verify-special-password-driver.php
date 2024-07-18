@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Set session variables
             $_SESSION['user_type'] = 'driver';
             $_SESSION['driver_id'] = $driver['driver_id'];
-            $_SESSION['driver_name'] = $driver['driver_name']; // Add other necessary variables
+            $_SESSION['driver_name'] = $driver['driver_name']; 
             $_SESSION['driver_status'] = $driver['driver_status'];
             
             // Redirect to driver's dashboard

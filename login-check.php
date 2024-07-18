@@ -18,6 +18,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $result = mysqli_query($connect, $sql);
 
     if (mysqli_num_rows($result) === 1) {
+        // User found, set session variables
         $_SESSION['username'] = $username;
         $_SESSION['user_ID'] = $user_ID;
         header("Location: verify-special-password.php"); // Redirect to success page or dashboard
