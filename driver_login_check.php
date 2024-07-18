@@ -38,13 +38,13 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         header("Location: driver/pages/index.php");
         exit();
     } else {
-        // Invalid username or password for driver
-        header("Location: driver_login.php?error=Invalid username or password");
+        // User not found or credentials do not match
+        header("Location: driverlogin.php?error=Invalid username or password");
         exit();
     }
 } else {
     // Redirect if username or password are not set
-    header("Location: driver_login.php?error=Username and password are required");
+    header("Location: driverlogin.php?error=Username and password are required");
     exit();
 }
 ?>
