@@ -190,7 +190,8 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
                                 echo "<input type='hidden' name='trip_id' value='" . $row['trip_id'] . "' />";
                                 echo "<input type='hidden'   name='email' value='". $row['email'] . "' />";
                                 echo "<input type='hidden' name='confirm_end' value='yes' />";
-                                echo "<button type='submit' class='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-2'>End Trip</button>";
+                                echo "<button type='submit' class='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-2' onclick='document.body.style.cursor=\"wait\";'>End Trip</button>";
+
                                 echo "</form>";
                                 
                                 echo "</div>";

@@ -85,9 +85,6 @@ include "../connection.php";
             <button id="use-location-btn" >Use My Current Location</button>
             <div class="mt-4">
                 <form id="locate-driver-form" class="flex space-x-2">
-                    <!-- <input type="text" id="latitude" placeholder="Latitude" class="border border-gray-300 p-2 rounded">
-                    <input type="text" id="longitude" placeholder="Longitude" class="border border-gray-300 p-2 rounded"> -->
-                    <!-- <button type="submit" class="bg-blue-500 text-white p-2 rounded">Locate Driver</button> -->
                 </form>
             </div>
                     <!-- Report Problem Form -->
@@ -118,15 +115,9 @@ include "../connection.php";
                                             <label for="issue" class="block text-sm font-medium text-gray-700">Issue:</label>
                                             <textarea name="issue" id="issue" rows="3" class="form-textarea mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"></textarea>
                                         </div>
-                                            <!-- <div class="mb-4">
-                                                <label for="contact" class="block text-sm font-medium text-gray-700">Contact Information (optional):</label>
-                                                <input type="text" name="contact" id="contact" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                                            </div> -->
-                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="submit" class="btn btn-primary" >Submit</button>
                                     </form>
                             </div>
-           
-
         </div>
     </div>
 </div>
