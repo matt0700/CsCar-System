@@ -27,7 +27,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
      if ($result_driver->num_rows === 1) {
          $driver = $result_driver->fetch_assoc();
 
-
+         $_SESSION['driver_id'] = $driver['driver_id'];
         // Redirect to driver dashboard or success message
         header("Location: verify-special-password-driver.php");
         exit();

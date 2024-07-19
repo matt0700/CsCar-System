@@ -24,9 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Compare the entered special password with the hashed password from the database
         if (password_verify($special_password, $hashed_password_from_db)) {
             // Set session variables
-            $_SESSION['user_type'] = 'driver';
+            $_SESSION['username'] = $driver['username'];
+            $_SESSION['user_type'] = 'driver'; // Set the user type to 'driver'
             $_SESSION['driver_id'] = $driver['driver_id'];
-            $_SESSION['driver_name'] = $driver['driver_name']; 
+            $_SESSION['driver_name'] = $driver['driver_name'];
             $_SESSION['driver_status'] = $driver['driver_status'];
             
             // Redirect to driver's dashboard

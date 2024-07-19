@@ -49,28 +49,45 @@ $result = $stmt->get_result();
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        .modal-body p {
-            margin-bottom: 5px;
+    .modal-body p {
+        margin-bottom: 5px;
+    }
+
+    @media only screen and (max-width: 992px) {
+        .w3-container {
+            margin: 0px !important;
         }
-    </style>
+        .table-container {
+            overflow-x: auto;
+            margin: 0px;
+        }
+        .flex {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+    }
+    
+</style>
+
 
 </head>
 <body class="bg-white">
     <div class="w3-main z-10">
-        <div class="bg-slate-900 text-white h-20 static border-none">
-            <button class="w3-button w3-greyw3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
-            <div class="w3-container flex static z-50 ml-56" style="color: white;">
-                <div class="flex-col text-black">
-                    <div class="text-5xl mt-3 mb-3 font-bold text-white">
-                        Approved Trips
+        <div class=" h-25 static border-none bg-slate-900">
+              <button class="w3-button w3-grey w3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
+                <div class="w3-container flex static ml-56" style="color: white;">
+                    <div class="text-5xl mt-3 mb-3 font-bold" >
+                        <div>
+                            Approved Trips
+                        </div>
                     </div>
-                </div>
-            </div>
+                 </div>
         </div>
-    </div>
+   
 
     <div class="p-10">
-        <div class="flex justify-center ml-[200px]">
+        <div class="table-container flex justify-center ml-[200px]">
             <?php
             include '../connection.php';
 

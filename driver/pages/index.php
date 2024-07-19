@@ -1,9 +1,11 @@
 <?php
 session_start();
-if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
-    header("Location: ../driver_login.php");
+if ($_SESSION['user_type'] !== 'driver') {
+    // Redirect to the login page if the session variables are not set or the user is not a driver
+    header("Location: ../../driverlogin.php");
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -20,38 +22,6 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
     
     <!-- tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
-
-
-
-<!-- Geolocation and AJAX script -->
-<!-- <script>
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        }
-
-        function showPosition(position) {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-
-            // Send coordinates to PHP script
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "../update_coordinates.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert("Coordinates saved successfully.");
-                }
-            };
-            xhr.send("lat=" + lat + "&lng=" + lng);
-        }
-    </script> -->
-
-
-
 
     <script>
         function updateLocation() {
@@ -101,18 +71,61 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
 </head>
 
 <style>
-@media only screen and (max-width: 768px) {
-  .w3-container{
-  margin: 0px;
-}
-}
-</style>
+    @media only screen and (max-width: 768px) {
+            .w3-container {
+                margin: 0;
+            }
+            .w3-main {
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .table {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .table-container {
+                overflow-x: auto;
+            }
+            .flex {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media only screen and (max-width: 460px) {
+            .w3-main {
+                width: 100%;
+            }
+        }
+
+        .bg-gray-800 {
+            background-color: #2d3748;
+        }
+        .text-warning {
+            color: #fbd38d;
+        }
+        .btn-primary {
+            background-color: #3182ce;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: #2b6cb0;
+        }
+        .btn-danger {
+            background-color: #e53e3e;
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background-color: #c53030;
+        }
+    </style>
 
 <body class="bg-white">
       <div class="w3-main ">
           <div class=" h-25 static border-none bg-slate-900">
               <button class="w3-button w3-grey w3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
-                <div class="w3-container flex static ml-56" style="color: white;">
+                <div class="w3-container static ml-56" style="color: white;">
                     <div class="flex-col text-white" >
                         <div>
                             <h1>Welcome, <br><?php echo htmlspecialchars($_SESSION['driver_name']); ?></h1>
@@ -130,115 +143,99 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
                  </div>
           </div>
           
-        <div class="w3-container ml-56" style="color: white;">
-            <div class="flex mt-3 mr-4">
-                <div class="text-black">
+        
+          <div class="w3-container ml-56">
+            <div class="flex mt-3 gap-2">
+                <div class="text-black w-full">
                     <?php
-                    // Include your connection file
                     include '../connection.php';
 
-                    // Check if the form has been submitted
                     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['trip_id'])) {
                         if (isset($_POST['confirm_end']) && $_POST['confirm_end'] == 'yes') {
-                            // Update the status of the trip to 'done'
                             $update_sql = "UPDATE trips SET status = 'Done' WHERE trip_id = ?";
                             $update_stmt = $connect->prepare($update_sql);
                             $update_stmt->bind_param("i", $_POST['trip_id']);
                             $update_stmt->execute();
                             $update_stmt->close();
-
-                            // Optionally, you can perform other actions after updating the status
-                            // For example, you may want to send notifications or log the end of the trip
                             echo "<p>Trip ended successfully.</p>";
                         } else {
                             echo "<p>Trip end canceled.</p>";
                         }
                     }
 
-                        // Query to fetch ongoing trips with RUV details for the current driver
-                        $sql = "SELECT t.trip_id, t.ruvNO, t.plate_no, t.driver_id, t.trip_date, r.pickup_point, r.destination, r.name_passengers, r.email
-                                FROM trips t
-                                INNER JOIN ruv_table r ON t.ruvNO = r.ruvNO
-                                WHERE t.driver_id = ? AND t.status = 'ongoing'";
-                        $stmt = $connect->prepare($sql);
-                        $stmt->bind_param("i", $_SESSION['driver_id']);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
+                    $sql = "SELECT t.trip_id, t.ruvNO, t.plate_no, t.driver_id, t.trip_date, r.pickup_point, r.destination, r.name_passengers, r.email
+                            FROM trips t
+                            INNER JOIN ruv_table r ON t.ruvNO = r.ruvNO
+                            WHERE t.driver_id = ? AND t.status = 'ongoing'";
+                    $stmt = $connect->prepare($sql);
+                    $stmt->bind_param("i", $_SESSION['driver_id']);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
 
-                        if ($result->num_rows > 0) {
-                            echo "<div class=' w-96'>";
-                            echo "<h1>Ongoing Trips</h1>";
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<div class='bg-gray-800 text-white rounded-md p-4 mb-4 grid grid-cols-2 gap-4'>";
-                                echo "<div>";
-                                echo "<p class='text-lg font-semibold  text-white mb-2'>Trip ID: <span class='text-warning'>" . $row['trip_id'] . "</span></p>";
-                                echo "<p><strong>RUV No:</strong> " . $row['ruvNO'] . "</p>";
-                                echo "<p><strong>Plate No:</strong> " . $row['plate_no'] . "</p>";
-                                echo "<p><strong>Driver ID:</strong> " . $row['driver_id'] . "</p>";
-                                echo "<p><strong>Passengers:</strong> " . $row['name_passengers'] . "</p>";
-
-                                echo "</div>";
-                                echo "<div>";
-                                echo "<p><strong>Trip Date:</strong> " . $row['trip_date'] . "</p>";
-                                echo "<p><strong>Pick-up Point:</strong> " . $row['pickup_point'] . "</p>";
-                                echo "<p><strong>Destination:</strong> " . $row['destination'] . "</p>"; 
-                                echo "<p><strong>Email:</strong> " . $row['email'] . "</p>"; 
-                                echo "</div>";
-
-                                // Form to end the trip with confirmation
-                                echo "<form action='../feedback_email.php' method='post' onsubmit='return confirmEndTrip()'>";
-                                echo "<input type='hidden' name='trip_id' value='" . $row['trip_id'] . "' />";
-                                echo "<input type='hidden'   name='email' value='". $row['email'] . "' />";
-                                echo "<input type='hidden' name='confirm_end' value='yes' />";
-                                echo "<button type='submit' class='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-2' onclick='document.body.style.cursor=\"wait\";'>End Trip</button>";
-                                echo "</form>";
-                                
-                                echo "</div>";
-                                echo "</div>";
-                                
-
-                            }
-                            
-                        } else {
-                            echo "<h1>No ongoing trips found.</h1>";
+                    if ($result->num_rows > 0) {
+                        echo "<h1>Ongoing Trips</h1>";
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<div class='bg-gray-800 text-white rounded-md p-4 mb-4'>";
+                            echo "<div class='grid grid-cols-1 md:grid-cols-2 gap-4'>";
+                            echo "<div>";
+                            echo "<p class='text-lg font-semibold text-white mb-2'>Trip ID: <span class='text-warning'>" . $row['trip_id'] . "</span></p>";
+                            echo "<p><strong>RUV No:</strong> " . $row['ruvNO'] . "</p>";
+                            echo "<p><strong>Plate No:</strong> " . $row['plate_no'] . "</p>";
+                            echo "<p><strong>Driver ID:</strong> " . $row['driver_id'] . "</p>";
+                            echo "<p><strong>Passengers:</strong> " . $row['name_passengers'] . "</p>";
+                            echo "</div>";
+                            echo "<div>";
+                            echo "<p><strong>Trip Date:</strong> " . $row['trip_date'] . "</p>";
+                            echo "<p><strong>Pick-up Point:</strong> " . $row['pickup_point'] . "</p>";
+                            echo "<p><strong>Destination:</strong> " . $row['destination'] . "</p>";
+                            echo "<p><strong>Email:</strong> " . $row['email'] . "</p>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "<form action='../feedback_email.php' method='post' onsubmit='return confirmEndTrip()'>";
+                            echo "<input type='hidden' name='trip_id' value='" . $row['trip_id'] . "' />";
+                            echo "<input type='hidden' name='email' value='" . $row['email'] . "' />";
+                            echo "<input type='hidden' name='confirm_end' value='yes' />";
+                            echo "<button type='submit' class='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-2'>End Trip</button>";
+                            echo "</form>";
                             echo "</div>";
                         }
+                    } else {
+                        echo "<h1>No ongoing trips found.</h1>";
+                    }
 
-                        $stmt->close();
-                        $connect->close();
-                        ?>
-
+                    $stmt->close();
+                    $connect->close();
+                    ?>
+                    
                     <script>
                         function confirmEndTrip() {
                             return confirm("Are you sure you want to end this trip?");
                         }
                     </script>
                 </div>
-                <div class="m-auto">
-                            <?php
-                            include '../connection.php';
-                            // Count the number of rows for the current driver_id excluding 'ongoing' trips
-                            $countSql = "SELECT COUNT(*) AS count FROM trips WHERE driver_id = ? AND status != 'Ongoing' AND status != 'Denied' AND status != 'Done'";
-                            $countStmt = $connect->prepare($countSql);
-                            $countStmt->bind_param("i", $_SESSION['driver_id']);
-                            $countStmt->execute();
-                            $countResult = $countStmt->get_result();
-                            $countRow = $countResult->fetch_assoc();
-                            $count = $countRow['count'];
 
-                            echo "<div class='bg-gray-800 rounded-md p-4 mb-4'>";
-                            echo "<p class='text-lg font-semibold text-white'>Total Approved Trips" . ": <span class='text-warning'>" . $count . "</span></p>";
-                            echo "<div class='flex justify-center'>";
-                            echo "<a href='driversched.php' class='btn btn-primary mt-auto'>Check it here</a>";
-                            echo "</div>";
-                            ?>
+                <div class="m-auto text-center w-full">
+                    <?php
+                    include '../connection.php';
+                    $countSql = "SELECT COUNT(*) AS count FROM trips WHERE driver_id = ? AND status != 'Ongoing' AND status != 'Denied' AND status != 'Done'";
+                    $countStmt = $connect->prepare($countSql);
+                    $countStmt->bind_param("i", $_SESSION['driver_id']);
+                    $countStmt->execute();
+                    $countResult = $countStmt->get_result();
+                    $countRow = $countResult->fetch_assoc();
+                    $count = $countRow['count'];
 
-                    <div>
+                    echo "<div class='bg-gray-800 rounded-md p-4 mb-4'>";
+                    echo "<p class='text-lg font-semibold text-white'>Total Approved Trips: <span class='text-warning'>" . $count . "</span></p>";
+                    echo "<a href='driversched.php' class='btn btn-primary mt-auto'>Check it here</a>";
+                    echo "</div>";
+                    ?>
+                </div>
+            </div>
         </div>
-
     </div>
-
 </body>
+
 
 
 

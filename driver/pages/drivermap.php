@@ -46,20 +46,19 @@ include "../connection.php";
             top: 50px;
         }
         @media only screen and (max-width: 992px) {
-  .w3-container{
-  margin: 0px !important;
-}
+        .w3-container{
+        margin: 0px !important;
+        }
 
-    .test{
-        margin: 0px;
-    }
+        .test{
+            margin: 0px;
+        }
+        .flex {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
 }
-
-@media only screen and (max-width: 460px) {
-    .w3-main{
-        width: max-content;
-    }
-     }
     </style>
 </head>
 <body class="bg-white">
