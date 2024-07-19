@@ -61,11 +61,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_query($connect, $sql)) {
         $message = "Record inserted successfully.";
 
-        // Update vehicle_data table
-        $sql2 = "UPDATE vehicle_data SET mileage = mileage + '$distance' WHERE plate_no = '$plate_no'";
-        if (!mysqli_query($connect, $sql2)) {
-            $message .= " Error updating vehicle_data: " . mysqli_error($connect);
-        }
+      // Update vehicle_data table
+      $sql2 = "UPDATE vehicle_data SET mileage = mileage + '$distance', fuel_consump = fuel_consump + '$fuel_trip' WHERE plate_no = '$plate_no'";
+      if (!mysqli_query($connect, $sql2)) {
+          $message .= " Error updating vehicle_data: " . mysqli_error($connect);
+      }
     } else {
         $message = "Error inserting record: " . mysqli_error($connect);
     }
