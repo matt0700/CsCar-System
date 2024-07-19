@@ -6,7 +6,7 @@ if (!isset($_SESSION['driver_id'])) {
     exit();
 }
 
-// Include database connection
+
 include "../connection.php";
 
 // Get the logged-in driver's ID
@@ -22,18 +22,22 @@ $result = $stmt->get_result();
 
     // Check if the form has been submitted (Accept Trip button clicked)
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['accept_trip']) && isset($_POST['ruvNO'])) {
-        // Update the status of the trip to 'ongoing'
         $update_sql = "UPDATE trips SET status = 'ongoing' WHERE ruvNO = ?";
         $update_stmt = $connect->prepare($update_sql);
         $update_stmt->bind_param("i", $_POST['ruvNO']);
         $update_stmt->execute();
         $update_stmt->close();
-
-        // Optionally, you can perform other actions after updating the status
-        // For example, you may want to send notifications or log the acceptance of the trip
         echo "<p>Trip accepted successfully.</p>";
     }
-?>
+
+    // Check if there are any ongoing trips
+        $checkOngoingSql = "SELECT COUNT(*) AS ongoing_count FROM trips WHERE status = 'ongoing'";
+        $checkOngoingStmt = $connect->prepare($checkOngoingSql);
+        $checkOngoingStmt->execute();
+        $checkOngoingResult = $checkOngoingStmt->get_result();
+        $ongoingCount = $checkOngoingResult->fetch_assoc()['ongoing_count'];
+        $checkOngoingStmt->close();
+        ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,7 +65,7 @@ $result = $stmt->get_result();
             overflow-x: auto;
             margin: 0px;
         }
-        .flex {
+        .content {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -79,7 +83,7 @@ $result = $stmt->get_result();
                 <div class="w3-container flex static ml-56" style="color: white;">
                     <div class="text-5xl mt-3 mb-3 font-bold" >
                         <div>
-                            Approved Trips
+                            Assigned Trips
                         </div>
                     </div>
                  </div>
@@ -114,36 +118,43 @@ $result = $stmt->get_result();
                 echo "<tbody>";
 
                 while ($row = $result->fetch_assoc()) {
+                    $trip_id = $row["trip_id"];
+                    $ruvNO = $row["ruvNO"];
+                    $plate_no = $row["plate_no"];
+                    $driver_id = $row["driver_id"];
+                    $trip_date = $row["trip_date"];
+                    $status = $row["status"];
+                
                     echo "<tr>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["trip_id"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["ruvNO"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["plate_no"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["driver_id"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["trip_date"] . "</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>" . htmlspecialchars($trip_id) . "</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>" . htmlspecialchars($ruvNO) . "</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>" . htmlspecialchars($plate_no) . "</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>" . htmlspecialchars($driver_id) . "</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>" . htmlspecialchars($trip_date) . "</td>";
                     echo "<td class='border border-gray-400 px-4 py-2'>";
-                    echo "<button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#ruvDetailsModal' data-ruvno='" . $row['ruvNO'] . "'>View RUV</button>";
+                    echo "<button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#ruvDetailsModal' data-ruvno='" . htmlspecialchars($row['ruvNO']) . "'>View RUV</button>";
                     echo "</td>";
                     echo "<td class='border border-gray-400 px-4 py-2'>";
                     echo "<form action='../accept_trip.php' method='post' onsubmit='return confirmTrip()'>";
-                    echo "<input type='hidden' name='trip_id' value='" . $row['trip_id'] . "' />";
+                    echo "<input type='hidden' name='trip_id' value='" . htmlspecialchars($row['trip_id']) . "' />";
                     echo "<input type='hidden' name='confirm_accept' value='yes' />";
-                    echo "<button type='submit' class='btn btn-primary' onclick='document.body.style.cursor=\"wait\";'>Accept Trip</button>";
+                    
+
+                    if ($ongoingCount > 0) {
+                        echo "<button type='submit' class='btn btn-primary' onclick='document.body.style.cursor=\"wait\";' disabled>Accept Trip</button>";
+                        echo "<span class='text-red-500 ml-2'>Ongoing trip in progress</span>";
+                    } else {
+                        echo "<button type='submit' class='btn btn-primary' onclick='document.body.style.cursor=\"wait\";'>Accept Trip</button>";
+                    }
+                
                     echo "<input type='hidden' name='deny_reason' value=''>";
                     echo "<button type='button' class='btn btn-danger' onclick='denyTrip()'>Deny Trip</button>";
                     echo "</form>";
                     echo "</td>";
                     echo "</tr>";
                 }
-
-                echo "</tbody>";
-                echo "</table>";
-            } else {
-                echo "<p class='text-gray-500'>0 results</p>";
             }
-
-            $stmt->close();
-            $connect->close();
-            ?>
+                ?>
         </div>
     </div>
 
@@ -248,8 +259,8 @@ $result = $stmt->get_result();
             }
         }
 
-        // Update location every 30 seconds
-        setInterval(updateLocation, 30000);
+        // Update location every 5 seconds
+        setInterval(updateLocation, 5000);
     </script>
 
 </body>

@@ -54,7 +54,7 @@
         <img class="w-5 h-5" src="https://img.icons8.com/ios/50/FFFFFF/planner.png" alt="Planner Icon">
       </div>
       <div class="ml-1.5">
-        Schedules
+        Assigned Trips
       </div>
     </a>
   </div>  

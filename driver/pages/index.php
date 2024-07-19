@@ -64,7 +64,7 @@ if ($_SESSION['user_type'] !== 'driver') {
             }
         }
 
-        // Update location every 30 seconds
+        // Update location every 5 seconds
         setInterval(updateLocation, 5000);
     </script>
 
@@ -86,7 +86,7 @@ if ($_SESSION['user_type'] !== 'driver') {
             .table-container {
                 overflow-x: auto;
             }
-            .flex {
+            .content {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -128,7 +128,7 @@ if ($_SESSION['user_type'] !== 'driver') {
                 <div class="w3-container static ml-56" style="color: white;">
                     <div class="flex-col text-white" >
                         <div>
-                            <h1>Welcome, <br><?php echo htmlspecialchars($_SESSION['driver_name']); ?></h1>
+                            <h1>Welcome</h1>
                             <p>Your driver ID: <?php echo htmlspecialchars($_SESSION['driver_id']); ?></p>
                             <form action="../update_status.php" method="post" class="ml-2">
                             <label for="status" class="mr-2 text-white">Status:</label>
@@ -145,7 +145,7 @@ if ($_SESSION['user_type'] !== 'driver') {
           
         
           <div class="w3-container ml-56">
-            <div class="flex mt-3 gap-2">
+            <div class="content flex mt-3 gap-2">
                 <div class="text-black w-full">
                     <?php
                     include '../connection.php';

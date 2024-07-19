@@ -77,9 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_accept'])) {
         $update_stmt->bind_param("si", $denyReason, $tripId);
 
         if ($update_stmt->execute()) {
-            // Trip status updated successfully
-            echo "<script>alert('Trip denied successfully.'); window.history.back();</script>";
-
             // Send email to requester with deny reason
             $ruvSql = "SELECT * FROM ruv_table WHERE ruvNO = (SELECT ruvNO FROM trips WHERE trip_id = ?)";
             $ruvStmt = $connect->prepare($ruvSql);

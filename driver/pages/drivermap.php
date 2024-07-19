@@ -53,7 +53,7 @@ include "../connection.php";
         .test{
             margin: 0px;
         }
-        .flex {
+        .content {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -259,7 +259,7 @@ include "../connection.php";
             }
         }
 
-        // Update location every 30 seconds
+        // Update location every 5 seconds
         setInterval(updateLocation, 5000);
 
 
