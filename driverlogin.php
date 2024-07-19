@@ -48,15 +48,15 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin-top:-100px;
+      margin: auto;
     }
 
     .logo-container {
-      margin-bottom: 20px; /* Space between logo and form */
+      margin-bottom: 20px; 
     }
 
     .logo-container img {
-      width: 150px; /* Adjust the size of the logo */
+      width: 150px;
     }
 
     .login-form {
@@ -66,7 +66,7 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       padding: 30px;
       width: 100%;
-      max-width: 350px; /* Adjust the width to match your design */
+      max-width: 350px; 
     }
 
     .form-group {
