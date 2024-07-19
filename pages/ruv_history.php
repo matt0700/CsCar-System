@@ -90,7 +90,7 @@ mysqli_close($connect); // Close connection after use
                                     echo "<td class='border px-4 py-2'>" . $row['destination'] . "</td>";
                                     echo "<td class='border px-4 py-2'>" . $row['submitted'] . "</td>";
                                     echo "<td class='border px-4 py-2'>" . $row['status'] . "</td>";
-                                    echo "<td class='border px-4 py-2'>" . $row['pref_time'] . "</td>";
+                                    echo "<td class='border px-4 py-2'>" . ($row['status'] == 'Denied' ? 'N/A' : $row['pref_time']) . "</td>";
                                     echo "</tr>";
                                 }
                             } else {

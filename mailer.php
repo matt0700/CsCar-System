@@ -10,7 +10,7 @@ if (isset($_GET['ruvNO'])) {
     require_once("connection.php"); // Ensure connection is established
 
     // Update query example (modify according to your schema)
-    $updateQuery = "UPDATE ruv_table SET status = 'Approved' WHERE ruvNO = '$ruvNO'";
+    $updateQuery = "UPDATE ruv_table SET status = '' WHERE ruvNO = '$ruvNO'";
     $result = mysqli_query($connect, $updateQuery);
 
     if ($result) {

@@ -102,7 +102,7 @@
                                 echo "<td class='px-4 py-2'>" . htmlspecialchars($row["make_series_type"]) . "</td>";
                                 echo "<td class='px-4 py-2'>" . htmlspecialchars($row["trip_date"]) . "</td>";
                                 echo "<td class='px-4 py-2'>" . htmlspecialchars($row["status"]) . "</td>";
-                                echo "<td class='px-4 py-2'>" . htmlspecialchars($row["deny_reason"]) . "</td>";
+                                echo "<td class='px-4 py-2'>" . htmlspecialchars($row['status'] == 'Done' ? 'N/A' : $row['deny_reason']) . "</td>";
                                 echo "</tr>";
                             }
                             ?>

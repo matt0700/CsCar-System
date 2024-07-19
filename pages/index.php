@@ -154,7 +154,7 @@ mysqli_close($connect); // Close connection after use
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" id="disapproveButton">Disapprove</button>
-                                        <button type="button" class="btn btn-success" id="approveButton">Approve</button>
+                                        <button type="button" onclick='document.body.style.cursor=\"wait\"' class="btn btn-success" id="approveButton">Approve</button>
                                         </div>
                                     </div>
                                 </div>
