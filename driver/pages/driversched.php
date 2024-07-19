@@ -6,7 +6,7 @@ if (!isset($_SESSION['driver_id'])) {
     exit();
 }
 
-// Include database connection
+
 include "../connection.php";
 
 // Get the logged-in driver's ID
@@ -22,15 +22,11 @@ $result = $stmt->get_result();
 
     // Check if the form has been submitted (Accept Trip button clicked)
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['accept_trip']) && isset($_POST['ruvNO'])) {
-        // Update the status of the trip to 'ongoing'
         $update_sql = "UPDATE trips SET status = 'ongoing' WHERE ruvNO = ?";
         $update_stmt = $connect->prepare($update_sql);
         $update_stmt->bind_param("i", $_POST['ruvNO']);
         $update_stmt->execute();
         $update_stmt->close();
-
-        // Optionally, you can perform other actions after updating the status
-        // For example, you may want to send notifications or log the acceptance of the trip
         echo "<p>Trip accepted successfully.</p>";
     }
 
@@ -127,7 +123,7 @@ $result = $stmt->get_result();
                     $plate_no = $row["plate_no"];
                     $driver_id = $row["driver_id"];
                     $trip_date = $row["trip_date"];
-                    $status = $row["status"]; // Assuming 'status' is a column in your database table
+                    $status = $row["status"];
                 
                     echo "<tr>";
                     echo "<td class='border border-gray-400 px-4 py-2'>" . htmlspecialchars($trip_id) . "</td>";
@@ -143,13 +139,11 @@ $result = $stmt->get_result();
                     echo "<input type='hidden' name='trip_id' value='" . htmlspecialchars($row['trip_id']) . "' />";
                     echo "<input type='hidden' name='confirm_accept' value='yes' />";
                     
-                    // Check if there are ongoing trips
+
                     if ($ongoingCount > 0) {
-                        // Disable the Accept button if there are ongoing trips
                         echo "<button type='submit' class='btn btn-primary' onclick='document.body.style.cursor=\"wait\";' disabled>Accept Trip</button>";
                         echo "<span class='text-red-500 ml-2'>Ongoing trip in progress</span>";
                     } else {
-                        // Enable the Accept button if there are no ongoing trips
                         echo "<button type='submit' class='btn btn-primary' onclick='document.body.style.cursor=\"wait\";'>Accept Trip</button>";
                     }
                 
@@ -265,8 +259,8 @@ $result = $stmt->get_result();
             }
         }
 
-        // Update location every 30 seconds
-        setInterval(updateLocation, 30000);
+        // Update location every 5 seconds
+        setInterval(updateLocation, 5000);
     </script>
 
 </body>

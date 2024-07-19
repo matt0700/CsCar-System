@@ -64,7 +64,7 @@ if ($_SESSION['user_type'] !== 'driver') {
             }
         }
 
-        // Update location every 30 seconds
+        // Update location every 5 seconds
         setInterval(updateLocation, 5000);
     </script>
 
