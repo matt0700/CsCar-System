@@ -62,7 +62,7 @@
   <div class="mt-2">
     <a href="drivermap.php" class="w3-button flex items-center w3-bar">
       <div>
-        <img class="w-5 h-5" src="https://img.icons8.com/ios/50/FFFFFF/planner.png" alt="Planner Icon">
+      <img width="15" height="15" src="https://img.icons8.com/ios-filled/50/FFFFFF/map-marker--v1.png" alt="map-marker--v1"/>
       </div>
       <div class="ml-1.5">
         Map
