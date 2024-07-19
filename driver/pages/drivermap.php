@@ -53,7 +53,7 @@ include "../connection.php";
         .test{
             margin: 0px;
         }
-        .flex {
+        .content {
                 display: flex;
                 flex-direction: column;
                 align-items: center;

@@ -61,7 +61,7 @@ $result = $stmt->get_result();
             overflow-x: auto;
             margin: 0px;
         }
-        .flex {
+        .content {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -79,7 +79,7 @@ $result = $stmt->get_result();
                 <div class="w3-container flex static ml-56" style="color: white;">
                     <div class="text-5xl mt-3 mb-3 font-bold" >
                         <div>
-                            Approved Trips
+                            Assigned Trips
                         </div>
                     </div>
                  </div>

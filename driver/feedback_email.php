@@ -59,13 +59,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['trip_id']) && isset($_
                 if (!$mail->send()) {
                     throw new Exception('Email sending failed: ' . $mail->ErrorInfo);
                 } else {
-                    echo "<script>alert('Trip ended successfully and message has been sent to the customer.'); window.history.back();</script>";
+                    echo "<script>alert('Trip ended successfully and message has been sent to the requester.'); window.history.back();</script>";
                 }
             } catch (Exception $e) {
                 echo "<script>alert('Message could not be sent. PHPMailer Error: " . $e->getMessage() . "'); window.history.back();</script>";
             }
         } else {
-            echo "<script>alert('Customer email not provided.'); window.history.back();</script>";
+            echo "<script>alert('Requester email not provided.'); window.history.back();</script>";
         }
     } else {
         echo "<script>alert('Error updating trip status.'); window.history.back();</script>";

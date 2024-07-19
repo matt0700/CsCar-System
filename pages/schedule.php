@@ -73,7 +73,7 @@ if (!isset($_SESSION['username'])) {
             <div class="w3-container flex static ml-56" style="color: white;">
                 <div class="flex text-white">
                     <div class="text-5xl mt-3 mb-3 font-bold">
-                            Trip History
+                            Approved Trips
                     </div>
                 </div>
             </div>

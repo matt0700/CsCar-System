@@ -29,12 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['driver_id'] = $driver['driver_id'];
             $_SESSION['driver_name'] = $driver['driver_name'];
             $_SESSION['driver_status'] = $driver['driver_status'];
-            
+
             // Redirect to driver's dashboard
             header('Location: driver/pages/index.php');
             exit();
         } else {
-            header('Location: verify-special-password-driver.php?error=Invalid special password');
+            header('Location: verify-special-password-driver.php?error=Invalid unique password');
             exit();
         }
     } else {
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Special Password</title>
+    <title>Verify Unique Password</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.1/mdb.min.css">
     <style>
         .login-container {
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <div class="login-container">
     <form action="verify-special-password-driver.php" method="post" class="login-form">
-        <h1 class="text-center mb-2 text-2xl"><strong>Verify Special Password</strong></h1>
+        <h1 class="text-center mb-2 text-2xl"><strong>Verify Unique Password</strong></h1>
         <?php
         if (isset($_GET['error'])) {
             echo '<div class="alert alert-danger text-center">' . htmlspecialchars($_GET['error']) . '</div>';
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ?>
         <div class="form-group">
             <label for="special_password" class="align-center"></label>
-            <input class="mb-2" type="password" id="special_password" name="special_password" required>
+            <input class="mb-2" type="password" id="special_password" name="special_password" placeholder="Enter here" required>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Verify</button>
     </form>
