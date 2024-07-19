@@ -33,7 +33,15 @@ $result = $stmt->get_result();
         // For example, you may want to send notifications or log the acceptance of the trip
         echo "<p>Trip accepted successfully.</p>";
     }
-?>
+
+    // Check if there are any ongoing trips
+        $checkOngoingSql = "SELECT COUNT(*) AS ongoing_count FROM trips WHERE status = 'ongoing'";
+        $checkOngoingStmt = $connect->prepare($checkOngoingSql);
+        $checkOngoingStmt->execute();
+        $checkOngoingResult = $checkOngoingStmt->get_result();
+        $ongoingCount = $checkOngoingResult->fetch_assoc()['ongoing_count'];
+        $checkOngoingStmt->close();
+        ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,36 +122,45 @@ $result = $stmt->get_result();
                 echo "<tbody>";
 
                 while ($row = $result->fetch_assoc()) {
+                    $trip_id = $row["trip_id"];
+                    $ruvNO = $row["ruvNO"];
+                    $plate_no = $row["plate_no"];
+                    $driver_id = $row["driver_id"];
+                    $trip_date = $row["trip_date"];
+                    $status = $row["status"]; // Assuming 'status' is a column in your database table
+                
                     echo "<tr>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["trip_id"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["ruvNO"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["plate_no"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["driver_id"] . "</td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'>" . $row["trip_date"] . "</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>" . htmlspecialchars($trip_id) . "</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>" . htmlspecialchars($ruvNO) . "</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>" . htmlspecialchars($plate_no) . "</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>" . htmlspecialchars($driver_id) . "</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>" . htmlspecialchars($trip_date) . "</td>";
                     echo "<td class='border border-gray-400 px-4 py-2'>";
-                    echo "<button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#ruvDetailsModal' data-ruvno='" . $row['ruvNO'] . "'>View RUV</button>";
+                    echo "<button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#ruvDetailsModal' data-ruvno='" . htmlspecialchars($row['ruvNO']) . "'>View RUV</button>";
                     echo "</td>";
                     echo "<td class='border border-gray-400 px-4 py-2'>";
                     echo "<form action='../accept_trip.php' method='post' onsubmit='return confirmTrip()'>";
-                    echo "<input type='hidden' name='trip_id' value='" . $row['trip_id'] . "' />";
+                    echo "<input type='hidden' name='trip_id' value='" . htmlspecialchars($row['trip_id']) . "' />";
                     echo "<input type='hidden' name='confirm_accept' value='yes' />";
-                    echo "<button type='submit' class='btn btn-primary' onclick='document.body.style.cursor=\"wait\";'>Accept Trip</button>";
+                    
+                    // Check if there are ongoing trips
+                    if ($ongoingCount > 0) {
+                        // Disable the Accept button if there are ongoing trips
+                        echo "<button type='submit' class='btn btn-primary' onclick='document.body.style.cursor=\"wait\";' disabled>Accept Trip</button>";
+                        echo "<span class='text-red-500 ml-2'>Ongoing trip in progress</span>";
+                    } else {
+                        // Enable the Accept button if there are no ongoing trips
+                        echo "<button type='submit' class='btn btn-primary' onclick='document.body.style.cursor=\"wait\";'>Accept Trip</button>";
+                    }
+                
                     echo "<input type='hidden' name='deny_reason' value=''>";
                     echo "<button type='button' class='btn btn-danger' onclick='denyTrip()'>Deny Trip</button>";
                     echo "</form>";
                     echo "</td>";
                     echo "</tr>";
                 }
-
-                echo "</tbody>";
-                echo "</table>";
-            } else {
-                echo "<p class='text-gray-500'>0 results</p>";
             }
-
-            $stmt->close();
-            $connect->close();
-            ?>
+                ?>
         </div>
     </div>
 
