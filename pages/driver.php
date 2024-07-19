@@ -120,13 +120,14 @@ $connect->close(); // Close connection after use
     </style>
 </head>
 <body class="bg-white">
-    <div class="w3-main z-10">
-        <div class="bg-slate-900 text-white h-auto static border-none">
-            <button class="w3-button w3-grey w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
-            
-            <div class="w3-container flex transition-all" style="color: white;">
-                <div class="title flex-col ml-[200px] text-5xl mt-3 mb-3 font-bold">
-                    Driver Information
+    <div class="w3-main ">
+        <div class=" h-25 static border-none bg-slate-900">
+            <button class="w3-button w3-grey w3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
+            <div class="w3-container flex static ml-56" style="color: white;">
+                <div class="flex text-white">
+                    <div class="text-5xl mt-3 mb-3 font-bold">
+                            Driver Information
+                    </div>
                 </div>
             </div>
         </div>

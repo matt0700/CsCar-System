@@ -36,73 +36,101 @@ if (!isset($_SESSION['username'])) {
         .modal-body p {
             margin-bottom: 5px;
         }
+    
+
+        @media (max-width: 768px) {
+            .overflow-x-auto {
+                overflow-x: auto;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            th, td {
+                padding: 0.5rem;
+            }
+            .test{
+                margin:0px;
+            }
+            .w3-container{
+  margin: 0px !important;
+}
+
+    .header{
+        margin: 0px !important;
+    }
+}
+        
     </style>
 
 </head>
 <body class="bg-white">
-    <div class="w3-main z-10">
-        <div class="bg-slate-900 text-white h-20 static border-none">
-            <button class="w3-button w3-grey w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
-            <div class="w3-container flex static z-50 ml-56" style="color: white;">
-                <div class="flex-col">
+    <div class="w3-main ">
+        <div class=" h-25 static border-none bg-slate-900">
+            <button class="w3-button w3-grey w3-xlarge w3-hide-large " onclick="w3_open()">&#9776;</button>
+            <div class="w3-container flex static ml-56" style="color: white;">
+                <div class="flex text-white">
                     <div class="text-5xl mt-3 mb-3 font-bold">
-                        Approved Trips
+                            Trip History
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class=" p-10">
-        <div class="test z-50 flex justify-center ml-[200px]">
-            <?php
-            if ($result->num_rows > 0) {
-                echo "<table class='table-auto border-collapse border border-gray-400 text-center'>";
-                echo "<thead><tr class='bg-gray-800 text-white'>";
-                echo "<th class='border border-gray-400 px-4 py-2'>TRIP ID</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>RUV NO.</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>PLATE NO.</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>DRIVER ID</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>TRIP DATE</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>RUV</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'>TRIP TICKET</th>";
-                echo "<th class='border border-gray-400 px-4 py-2'></th>";
-                echo "</tr></thead><tbody>";
+    <div class="p-10">
+    <div class="test z-50 flex justify-center ml-[200px]">
+        <?php
+        if ($result->num_rows > 0) {
+            echo "<div class='overflow-x-auto'>"; // Wrapper for horizontal scroll
+            echo "<table class='table-auto border-collapse border border-gray-400 text-center'>";
+            echo "<thead><tr class='bg-gray-800 text-white'>";
+            echo "<th class='border border-gray-400 px-4 py-2'>TRIP ID</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>RUV NO.</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>PLATE NO.</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>DRIVER ID</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>TRIP DATE</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>RUV</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'>TRIP TICKET</th>";
+            echo "<th class='border border-gray-400 px-4 py-2'></th>";
+            echo "</tr></thead><tbody>";
 
-                while ($row = $result->fetch_assoc()) {
-                    $trip_id = $row["trip_id"];
-                    $ruvNO = $row["ruvNO"];
-                    $plate_no = $row["plate_no"];
-                    $driver_id = $row["driver_id"];
-                    $trip_date = $row["trip_date"];
-                    $status = $row["status"]; // Assuming 'status' is a column in your database table
+            while ($row = $result->fetch_assoc()) {
+                $trip_id = $row["trip_id"];
+                $ruvNO = $row["ruvNO"];
+                $plate_no = $row["plate_no"];
+                $driver_id = $row["driver_id"];
+                $trip_date = $row["trip_date"];
+                $status = $row["status"]; // Assuming 'status' is a column in your database table
 
-                    // Check if the trip status is not 'done' or 'ongoing'
-                    if ($status != 'done' && $status != 'ongoing') {
-                        // Assuming ruvpdf.php generates a PDF and returns a URL to the file
-                        $file_url = generateRuvPdf($trip_id); // Update this function to match your actual implementation
-                        $trip_url = generateTripPdf($trip_id);    
+                // Check if the trip status is not 'done' or 'ongoing'
+                if ($status != 'done' && $status != 'ongoing') {
+                    // Assuming ruvpdf.php generates a PDF and returns a URL to the file
+                    $file_url = generateRuvPdf($trip_id); // Update this function to match your actual implementation
+                    $trip_url = generateTripPdf($trip_id);    
 
-                        echo "<tr>";
-                        echo "<td class='border border-gray-400 px-4 py-2'>$trip_id</td>";
-                        echo "<td class='border border-gray-400 px-4 py-2'>$ruvNO</td>";
-                        echo "<td class='border border-gray-400 px-4 py-2'>$plate_no</td>";
-                        echo "<td class='border border-gray-400 px-4 py-2'>$driver_id</td>";
-                        echo "<td class='border border-gray-400 px-4 py-2'>$trip_date</td>";
-                        echo "<td class='border border-gray-400 px-4 py-2'><a href='$file_url' target='_blank'>Download File</a></td>";
-                        echo "<td class='border border-gray-400 px-4 py-2'><a href='$trip_url' target='_blank'>Download File</a></td>";
-                        echo "<td class='border border-gray-400 px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#driverDetailsModal' data-driverid='$driver_id'>View Driver</button></td>";
-                        echo "</tr>";
-                    }
+                    echo "<tr>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>$trip_id</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>$ruvNO</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>$plate_no</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>$driver_id</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'>$trip_date</td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'><a href='$file_url' target='_blank' class='text-blue-500'>Download File</a></td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'><a href='$trip_url' target='_blank' class='text-blue-500'>Download File</a></td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#driverDetailsModal' data-driverid='$driver_id'>View Driver</button></td>";
+                    echo "</tr>";
                 }
-                echo "</tbody></table>";
-            } else {
-                echo "<p class='text-gray-500'>0 results</p>";
             }
-            ?>
-        </div>
-        
+            echo "</tbody></table>";
+            echo "</div>"; // End of overflow container
+        } else {
+            echo "<p class='text-gray-500'>0 results</p>";
+        }
+        ?>
     </div>
+</div>
+
                 
     <!-- Driver Details Modal -->
     <div class="modal fade" id="driverDetailsModal" tabindex="-1" aria-labelledby="driverDetailsModalLabel" aria-hidden="true">

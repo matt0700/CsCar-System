@@ -14,8 +14,34 @@ include "../connection.php";
 $sql = "SELECT * FROM ruv_table";
 $result = $connect->query($sql);
 
-mysqli_close($connect); // Close connection after use
+
+// Count available drivers
+$driverCountSql = "SELECT COUNT(*) AS count FROM drivers WHERE driver_status = 'Available'";
+$driverCountStmt = $connect->prepare($driverCountSql);
+$driverCountStmt->execute();
+$driverCountResult = $driverCountStmt->get_result();
+$driverCountRow = $driverCountResult->fetch_assoc();
+$driverCount = $driverCountRow['count'];
+
+    // Count available vehicles
+    $vehicleCountSql = "SELECT COUNT(*) AS count FROM vehicle_data WHERE car_status = 'Available'";
+    $vehicleCountStmt = $connect->prepare($vehicleCountSql);
+    $vehicleCountStmt->execute();
+    $vehicleCountResult = $vehicleCountStmt->get_result();
+    $vehicleCountRow = $vehicleCountResult->fetch_assoc();
+    $vehicleCount = $vehicleCountRow['count'];
+
+    // Count reports
+    $reportCountSql = "SELECT COUNT(*) AS count FROM mrot";
+    $reportCountStmt = $connect->prepare($reportCountSql);
+    $reportCountStmt->execute();
+    $reportCountResult = $reportCountStmt->get_result();
+    $reportCountRow = $reportCountResult->fetch_assoc();
+    $reportCount = $reportCountRow['count'];
+    mysqli_close($connect);
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,6 +69,14 @@ mysqli_close($connect); // Close connection after use
     margin:0px !important;
   }
 }
+
+.alerts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem; /* Adjust the gap between columns as needed */
+    text-align:center;
+}
+
 </style>
 
 <body class="bg-white">
@@ -57,89 +91,66 @@ mysqli_close($connect); // Close connection after use
                 </div>
             </div>
         </div>
-            <div class="w3-container flex static ml-56" style="color: white;">
-                    <div class="p-6 rounded-lg shadow-lg text-black w-full max-w-7xl m-2">
-                        <h2 class="text-2xl font-bold mb-6">Pending RUV</h2>
-                            <p>NOTE: You can only accept or disapprove requests that are on the top of the list</p>
-                                <div class="overflow-x-auto">
-                                    <table class="min-w-full text-black">
-                                        <thead class="bg-gray-800 text-white" >
-                                            <tr>
-                                                <th class="px-4 py-2 border">RUV No</th>
-                                                <th class="px-4 py-2 border">Pick-up Point</th>
-                                                <th class="px-4 py-2 border">Destination</th>
-                                                <th class="px-4 py-2 border">Date Submitted</th>
-                                                <th class="px-4 py-2 border">Details</th>
-                                            </tr>
-                                        </thead>
-                                            <tbody>
-                                                <?php
-                                                if ($result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        // Check if status is not "Approved"
-                                                        if ($row['status'] !== 'Approved' && $row['status'] !== 'Denied') {
-                                                            echo "<tr>";
-                                                            echo "<td class='border px-4 py-2'>" . $row['ruvNO'] . "</td>";
-                                                            echo "<td class='border px-4 py-2'>" . $row['pickup_point'] . "</td>";
-                                                            echo "<td class='border px-4 py-2'>" . $row['destination'] . "</td>";
-                                                            echo "<td class='border px-4 py-2'>" . $row['submitted'] . "</td>";
-                                                            echo "<td class='border px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#detailsModal' data-ruvno='" . $row['ruvNO'] . "'>Details</button></td>";
-                                                            echo "</tr>";
-                                                        }
-                                                    }
-                                                } else {
-                                                    echo "<tr><td colspan='4' class='border px-4 py-2'>No pending requests found</td></tr>";
-                                                }
-                                                ?>
-                                            </tbody>
-                                    </table>
-                                </div>
+    <div class="w3-container ml-56" style="color: white;">
+            <!-- Alerts Container -->
+            <div class="alerts-container m-2">
+                <div class="alertscol bg-gray-800 rounded-md p-4 mb-4">
+                    <p class="text-lg font-semibold text-white">Available Drivers: <span class="text-warning"><?php echo $driverCount; ?></span></p>
+                    <a href="driver.php" class="btn btn-primary mt-auto">Check it here</a>
+                </div>
+
+                <div class="alertscol bg-gray-800 rounded-md p-4 mb-4">
+                    <p class="text-lg font-semibold text-white">Available Vehicles: <span class="text-warning"><?php echo $vehicleCount; ?></span></p>
+                    <a href="vehicle.php" class="btn btn-primary mt-auto">Check it here</a>
+                </div>
+
+                <div class="alertscol bg-gray-800 rounded-md p-4 mb-4">
+                    <p class="text-lg font-semibold text-white">Reports: <span class="text-warning"><?php echo $reportCount; ?></span></p>
+                    <a href="reports.php" class="btn btn-primary mt-auto">Check it here</a>
+                </div>
+            </div>
+
+                <!-- Pending RUV Section -->
+                <div class="p-6 rounded-lg shadow-lg text-black w-full max-w-7xl m-2">
+                    <h2 class="text-2xl font-bold mb-6">Pending RUV</h2>
+                    <p>NOTE: You can only accept or disapprove requests that are on the top of the list</p>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-black">
+                            <thead class="bg-gray-800 text-white">
+                                <tr>
+                                    <th class="px-4 py-2 border">RUV No</th>
+                                    <th class="px-4 py-2 border">Pick-up Point</th>
+                                    <th class="px-4 py-2 border">Destination</th>
+                                    <th class="px-4 py-2 border">Date Submitted</th>
+                                    <th class="px-4 py-2 border">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        // Check if status is not "Approved" or "Denied"
+                                        if ($row['status'] !== 'Approved' && $row['status'] !== 'Denied') {
+                                            echo "<tr>";
+                                            echo "<td class='border px-4 py-2'>" . $row['ruvNO'] . "</td>";
+                                            echo "<td class='border px-4 py-2'>" . $row['pickup_point'] . "</td>";
+                                            echo "<td class='border px-4 py-2'>" . $row['destination'] . "</td>";
+                                            echo "<td class='border px-4 py-2'>" . $row['submitted'] . "</td>";
+                                            echo "<td class='border px-4 py-2'>
+                                                <button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#detailsModal' data-ruvno='" . $row['ruvNO'] . "'>Details</button>
+                                            </td>";
+                                            echo "</tr>";
+                                        }
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='5' class='border px-4 py-2'>No pending requests found</td></tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <?php
-                        include '../connection.php';
-                        // Count the number of available drivers in the drivers table
-                        $driverCountSql = "SELECT COUNT(*) AS count FROM drivers WHERE driver_status = 'Available'";
-                        $driverCountStmt = $connect->prepare($driverCountSql);
-                        $driverCountStmt->execute();
-                        $driverCountResult = $driverCountStmt->get_result();
-                        $driverCountRow = $driverCountResult->fetch_assoc();
-                        $driverCount = $driverCountRow['count'];
-
-                            // Count the number of available vehicles in the vehicles table
-                            $vehicleCountSql = "SELECT COUNT(*) AS count FROM vehicle_data WHERE car_status = 'Available'";
-                            $vehicleCountStmt = $connect->prepare($vehicleCountSql);
-                            $vehicleCountStmt->execute();
-                            $vehicleCountResult = $vehicleCountStmt->get_result();
-                            $vehicleCountRow = $vehicleCountResult->fetch_assoc();
-                            $vehicleCount = $vehicleCountRow['count'];
-
-                                // Count the number of available vehicles in the vehicles table
-                                $reportCountSql = "SELECT COUNT(*) AS count FROM mrot";
-                                $reportCountStmt = $connect->prepare($reportCountSql);
-                                $reportCountStmt->execute();
-                                $reportCountResult = $reportCountStmt->get_result();
-                                $reportCountRow = $reportCountResult->fetch_assoc();
-                                $reportCount = $reportCountRow['count'];                        
-
-                                    echo "<div class='alerts m-2'>";
-                                        echo "<div class='alertscol bg-gray-800 rounded-md p-4 mb-4 m-2'>";
-                                        echo "<p class='text-lg font-semibold text-white'>Available Drivers" . ": <span class='text-warning'>" . $driverCount . "</span></p>";
-                                        echo "<a href='driver.php' class='btn btn-primary mt-auto'>Check it here</a>";
-                                        echo "</div>";
-
-                                            echo "<div class='alertscol bg-gray-800 rounded-md p-4 mb-4 m-2'>";
-                                            echo "<p class='text-lg font-semibold text-white'>Available Vehicles" . ": <span class='text-warning'>" . $vehicleCount . "</span></p>";
-                                            echo "<a href='vehicle.php' class='btn btn-primary mt-auto'>Check it here</a>";
-                                            echo "</div>";
-
-                                                echo "<div class=' alertscol bg-gray-800 rounded-md p-4 mb-4 m-2'>";
-                                                echo "<p class='text-lg font-semibold text-white'>Reports" . ": <span class='text-warning'>" . $reportCount . "</span></p>";
-                                                echo "<a href='reports.php' class='btn btn-primary mt-auto'>Check it here</a>";
-                                                echo "</div>";
-
-                                    echo "</div>";
-                        ?>
+                </div>
+    </div>
                         
                             <!-- Details Modal -->
                             <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
