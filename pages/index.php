@@ -200,6 +200,7 @@ $driverCount = $driverCountRow['count'];
                                             disapproveButton.disabled = false;
 
                                             approveButton.onclick = () => {
+                                                document.body.style.cursor = 'wait';
                                                 fetch(`../assign.php?ruvNO=${ruvNo}`)
                                                     .then(response => response.text())
                                                     .then(data => {
@@ -217,6 +218,7 @@ $driverCount = $driverCountRow['count'];
                                             };
 
                                             disapproveButton.onclick = () => {
+                                                document.body.style.cursor = 'wait';
                                                 fetch(`../delete_ruv.php?ruvNO=${ruvNo}`)
                                                     .then(response => {
                                                         if (!response.ok) {

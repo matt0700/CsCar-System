@@ -22,13 +22,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
     }
 
     .background-overlay {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
@@ -49,15 +46,14 @@
       justify-content: center;
       align-items: center;
       margin: auto;
-
     }
 
     .logo-container {
-      margin-bottom: 20px;
+      margin-bottom: 20px; 
     }
 
     .logo-container img {
-      width: 150px; 
+      width: 150px;
     }
 
     .login-form {

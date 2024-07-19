@@ -141,7 +141,7 @@ if (isset($_POST['ruv_submit'])) {
 <script>
        // Populate the dropdown with numbers from 1 to 100
        const numPassengersSelect = document.getElementById('num-passengers');
-        for (let i = 1; i <= 100; i++) {
+        for (let i = 1; i <= 70; i++) {
             const option = document.createElement('option');
             option.value = i;
             option.textContent = i;

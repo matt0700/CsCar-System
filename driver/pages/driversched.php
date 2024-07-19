@@ -30,14 +30,19 @@ $result = $stmt->get_result();
         echo "<p>Trip accepted successfully.</p>";
     }
 
-    // Check if there are any ongoing trips
-        $checkOngoingSql = "SELECT COUNT(*) AS ongoing_count FROM trips WHERE status = 'ongoing'";
+        // Check if the driver has any ongoing trips
+        $checkOngoingSql = "SELECT COUNT(*) AS ongoing_count FROM trips WHERE status = 'ongoing' AND driver_id = ?";
         $checkOngoingStmt = $connect->prepare($checkOngoingSql);
+        $checkOngoingStmt->bind_param("i", $driverId);
         $checkOngoingStmt->execute();
         $checkOngoingResult = $checkOngoingStmt->get_result();
         $ongoingCount = $checkOngoingResult->fetch_assoc()['ongoing_count'];
         $checkOngoingStmt->close();
         ?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

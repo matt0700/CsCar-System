@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['trip_id']) && isset($_
     // Update the status of the trip to 'done'
     $trip_id = $_POST['trip_id'];
 
-    $update_sql = "UPDATE trips SET status = 'done' WHERE trip_id = ?";
+    $update_sql = "UPDATE trips SET status = 'Done' WHERE trip_id = ?";
     $update_stmt = $connect->prepare($update_sql);
     $update_stmt->bind_param("i", $trip_id);
 

@@ -105,7 +105,7 @@ if (!isset($_SESSION['username'])) {
                 $status = $row["status"]; // Assuming 'status' is a column in your database table
 
                 // Check if the trip status is not 'done' or 'ongoing'
-                if ($status != 'done' && $status != 'ongoing') {
+                if ($status != 'Done' && $status != 'Ongoing' && $status != 'Denied') {
                     // Assuming ruvpdf.php generates a PDF and returns a URL to the file
                     $file_url = generateRuvPdf($trip_id); // Update this function to match your actual implementation
                     $trip_url = generateTripPdf($trip_id);    
@@ -168,7 +168,7 @@ if (!isset($_SESSION['username'])) {
             function sendEmail() {
             const form = document.getElementById('emailForm');
             const formData = new FormData(form);
-
+            document.body.style.cursor = 'wait';
             fetch('../send_email.php', {
                 method: 'POST',
                 body: formData

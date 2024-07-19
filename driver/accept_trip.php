@@ -65,11 +65,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_accept'])) {
         sendEmail($toEmail, $subject, $message);
 
         // Update status to blank (assuming setting it to an empty value or null)
-        $update_ruv_sql = "UPDATE ruv_table SET status = '' WHERE ruvNO = ?";
+        $update_ruv_sql = "UPDATE ruv_table SET status = 'Approved' WHERE ruvNO = ?";
         $update_ruv_stmt = $connect->prepare($update_ruv_sql);
         $update_ruv_stmt->bind_param("i", $ruvData['ruvNO']);
         $update_ruv_stmt->execute();
         $update_ruv_stmt->close();
+
     } elseif ($confirmAccept == 'no') {
         // Update trip status to 'Denied' and save reason in trips table
         $update_sql = "UPDATE trips SET status = 'Denied', deny_reason = ? WHERE trip_id = ?";
@@ -86,11 +87,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_accept'])) {
             $ruvData = $ruvResult->fetch_assoc();
             $ruvStmt->close();
 
-            $toEmail = ('cscarqc@gmail.com'); // Change to the appropriate column name for email in your 'ruv_table'
+            // Fetch driver details
+            $driverDetailsSql = "SELECT driver_name FROM drivers WHERE driver_id = ?";
+            $driverDetailsStmt = $connect->prepare($driverDetailsSql);
+            $driverDetailsStmt->bind_param("i", $driverId);
+            $driverDetailsStmt->execute();
+            $driverDetailsResult = $driverDetailsStmt->get_result();
+            $driverDetails = $driverDetailsResult->fetch_assoc();
+            $driverName = $driverDetails['driver_name'];
+            $driverDetailsStmt->close();
+
+            $toEmail = 'cscarqc@gmail.com'; // Change to the appropriate column name for email in your 'ruv_table'
             $subject = "Important Notice: Trip Request Denied";
-            $message = "Hi,\n\nWe regret to inform you that your recent trip request has been denied. Below is the reason provided:\n\n";
+            $message = "Hi,\n\n We regret to inform you that a recent trip request has been denied by the driver. Below is the reason provided:\n\n";
             $message .= "$denyReason\n\n";
-            $message .= "We apologize for any inconvenience this may cause. If you have any questions or need further assistance, please do not hesitate to contact our support team.\n\n";
+            $message .= "Driver Name: $driverName\n";
+            $message .= "Driver ID: $driverId\n\n";
+            $message .= "Please Re-assign the trip if possible\n\n";
             $message .= "Thank you for understanding.\n\nBest regards,\nCSCAR";
 
             sendEmail($toEmail, $subject, $message); // Assuming sendEmail function is defined elsewhere
