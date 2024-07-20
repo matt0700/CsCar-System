@@ -1,7 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['username']) || $_SESSION['user_type'] !== 'driver') {
-    header("Location: ../driver_login.php");
+// Check if user is logged in
+if (!isset($_SESSION['driver_id'])) {
+    header("Location: ../login.php");
     exit();
 }
 
