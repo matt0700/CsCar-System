@@ -217,7 +217,7 @@ if ($_SESSION['user_type'] !== 'driver') {
                 <div class="m-auto text-center w-full">
                     <?php
                     include '../connection.php';
-                    $countSql = "SELECT COUNT(*) AS count FROM trips WHERE driver_id = ? AND status != 'Ongoing' AND status != 'Denied' AND status != 'Done'";
+                    $countSql = "SELECT COUNT(*) AS count FROM trips WHERE driver_id = ? AND status != 'Ongoing' AND status != 'Denied' AND status != 'Done' AND status != 'Pending' ";
                     $countStmt = $connect->prepare($countSql);
                     $countStmt->bind_param("i", $_SESSION['driver_id']);
                     $countStmt->execute();

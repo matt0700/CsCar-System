@@ -22,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_accept'])) {
     $denyReason = isset($_POST['deny_reason']) ? $_POST['deny_reason'] : '';
 
     if ($confirmAccept == 'yes') {
-        // Update trip status to 'Ongoing'
-        $update_sql = "UPDATE trips SET status = 'Ongoing' WHERE trip_id = ?";
+        // Update driver_accepted to 'Pending'
+        $update_sql = "UPDATE trips SET status = 'Pending' WHERE trip_id = ?";
         $update_stmt = $connect->prepare($update_sql);
         $update_stmt->bind_param("i", $tripId);
         $update_stmt->execute();
@@ -48,19 +48,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_accept'])) {
         $driverStmt->close();
 
         // Send email to requester
-        $toEmail = $ruvData['email']; // Change to the column name where email is stored in your 'ruv_table'
-        $subject = "Great News! Your Trip Request Has Been Accepted";
-        $message = "Hey there,\n\nWe are excited to inform you that your trip request has been approved! \n\n";
-        $message .= "Here are the details of your upcoming trip:\n";
+        $toEmail = ('cscarqc@gmail.com'); // Change to the column name where email is stored in your 'ruv_table'
+        $subject = "Trip Request Confirmation - Action Required";
+        $message = "Hello Admin,\n\nThis is to inform you that a driver has confirmed a trip request.\n\n";
+        $message .= "Here are the details of the confirmed trip:\n";
         $message .= "🚗 Pickup Point: " . $ruvData['pickup_point'] . "\n";
-        $message .= "📍  Destination: " . $ruvData['destination'] . "\n";
+        $message .= "📍 Destination: " . $ruvData['destination'] . "\n";
         $message .= "📅 Trip Date: " . $ruvData['trip_date'] . "\n";
         $message .= "⏰ Preferred Time: " . $ruvData['pref_time'] . "\n\n";
         $message .= "Driver Information:\n";
         $message .= "👤 Name: " . $driverData['driver_name'] . "\n";
         $message .= "📞 Contact: " . $driverData['driver_cellno'] . "\n\n";
-        $message .= "If you have any questions or need to make changes to your trip, please do not hesitate to contact us.\n\n";
-        $message .= "Thank you for choosing our service. We look forward to serving you!\n\nBest regards,\nCSCAR";
+        $message .= "Please review the trip details and take any necessary actions.\n\n";
+        $message .= "Thank you.\n\nBest regards,\nCSCAR";
 
         sendEmail($toEmail, $subject, $message);
 

@@ -8,34 +8,6 @@ if (!isset($_SESSION['username'])) {
 // Include database connection
 include "../connection.php";
 
-// Prepare query to retrieve user information
-$stmt = $connect->prepare("SELECT ui.Ln, ui.Fn, ui.Mn
-                          FROM users u
-                          JOIN information ui ON u.user_id = ui.user_id
-                          WHERE u.username = ?");
-$stmt->bind_param("s", $_SESSION['username']);
-$stmt->execute();
-$result_user = $stmt->get_result();
-
-if (!$result_user) {
-    // Handle query error
-    die("Query failed: " . mysqli_error($connect));
-}
-
-// Check if user information exists
-if ($result_user->num_rows > 0) {
-    // Fetch user information
-    $row_user = $result_user->fetch_assoc();
-    $last_name = $row_user['Ln'];
-    $first_name = $row_user['Fn'];
-    $middle_name = $row_user['Mn']; 
-
-    $full_name = $first_name . ' ' . $middle_name . ' ' . $last_name;
-    
-} else {
-    // Handle case where user information is not found
-    die("User information not found.");
-}
 
 // Query to retrieve all rows from drivers
 $sql = "SELECT * FROM drivers";
@@ -63,60 +35,70 @@ $connect->close(); // Close connection after use
     <title>Drivers</title>
     <?php include '../snippets/header.php'; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../assets/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.1/ol.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.1/ol.js"></script>
+
     <style>
         .hidden {
             display: none;
         }
         @media only screen and (max-width: 991px) {
-            .w3-container {
-                margin: 0px;
-            }
-            .title {
-                margin: 0px;
-            }
-            .test {
-                margin: 0px;
-            }
-            .details {
-                display: inline-block;
-            }
-            #modelValue, #fuelValue, #mileageValue, #seaterValue, #statusValue, #typeValue, #yearValue, #plateNoValue {
-                margin: 0;
-                padding: 10px;
-            }
+        .w3-container {
+            margin: 0px;
         }
-        @media only screen and (max-width: 600px) {
-            .grid-cols-3 {
-                grid-template-columns: 1fr; 
-            }
-            .min-h-[620px] {
-                min-height: auto;
-            }
-            .col-span-2 {
-                grid-column: span 1; 
-            }
-            .details {
-                grid-template-columns: 1fr; 
-            }
-            .text-3xl {
-                font-size: 2rem; 
-            }
-            .mt-10 {
-                margin-top: 1.5rem; 
-            }
-            .ml-8 {
-                margin-left: 1rem; 
-            }
-            .shadowbox {
-                box-shadow: none;
-            }
-            #nameValue, #cellphoneNoValue, #tripValue, #driverstatusValue, #latitudeValue, #lastupdateValue {
-                margin: 0;
-                padding: 10px; /* Optionally adjust padding if needed */
-            }
+        .title {
+            margin: 0px;
         }
-        
+        .test {
+            margin: 0px;
+        }
+        .details {
+            display: inline-block;
+        }
+        #modelValue, #fuelValue, #mileageValue, #seaterValue, #statusValue, #typeValue, #yearValue, #plateNoValue {
+            margin: 0;
+            padding: 10px;
+        }
+        .table-loc{
+            overflow-x: auto !important; /* Allow horizontal scroll for overflow content */
+
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        .grid-cols-3 {
+            grid-template-columns: 1fr; 
+        }
+        .min-h-[620px] {
+            min-height: auto;
+        }
+        .col-span-2 {
+            grid-column: span 1; 
+        }
+        .details {
+            grid-template-columns: 1fr; 
+        }
+        .text-3xl {
+            font-size: 2rem; 
+        }
+        .mt-10 {
+            margin-top: 1.5rem; 
+        }
+        .ml-8 {
+            margin-left: 1rem; 
+        }
+        .shadowbox {
+            box-shadow: none;
+        }
+        #nameValue, #cellphoneNoValue, #tripValue, #driverstatusValue, #latitudeValue, #lastupdateValue {
+            margin: 0;
+            padding: 10px; /* Optionally adjust padding if needed */
+        }
+        .table-loc{
+            overflow-x: auto !important; /* Allow horizontal scroll for overflow content */
+
+        }
+    }
     </style>
 </head>
 <body class="bg-white">
@@ -138,7 +120,7 @@ $connect->close(); // Close connection after use
                     <div class="ml-4 mt-2 text-4xl font-extrabold">Drivers</div>
                     <?php foreach ($drivers as $index => $driver): ?>
                     <div class="flex justify-between items-center">
-                        <div class="flex items-center">
+                        <div class="details flex items-center">
                             <button class="ml-4 flex content-center items-center mt-4 hover:bg-gray-400 duration-300" onclick="showDriverData(<?php echo $index; ?>)">
                                 <img class="w-9 h-9" src="https://img.icons8.com/ios-filled/50/1A1A1A/car.png" alt="car"/>
                                 <span class="ml-2 text-lg"><?php echo $driver['driver_name']; ?></span>
@@ -161,7 +143,7 @@ $connect->close(); // Close connection after use
                     <?php endforeach; ?>
                 </div>
 
-                <div class="rounded-sm col-span-2 border-1 shadow-xl shadow-slate-300 transition-all">
+                <div class="table-loc rounded-sm col-span-2 border-1 shadow-xl shadow-slate-300 transition-all">
                     <div class="mt-3 ml-8 text-4xl font-extrabold">Driver Information</div>
                     <div class="details p-4 grid grid-cols-2 gap-y-20 gap-x-24 ml-3">
                         <div class="flex-col">
@@ -174,12 +156,14 @@ $connect->close(); // Close connection after use
                             <div id="cellphoneNoValue" class="mt-6 text-3xl"></div>
                         </div>
 
-                        <div class="flex-col">
+                        <div class="flex-col hidden" id="latitudeSection" style="display: none;">
                             <div id="latitudeLabel" class="text-4xl font-bold">Latitude</div>
                             <div id="latitudeValue" class="mt-6 text-3xl"></div>
                         </div>
 
-                        <div class="flex-col">
+
+
+                        <div class="flex-col hidden" id="longitudeSection" style="display: none;">
                             <div id="longitudeLabel" class="text-4xl font-bold">Longitude</div>
                             <div id="longitudeValue" class="mt-6 text-3xl"></div>
                         </div>
@@ -190,19 +174,77 @@ $connect->close(); // Close connection after use
                             <div id="driverstatusValue" class="mt-6 text-3xl"></div>
                         </div>
 
-                        
-
+        
                         <div class="flex-col">
                             <div id="lastupdateLabel" class="text-4xl font-bold">Last Update</div>
                             <div id="lastupdateValue" class="mt-6 text-3xl"></div>
                         </div>
+
+                        <div class="flex-col">
+                            <div id="latitudeLabel" class="text-4xl font-bold">Last Known Location</div>
+                            <div id="miniMap" style="width: 500px; height: 250px; "></div>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script>
+        var map = new ol.Map({
+            target: 'miniMap',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([0, 0]), // Default center
+                zoom: 2
+            })
+        });
+
+        function updateMap(latitude, longitude) {
+    var coordinates = ol.proj.fromLonLat([longitude, latitude]);
+
+    // Set the view to the new coordinates
+    map.getView().setCenter(coordinates);
+    map.getView().setZoom(18);
+
+    // Define the custom marker style
+    var markerStyle = new ol.style.Style({
+        image: new ol.style.Icon({
+            src: 'https://img.icons8.com/?size=100&id=13800&format=png&color=000000', // URL of the custom marker image
+            scale: 0.3 // Adjust the scale to fit your icon size
+        })
+    });
+
+    // Create a marker feature with the custom style
+    var marker = new ol.Feature({
+        geometry: new ol.geom.Point(coordinates)
+    });
+
+    marker.setStyle(markerStyle);
+
+    // Create a vector source and layer
+    var vectorSource = new ol.source.Vector({
+        features: [marker]
+    });
+
+    var markerVectorLayer = new ol.layer.Vector({
+        source: vectorSource
+    });
+
+    // Clear existing layers and add the new marker layer
+    map.getLayers().forEach(function(layer) {
+        if (layer instanceof ol.layer.Vector) {
+            map.removeLayer(layer);
+        }
+    });
+
+    map.addLayer(markerVectorLayer);
+}
             var driverData = <?php echo json_encode($drivers); ?>;
 
             function showDriverData(index) {
@@ -211,10 +253,16 @@ $connect->close(); // Close connection after use
                 // Update labels and values
                 document.getElementById("nameValue").textContent = driver.driver_name;
                 document.getElementById("cellphoneNoValue").textContent = driver.driver_cellno;
-                document.getElementById("latitudeValue").textContent = driver.latitude;
-                document.getElementById("longitudeValue").textContent = driver.longitude;
                 document.getElementById("driverstatusValue").textContent = driver.driver_status;
                 document.getElementById("lastupdateValue").textContent = driver.last_update;
+    
+                // Show the latitude and longitude sections
+                document.getElementById("latitudeSection").classList.remove("hidden");
+                document.getElementById("longitudeSection").classList.remove("hidden");
+
+
+                updateMap(parseFloat(driver.latitude), parseFloat(driver.longitude));
+
             }
         </script>
     </body>

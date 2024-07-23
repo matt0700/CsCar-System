@@ -119,7 +119,17 @@
       </div>
     </a>
   </div>
-
+  
+  <div class="mt-2">
+    <a href="driversched.php" class="w3-button flex items-center w3-bar">
+      <div>
+        <img class="w-5 h-5" src="https://img.icons8.com/ios/50/FFFFFF/planner.png" alt="Planner Icon">
+      </div>
+      <div class="ml-1.5">
+        Confirmed Trips
+      </div>
+    </a>
+  </div>  
 
 
   <div class="mt-2">
