@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_accept'])) {
         $message .= "Driver Information:\n";
         $message .= "👤 Name: " . $driverData['driver_name'] . "\n";
         $message .= "📞 Contact: " . $driverData['driver_cellno'] . "\n\n";
-        $message .= "Please review the trip details and take any necessary actions.\n\n";
+        $message .= "Please login your account here: http://localhost/CSCAR-System/driverlogin.php for tracking and monitoring purposes.\n\n";
         $message .= "Thank you.\n\nBest regards,\nCSCAR";
 
         sendEmail($toEmail, $subject, $message);
