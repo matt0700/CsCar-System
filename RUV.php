@@ -57,10 +57,24 @@ if (isset($_POST['ruv_submit'])) {
 
 <!-- tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
-
+<style>
+        @media only screen and (max-width: 767px) {
+            .mainform {
+                width: 100% !important;
+                padding: 1rem !important;
+                margin: 0 !important;
+            }
+            .grid-cols-1 {
+                grid-template-columns: 1fr !important;
+            }
+            .mainform .w-full {
+                width: 100% !important;
+            }
+        }
+</style>
 <body class="flex bg-black">
-    <form class="m-auto" action="RUV.php" method="POST">
-        <div class="mx-auto bg-white p-6 rounded-lg shadow-lg w-400">
+    <form class="mainform m-auto" action="RUV.php" method="POST">
+        <div class=" bg-white p-6 rounded-lg shadow-lg w-400">
             <h2 class="text-2xl font-bold mb-6">RUV</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Pick-up point input -->
@@ -131,6 +145,7 @@ if (isset($_POST['ruv_submit'])) {
                 </div>
 
             </div>
+
                 <!-- Submit button -->
                 <button type="submit" name="ruv_submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-60 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm justify-center">Submit</button>
  

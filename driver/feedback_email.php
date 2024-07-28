@@ -15,8 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['trip_id']) && isset($_
     if ($update_stmt->execute()) {
         // Send email notification
 
-
-
         // Validate and sanitize inputs if necessary
         if (isset($_POST['email'])) {
             // Retrieve customer email from form
