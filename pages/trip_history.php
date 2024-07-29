@@ -62,7 +62,17 @@
         <!-- Mapbox and Directions Plugin -->
     </head>
 
-
+    <style>
+        @media only screen and (max-width: 991px) {
+            .w3-container {
+                margin: 0px;
+            }
+        }
+        tr a {
+            color: white !important;
+            text-decoration: none !important;
+        }
+    </style>
 
     <body class="bg-white">
         <div class="w3-main">

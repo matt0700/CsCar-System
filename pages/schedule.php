@@ -109,7 +109,6 @@ if (!isset($_SESSION['username'])) {
                     // Assuming ruvpdf.php generates a PDF and returns a URL to the file
                     $file_url = generateRuvPdf($trip_id); // Update this function to match your actual implementation
                     $trip_url = generateTripPdf($trip_id);    
-
                     echo "<tr>";
                     echo "<td class='border border-gray-400 px-4 py-2'>$trip_id</td>";
                     echo "<td class='border border-gray-400 px-4 py-2'>$ruvNO</td>";
@@ -118,7 +117,7 @@ if (!isset($_SESSION['username'])) {
                     echo "<td class='border border-gray-400 px-4 py-2'>$trip_date</td>";
                     echo "<td class='border border-gray-400 px-4 py-2'><a href='$file_url' target='_blank' class='text-blue-500'>Download File</a></td>";
                     echo "<td class='border border-gray-400 px-4 py-2'><a href='$trip_url' target='_blank' class='text-blue-500'>Download File</a></td>";
-                    echo "<td class='border border-gray-400 px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#driverDetailsModal' data-driverid='$driver_id'>View Driver</button></td>";
+                    echo "<td class='border border-gray-400 px-4 py-2'><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#driverDetailsModal' data-driverid='$driver_id' data-ruvNO='$ruvNO'>View Driver</button></td>";
                     echo "</tr>";
                 }
             }
@@ -138,33 +137,68 @@ if (!isset($_SESSION['username'])) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="driverDetailsModalLabel">Driver Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Driver details will be loaded here via JavaScript -->
                 </div>
                 <div class="modal-body">
-                <form id="emailForm" enctype="multipart/form-data" class="d-flex  flex-column">
-                    <input type="hidden" name="driverId" id="driverId">
-                    <div class="mb-3">
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Enter recipient's email" required>
-                    </div>
-                    <div class="mb-3">
-                        <input type="file" class="form-control" name="attachment1" id="attachment1" accept=".pdf" required>
-                    </div>
-                    <div class="mb-3">
-                        <input type="file" class="form-control" name="attachment2" id="attachment2" accept=".pdf">
-                    </div>
-                    <div class="mb-3">
-                        <button type="button" onclick="sendEmail();" class="btn btn-success">Send Email</button>
-                    </div>
-                </form>
+                    <form id="emailForm" enctype="multipart/form-data" class="d-flex flex-column">
+                        <input type="hidden" name="driverId" id="driverId">
+                            <div class="mb-3">
+                                <input type="hidden" class="form-control" name="email1" id="email1" placeholder="Enter recipient's email 1" required>
+                            </div>
+                                <div class="mb-3">
+                                    <input type="hidden" class="form-control" name="email2" id="email2" placeholder="Enter additional email">
+                                </div>
+                                    <div class="mb-3">
+                                        <input type="file" class="form-control" name="attachment1" id="attachment1" accept=".pdf" required>
+                                    </div>
+                                        <div class="mb-3">
+                                            <input type="file" class="form-control" name="attachment2" id="attachment2" accept=".pdf">
+                                        </div>
+                                            <div class="mb-3">
+                                                <button type="button" onclick="sendEmail();" class="btn btn-success">Send Email</button>
+                                            </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+function populateEmailFields(email, type) {
+    // Update the email fields based on the type
+    if (type === 'driver') {
+        document.getElementById('email1').value = email;
+    } else if (type === 'ruv') {
+        document.getElementById('email2').value = email;
+    } else {
+        console.error('Unknown type');
+    }
+
+    // Select the button associated with the given email
+    const buttons = document.querySelectorAll('button[data-email]');
+    let buttonClicked = document.querySelector(`button[data-email="${email}"]`);
+
+    // Toggle button color
+    if (buttonClicked.classList.contains('btn-success')) {
+        // If the button is already green, deselect it
+        buttonClicked.classList.remove('btn-success');
+        buttonClicked.classList.add('btn-primary');
+
+        // Clear the email field if deselected
+        if (type === 'driver') {
+            document.getElementById('email1').value = '';
+        } else if (type === 'ruv') {
+            document.getElementById('email2').value = '';
+        }
+    } else {
+        // If the button is not green, select it and turn it green
+        buttonClicked.classList.remove('btn-primary');
+        buttonClicked.classList.add('btn-success');
+    }
+}
+
             function sendEmail() {
             const form = document.getElementById('emailForm');
             const formData = new FormData(form);
@@ -175,9 +209,7 @@ if (!isset($_SESSION['username'])) {
             })
             .then(response => response.text())
             .then(data => {
-                alert('Email Sent!'); // Display alert based on response from send_email.php
-
-                // Optionally, refresh the page or perform other actions
+                alert(data);
                 window.location.reload();
             })
             .catch(error => {
@@ -187,13 +219,15 @@ if (!isset($_SESSION['username'])) {
         document.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {
     button.addEventListener('click', () => {
         const driverId = button.getAttribute('data-driverid');
-        fetchDriverDetails(driverId);
+        const ruvNO = button.getAttribute('data-ruvno'); // Ensure this is available
+
+        fetchDriverDetails(driverId, ruvNO);
     });
 });
 
-function fetchDriverDetails(driverId) {
+function fetchDriverDetails(driverId, ruvNO) {
     const modalBody = document.querySelector('#driverDetailsModal .modal-body');
-    const url = `../driver_details.php?driverId=${driverId}`;
+    const url = `../driver_details.php?driverId=${driverId}&ruvNO=${ruvNO}`;
 
     fetch(url)
         .then(response => {
@@ -204,6 +238,8 @@ function fetchDriverDetails(driverId) {
         })
         .then(data => {
             modalBody.innerHTML = data;
+            const modal = new bootstrap.Modal(document.getElementById('driverDetailsModal'));
+            modal.show();
         })
         .catch(error => {
             console.error('Error:', error);
@@ -216,15 +252,11 @@ function fetchDriverDetails(driverId) {
     <?php
 // Function to generate PDF and return the file URL
 function generateRuvPdf($trip_id) {
-    // Your logic to generate the PDF and save it to a file
-    // Return the URL to the generated PDF file
     return "../ruvappend.php?trip_id=$trip_id";
 }
 
 // Function to generate PDF and return the file URL
 function generateTripPdf($trip_id) {
-    // Your logic to generate the PDF and save it to a file
-    // Return the URL to the generated PDF file
     return "../ticketappend.php?trip_id=$trip_id";
 }
 ?>
