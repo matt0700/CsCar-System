@@ -9,13 +9,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $driver_name = $_POST['driver_name'];
         $driver_cellno = $_POST['driver_cellno'];
         $email = $_POST['email'];
-        $status = $_POST['status'];
+        $driver_status = $_POST['driver_status'];
 
-        $sql = "INSERT INTO drivers (username, password, special_password, driver_name, driver_cellno, email, status) 
-                VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO drivers (username, password, special_password, driver_name, driver_cellno, email, driver_status) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $connect->prepare($sql);
-        $stmt->bind_param("ssssss", $username, $password, $special_password, $driver_name, $driver_cellno, $email, $status);
+        $stmt->bind_param("sssssss", $username, $password, $special_password, $driver_name, $driver_cellno, $email, $driver_status);
         
         if ($stmt->execute()) {
             $message = "New record created successfully";
@@ -31,23 +31,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $driver_name = $_POST['driver_name'];
         $driver_cellno = $_POST['driver_cellno'];
         $email = $_POST['email'];
-        $status = $_POST['status'];
 
-        $sql = "UPDATE drivers SET username=?,";
-        if ($password) $sql .= " password=?,";
-        if ($special_password) $sql .= " special_password=?,";
-        $sql .= " driver_name=?, driver_cellno=?, email=?, status=? WHERE driver_id=?";
+        $sql = "UPDATE drivers SET ";
+        $params = [];
+        $types = "";
+
+        if (!empty($username)) {
+            $sql .= "username=?, ";
+            $params[] = $username;
+            $types .= "s";
+        }
+        if (!empty($password)) {
+            $sql .= "password=?, ";
+            $params[] = $password;
+            $types .= "s";
+        }
+        if (!empty($special_password)) {
+            $sql .= "special_password=?, ";
+            $params[] = $special_password;
+            $types .= "s";
+        }
+        if (!empty($driver_name)) {
+            $sql .= "driver_name=?, ";
+            $params[] = $driver_name;
+            $types .= "s";
+        }
+        if (!empty($driver_cellno)) {
+            $sql .= "driver_cellno=?, ";
+            $params[] = $driver_cellno;
+            $types .= "s";
+        }
+        if (!empty($email)) {
+            $sql .= "email=?, ";
+            $params[] = $email;
+            $types .= "s";
+        }
+
+        $sql = rtrim($sql, ", ") . " WHERE driver_id=?";
+        $params[] = $driver_id;
+        $types .= "i";
         
         $stmt = $connect->prepare($sql);
-        
-        $params = [$username];
-        if ($password) $params[] = $password;
-        if ($special_password) $params[] = $special_password;
-        $params = array_merge($params, [$driver_name, $driver_cellno, $email, $status, $driver_id]);
-        
-        $types = str_repeat("s", count($params) - 1) . "i";
         $stmt->bind_param($types, ...$params);
-        
+
         if ($stmt->execute()) {
             $message = "Record updated successfully";
         } else {
@@ -120,9 +146,10 @@ $connect->close();
             th, td {
                 padding: 0.5rem;
             }
-                *{
-        margin: 0px !important;
-    }
+
+            * {
+                margin: 0px !important;
+            }
         }
     </style>
 </head>
@@ -184,95 +211,87 @@ $connect->close();
                             <input type="email" name="email" id="email" class="form-control" required>
                         </div>
                         <div class="mb-3">
-                        <label for="car_status" class="form-label">Car Status</label>
-                        <select name="car_status" id="car_status" class="form-select" required>
-                            <option value="Available">Available</option>
-                            <option value="Unavailable">Unavailable</option>
+                        <label for="driver_status" class="form-label">Status</label>
+                        <select name="driver_status" id="driver_status" class="form-select">
+                            <option value="available">Available</option>
+                            <option value="unavailable">Unavailable</option>
                         </select>
                     </div>
                         <button type="submit" name="create" class="btn btn-primary">Create</button>
                     </form>
                 </div>
-
                 <div class="tab-pane fade ml-56" id="update" role="tabpanel" aria-labelledby="update-tab">
                     <h2 class="h4">Update Driver</h2>
                     <form method="post" action="" class="bg-white p-4 rounded shadow-sm">
                         <div class="mb-3">
-                            <label for="driver_id_update" class="form-label">Driver ID</label>
-                            <input type="number" name="driver_id" id="driver_id_update" class="form-control" required>
+                            <label for="driver_id" class="form-label">Driver ID</label>
+                            <input type="text" name="driver_id" id="driver_id" class="form-control" required>
                         </div>
                         <div class="mb-3">
-                            <label for="username_update" class="form-label">Username</label>
-                            <input type="text" name="username" id="username_update" class="form-control">
+                            <label for="username" class="form-label">Username (leave blank if no change)</label>
+                            <input type="text" name="username" id="username" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="password_update" class="form-label">New Password</label>
-                            <input type="password" name="password" id="password_update" class="form-control">
+                            <label for="password" class="form-label">Password (leave blank if no change)</label>
+                            <input type="password" name="password" id="password" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="special_password_update" class="form-label">New Special Password</label>
-                            <input type="password" name="special_password" id="special_password_update" class="form-control">
+                            <label for="special_password" class="form-label">Special Password (leave blank if no change)</label>
+                            <input type="password" name="special_password" id="special_password" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="driver_name_update" class="form-label">Driver Name</label>
-                            <input type="text" name="driver_name" id="driver_name_update" class="form-control">
+                            <label for="driver_name" class="form-label">Driver Name (leave blank if no change)</label>
+                            <input type="text" name="driver_name" id="driver_name" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="driver_cellno_update" class="form-label">Cell No</label>
-                            <input type="text" name="driver_cellno" id="driver_cellno_update" class="form-control">
+                            <label for="driver_cellno" class="form-label">Cell No (leave blank if no change)</label>
+                            <input type="text" name="driver_cellno" id="driver_cellno" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="email_update" class="form-label">Email</label>
-                            <input type="email" name="email" id="email_update" class="form-control">
+                            <label for="email" class="form-label">Email (leave blank if no change)</label>
+                            <input type="email" name="email" id="email" class="form-control">
                         </div>
-                        <div class="mb-3">
-                            <label for="status_update" class="form-label">Status</label>
-                            <select name="status" id="status_update" class="form-select">
-                                <option value="Available">Available</option>
-                                <option value="Unavailable">Unavailable</option>
-                            </select>
-                        </div>
-                        <button type="submit" name="update" class="btn btn-warning">Update</button>
+                        <button type="submit" name="update" class="btn btn-primary">Update</button>
                     </form>
                 </div>
-
                 <div class="tab-pane fade ml-56" id="delete" role="tabpanel" aria-labelledby="delete-tab">
                     <h2 class="h4">Delete Driver</h2>
                     <form method="post" action="" class="bg-white p-4 rounded shadow-sm">
                         <div class="mb-3">
-                            <label for="driver_id_delete" class="form-label">Driver ID</label>
-                            <input type="number" name="driver_id" id="driver_id_delete" class="form-control" required>
+                            <label for="driver_id" class="form-label">Driver ID</label>
+                            <input type="text" name="driver_id" id="driver_id" class="form-control" required>
                         </div>
                         <button type="submit" name="delete" class="btn btn-danger">Delete</button>
                     </form>
                 </div>
             </div>
-            <div>
-                <h2 class="h4 ml-56">Driver List</h2>
-                <div class="overflow-x-auto">
-                    <?php if (count($drivers) > 0): ?>
-                        <table class="table table-bordered ml-56">
-                            <thead>
-                                <tr>
-                                    <th>Driver ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($drivers as $driver): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($driver["driver_id"]); ?></td>
-                                        <td><?php echo htmlspecialchars($driver["driver_name"]); ?></td>
-                                        <td><?php echo htmlspecialchars($driver["email"]); ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    <?php else: ?>
-                        <p class="text-muted">No drivers found</p>
-                    <?php endif; ?>
-                </div>
+
+            <h2 class="h4 mt-4 ml-56">Driver List</h2>
+            <div class="table-responsive overflow-x-auto ml-56">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Driver ID</th>
+                            <th>Username</th>
+                            <th>Driver Name</th>
+                            <th>Cell No</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($drivers as $driver): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($driver['driver_id']); ?></td>
+                                <td><?php echo htmlspecialchars($driver['username']); ?></td>
+                                <td><?php echo htmlspecialchars($driver['driver_name']); ?></td>
+                                <td><?php echo htmlspecialchars($driver['driver_cellno']); ?></td>
+                                <td><?php echo htmlspecialchars($driver['email']); ?></td>
+                                <td><?php echo htmlspecialchars($driver['driver_status']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

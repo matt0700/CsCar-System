@@ -49,7 +49,6 @@
   </div>
   
   <div class="relative inline-block text-left">
-    
     <div>
       <button class="w3-button flex items-center w3-bar" id="menu-button" aria-expanded="false" aria-haspopup="true">
         <img class="w-5 h-5" src="https://img.icons8.com/?size=100&id=12666&format=png&color=FFFFFF" alt="Car Icon">
@@ -62,7 +61,6 @@
 
     <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
       <div class="py-1" role="none">
-        <a href="map.php" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Map View</a>
         <a href="vehicle.php" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-1">Vehicle Information</a>
       </div>
     </div>
@@ -85,7 +83,22 @@
       </div>
     </div>
 
-
+    <div>
+        <button class="w3-button flex items-center w3-bar" id="menu-button-crud" aria-expanded="false" aria-haspopup="true">
+            <img class="w-5 h-5" src="https://img.icons8.com/?size=100&id=102880&format=png&color=FFFFFF" alt="Group Icon">
+            <span class="ml-1">Management</span>
+            <svg class="-mr-1 ml-2 h-5 w-5 absolute right-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+        </button>
+    </div>
+    
+    <div class="crud origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button-crud">
+        <div class="py-1" role="none">
+            <a href="CRUD.php" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">Drivers</a>
+            <a href="VEHICLE_CRUD.php" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">Vehicles</a>
+        </div>
+    </div>
 
   <div class="mt-2">
     <a href="schedule.php" class="w3-button flex items-center w3-bar">
@@ -123,15 +136,15 @@
   <div class="mt-2">
     <a href="driversched.php" class="w3-button flex items-center w3-bar">
       <div>
-        <img class="w-5 h-5" src="https://img.icons8.com/ios/50/FFFFFF/planner.png" alt="Planner Icon">
+        <img class="w-5 h-5" src="https://img.icons8.com/?size=100&id=102698&format=png&color=FFFFFF" alt="Planner Icon">
       </div>
       <div class="ml-1.5">
         Confirmed Trips
       </div>
     </a>
-  </div>  
-
-
+  </div> 
+    
+    
   <div class="mt-2">
     <a href="../logout.php" class="w3-button flex items-center w3-bar">
       <div>
@@ -171,6 +184,20 @@
   window.addEventListener('click', function(e) {
     const button = document.getElementById('menu-button-history');
     const dropdown = document.querySelector('.history');
+    if (!button.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.classList.add('hidden');
+    }
+  });
+  
+    document.getElementById('menu-button-crud').addEventListener('click', function() {
+    const dropdown = document.querySelector('.crud');
+    dropdown.classList.toggle('hidden');
+  });
+
+  // Close dropdown when clicking outside
+  window.addEventListener('click', function(e) {
+    const button = document.getElementById('menu-button-crud');
+    const dropdown = document.querySelector('.crud');
     if (!button.contains(e.target) && !dropdown.contains(e.target)) {
       dropdown.classList.add('hidden');
     }

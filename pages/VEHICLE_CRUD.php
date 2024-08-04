@@ -30,18 +30,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $make_series_type = $_POST['make_series_type'];
         $seater = $_POST['seater'];
         $mileage = $_POST['mileage'];
-        $car_status = $_POST['car_status'];
 
-        $sql = "UPDATE vehicle_data SET model=?, type=?, make_series_type=?, seater=?, mileage=?, car_status=? WHERE plate_no=?";
-        $stmt = $connect->prepare($sql);
-        $stmt->bind_param("sssssis", $model, $type, $make_series_type, $seater, $mileage, $car_status, $plate_no);
-        
-        if ($stmt->execute()) {
-            $message = "Record updated successfully";
-        } else {
-            $message = "Error updating record: " . $stmt->error;
+        $fields = [];
+        $params = [];
+
+        if (!empty($model)) {
+            $fields[] = "model=?";
+            $params[] = $model;
         }
-        $stmt->close();
+        if (!empty($type)) {
+            $fields[] = "type=?";
+            $params[] = $type;
+        }
+        if (!empty($make_series_type)) {
+            $fields[] = "make_series_type=?";
+            $params[] = $make_series_type;
+        }
+        if (!empty($seater)) {
+            $fields[] = "seater=?";
+            $params[] = $seater;
+        }
+        if (!empty($mileage)) {
+            $fields[] = "mileage=?";
+            $params[] = $mileage;
+        }
+
+        if (!empty($fields)) {
+            $params[] = $plate_no; // Add plate_no at the end for the WHERE clause
+            $sql = "UPDATE vehicle_data SET " . implode(", ", $fields) . " WHERE plate_no=?";
+            $stmt = $connect->prepare($sql);
+
+            $stmt->bind_param(str_repeat("s", count($fields)) . "s", ...$params);
+            
+            if ($stmt->execute()) {
+                $message = "Record updated successfully";
+            } else {
+                $message = "Error updating record: " . $stmt->error;
+            }
+            $stmt->close();
+        } else {
+            $message = "No fields to update";
+        }
     } elseif (isset($_POST['delete'])) {
         $plate_no = $_POST['plate_no'];
 
@@ -109,10 +138,9 @@ $connect->close();
         padding: 0.5rem;
     }
     
-        *{
+    * {
         margin: 0px !important;
     }
-
 }
 </style>
 </head>
@@ -180,7 +208,7 @@ $connect->close();
                             <option value="Unavailable">Unavailable</option>
                         </select>
                     </div>
-                    <button type="submit" name="create" class="btn btn-primary">Create</button>
+                    <button type="submit" name="create" class="btn btn-success">Create</button>
                 </form>
             </div>
 
@@ -188,30 +216,30 @@ $connect->close();
                 <h2 class="h4">Update Vehicle</h2>
                 <form method="post" action="" class="bg-white p-4 rounded shadow-sm">
                     <div class="mb-3">
-                        <label for="plate_no_update" class="form-label">Plate No</label>
+                        <label for="plate_no_update" class="form-label">Plate No (leave blank if no change)</label>
                         <input type="text" name="plate_no" id="plate_no_update" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="model_update" class="form-label">Model</label>
-                        <input type="text" name="model" id="model_update" class="form-control" >
+                        <label for="model_update" class="form-label">Model (leave blank if no change) </label>
+                        <input type="text" name="model" id="model_update" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="type_update" class="form-label">Type</label>
-                        <input type="text" name="type" id="type_update" class="form-control" >
+                        <label for="type_update" class="form-label">Type (leave blank if no change)</label>
+                        <input type="text" name="type" id="type_update" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="make_series_type_update" class="form-label">Make Series Type</label>
-                        <input type="text" name="make_series_type" id="make_series_type_update" class="form-control" >
+                        <label for="make_series_type_update" class="form-label">Make Series Type (leave blank if no change)</label>
+                        <input type="text" name="make_series_type" id="make_series_type_update" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="seater_update" class="form-label">Seater</label>
-                        <input type="number" name="seater" id="seater_update" class="form-control" >
+                        <label for="seater_update" class="form-label">Seater (leave blank if no change)</label>
+                        <input type="number" name="seater" id="seater_update" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="mileage_update" class="form-label">Mileage</label>
-                        <input type="number" name="mileage" id="mileage_update" class="form-control" >
+                        <label for="mileage_update" class="form-label">Mileage (leave blank if no change)</label>
+                        <input type="number" name="mileage" id="mileage_update" class="form-control">
                     </div>
-                    <button type="submit" name="update" class="btn btn-warning">Update</button>
+                    <button type="submit" name="update" class="btn btn-primary">Update</button>
                 </form>
             </div>
 
@@ -226,40 +254,35 @@ $connect->close();
                 </form>
             </div>
         </div>
-        <div>
-            <h2 class="h4 ml-56">Vehicle List</h2>
-            <div class="overflow-x-auto">
-                <?php if (count($vehicles) > 0): ?>
-                <table class="table table-bordered ml-56">
-                    <thead>
-                        <tr>
-                            <th>Plate No</th>
-                            <th>Model</th>
-                            <th>Type</th>
-                            <th>Make Series Type</th>
-                            <th>Seater</th>
-                            <th>Mileage</th>
-                            <th>Car Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($vehicles as $vehicle): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($vehicle["plate_no"]); ?></td>
-                            <td><?php echo htmlspecialchars($vehicle["model"]); ?></td>
-                            <td><?php echo htmlspecialchars($vehicle["type"]); ?></td>
-                            <td><?php echo htmlspecialchars($vehicle["make_series_type"]); ?></td>
-                            <td><?php echo htmlspecialchars($vehicle["seater"]); ?></td>
-                            <td><?php echo htmlspecialchars($vehicle["mileage"]); ?></td>
-                            <td><?php echo htmlspecialchars($vehicle["car_status"]); ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-                <?php else: ?>
-                <p class="text-muted">No vehicles found</p>
-                <?php endif; ?>
-            </div>
+
+        <h2 class="h4 mt-5 ml-56">All Vehicles</h2>
+        <div class="overflow-x-auto ml-56">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Plate No</th>
+                        <th>Model</th>
+                        <th>Type</th>
+                        <th>Make Series Type</th>
+                        <th>Seater</th>
+                        <th>Mileage</th>
+                        <th>Car Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($vehicles as $vehicle): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($vehicle['plate_no']); ?></td>
+                        <td><?php echo htmlspecialchars($vehicle['model']); ?></td>
+                        <td><?php echo htmlspecialchars($vehicle['type']); ?></td>
+                        <td><?php echo htmlspecialchars($vehicle['make_series_type']); ?></td>
+                        <td><?php echo htmlspecialchars($vehicle['seater']); ?></td>
+                        <td><?php echo htmlspecialchars($vehicle['mileage']); ?></td>
+                        <td><?php echo htmlspecialchars($vehicle['car_status']); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
