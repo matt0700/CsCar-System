@@ -70,11 +70,13 @@ if (isset($_POST['ruv_submit'])) {
             .mainform .w-full {
                 width: 100% !important;
             }
-        }
+    }
+    
+        
 </style>
-<body class="flex bg-black">
-    <form class="mainform m-auto" action="RUV.php" method="POST">
-        <div class=" bg-white p-6 rounded-lg shadow-lg w-400">
+<body class="bg-black">
+    <form class="mainform" action="RUV.php" method="POST">
+        <div class="m-auto bg-white p-6 rounded-lg shadow-lg w-400">
             <h2 class="text-2xl font-bold mb-6">RUV</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Pick-up point input -->
@@ -122,8 +124,16 @@ if (isset($_POST['ruv_submit'])) {
 
                 <!-- Requesting Official -->
                 <div class="w-full mb-4">
-                    <label class="block text-sm font-medium text-gray-700" for="password3">Requesting Official <span class="text-red-500">*</span> </label>
-                    <input type="text" id="password3" name="req_official" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+                    <label class="block text-sm font-medium text-gray-700" for="req_official">Requesting Department <span class="text-red-500">*</span></label>
+                    <select id="req_official" name="req_official" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        <option value="">Select an option</option>
+                        <option value="OFAM">OFAM</option>
+                        <option value="DEPED">DEPED</option>
+                        <option value="CHED">CHED</option>
+                        <option value="PHILHEALTH">PHILHEALTH</option>
+                        <option value="N/A">N/A</option>
+                        <!-- Add more options as needed -->
+                    </select>
                 </div>
 
                 <!-- Name of Passengers -->

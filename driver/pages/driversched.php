@@ -224,48 +224,49 @@ $result = $stmt->get_result();
                 });
         }
 
-        function updateLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocationToServer, showError);
-            } else {
-                console.error("Geolocation is not supported by this browser.");
-            }
+function updateLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendLocationToServer, showError);
+    } else {
+        console.error("Geolocation is not supported by this browser.");
+    }
+}
+
+function sendLocationToServer(position) {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    const timestamp = new Date().toISOString(); // ISO format date string
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "../update_coordinates.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
         }
+    };
+    xhr.send("lat=" + encodeURIComponent(lat) + "&lng=" + encodeURIComponent(lng) + "&timestamp=" + encodeURIComponent(timestamp));
+}
 
-        function sendLocationToServer(position) {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            console.error("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            console.error("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            console.error("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            console.error("An unknown error occurred.");
+            break;
+    }
+}
 
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "../update_coordinates.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log(xhr.responseText);
-                }
-            };
-            xhr.send("lat=" + lat + "&lng=" + lng);
-        }
-
-        function showError(error) {
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    console.error("User denied the request for Geolocation.");
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    console.error("Location information is unavailable.");
-                    break;
-                case error.TIMEOUT:
-                    console.error("The request to get user location timed out.");
-                    break;
-                case error.UNKNOWN_ERROR:
-                    console.error("An unknown error occurred.");
-                    break;
-            }
-        }
-
-        // Update location every 5 seconds
-        setInterval(updateLocation, 5000);
+// Update location every 5 seconds
+setInterval(updateLocation, 5000);
     </script>
 
 </body>

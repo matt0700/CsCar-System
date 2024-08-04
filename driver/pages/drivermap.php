@@ -9,6 +9,23 @@ if (!isset($_SESSION['driver_id'])) {
 // Include database connection
 include "../connection.php";
 
+// Fetch the current vehicle plate number for the ongoing trip
+$driver_id = $_SESSION['driver_id']; // Assuming you have the driver ID in session
+$sql = "
+    SELECT v.plate_no
+    FROM trips t
+    JOIN vehicle_data v ON t.plate_no = v.plate_no
+    WHERE t.driver_id = ? AND t.status = 'Ongoing'
+";
+$stmt = $connect->prepare($sql);
+$stmt->bind_param("i", $driver_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$plate_no = '';
+if ($row = $result->fetch_assoc()) {
+    $plate_no = $row['plate_no'];
+}
 ?>
 
 
@@ -90,20 +107,9 @@ include "../connection.php";
                                 <h3 class="text-lg font-semibold text-gray-800 mb-2">Trip Report</h3>
                                     <form action="../report_trip.php" method="post">
                                         <div>
-                                        <select name="cars" id="cars">
-                                            <option value="SAA-9865">SAA-9865</option>
-                                            <option value="SAA-9866">SAA-9866</option>
-                                            <option value="SFY-477">SFY-477</option>
-                                            <option value="SFY-488">SFY-488</option>
-                                            <option value="SHZ-133">SHZ-133</option>
-                                            <option value="SJH-967">SJH-967</option>
-                                            <option value="SJH-977">SJH-977</option>
-                                            <option value="SJP-285">SJP-285</option>
-                                            <option value="SJP-286">SJP-286</option>
-                                            <option value="U9-D041">U9-D041</option>
-                                            <option value="Z4T-867">Z4T-867</option>
-                                            <option value="Z5G-191">Z5G-191</option>
-                                        </select>
+                                            <label for="current_vehicle">Current Vehicle Plate Number:</label>
+                                            <input type="text" id="current_vehicle" name="current_vehicle" value="<?php echo htmlspecialchars($plate_no); ?>" readonly>
+
                                                 <div class="mt-2">
                                                     <input type="hidden" name="distance" id="distance_value">
                                                     <div id="distance_display">Total Distance: 0.00 km</div>
@@ -218,51 +224,49 @@ include "../connection.php";
     });
 
 
-        //Update automatic
-        function updateLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocationToServer, showError);
-            } else {
-                console.error("Geolocation is not supported by this browser.");
-            }
+function updateLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendLocationToServer, showError);
+    } else {
+        console.error("Geolocation is not supported by this browser.");
+    }
+}
+
+function sendLocationToServer(position) {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    const timestamp = new Date().toISOString(); // ISO format date string
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "../update_coordinates.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
         }
+    };
+    xhr.send("lat=" + encodeURIComponent(lat) + "&lng=" + encodeURIComponent(lng) + "&timestamp=" + encodeURIComponent(timestamp));
+}
 
-        function sendLocationToServer(position) {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            console.error("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            console.error("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            console.error("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            console.error("An unknown error occurred.");
+            break;
+    }
+}
 
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "../update_coordinates.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log(xhr.responseText);
-                }
-            };
-            xhr.send("lat=" + lat + "&lng=" + lng);
-        }
-
-        function showError(error) {
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    console.error("User denied the request for Geolocation.");
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    console.error("Location information is unavailable.");
-                    break;
-                case error.TIMEOUT:
-                    console.error("The request to get user location timed out.");
-                    break;
-                case error.UNKNOWN_ERROR:
-                    console.error("An unknown error occurred.");
-                    break;
-            }
-        }
-
-        // Update location every 5 seconds
-        setInterval(updateLocation, 5000);
-
-
+// Update location every 5 seconds
+setInterval(updateLocation, 5000);
    
 </script>
 
