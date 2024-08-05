@@ -117,13 +117,13 @@ $connect->close(); // Close connection after use
         <div class="test z-50 ml-[200px]">
             <div class="grid grid-cols-3 gap-3 mx-3 my-3">
                 <div class="shadowbox rounded-sm min-h-[620px] max-w-[400px] border-2 shadow-2xl shadow-slate-300">
-                    <div class="ml-4 mt-2 text-4xl font-extrabold">Drivers</div>
+                    <div class="ml-4 mt-2 text-4xl font-extrabold">Driver ID</div>
                     <?php foreach ($drivers as $index => $driver): ?>
                     <div class="flex justify-between items-center">
                         <div class="details flex items-center">
                             <button class="ml-4 flex content-center items-center mt-4 hover:bg-gray-400 duration-300" onclick="showDriverData(<?php echo $index; ?>)">
                                 <img class="w-9 h-9" src="https://img.icons8.com/ios-filled/50/1A1A1A/car.png" alt="car"/>
-                                <span class="ml-2 text-lg"><?php echo $driver['driver_name']; ?></span>
+                                <span class="ml-2 text-lg"><?php echo $driver['driver_id']; ?></span>
                             </button>
                         </div>
                         <div class="flex items-center mt-3 mr-4">
@@ -132,7 +132,7 @@ $connect->close(); // Close connection after use
                                 </div> -->
                         <form action="update_driver_status.php" method="post" class="ml-2">
                         <input type="hidden" name="driver_id" value="<?php echo $driver['driver_id']; ?>">
-                        <select name="status" onchange="this.form.submit()" class="ml-2 <?php echo ($driver['driver_status'] == 'Available') ? 'bg-green-200 border-green-500' : 'bg-red-200 border-red-500'; ?>">
+                        <select name="status" onchange="this.form.submit()" class="ml-2 <?php echo ($driver['driver_status'] == 'Available') ? 'p-2 bg-green-200 border-green-500 rounded-lg' : ' p-2 bg-red-200 border-red-500 rounded-lg'; ?>">
                                     <option value="Available" <?php echo ($driver['driver_status'] == 'Available') ? 'selected' : ''; ?>>Available</option>
                                     <option value="Unavailable" <?php echo ($driver['driver_status'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>
                                 </select>

@@ -4,7 +4,7 @@ include '../connection.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['create'])) {
         $username = $_POST['username'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $password = $_POST['password'];
         $special_password = password_hash($_POST['special_password'], PASSWORD_DEFAULT);
         $driver_name = $_POST['driver_name'];
         $driver_cellno = $_POST['driver_cellno'];
